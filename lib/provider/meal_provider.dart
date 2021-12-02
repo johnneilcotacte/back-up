@@ -1,27 +1,27 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_miniproject/api/fake_blog_api.dart';
+import 'package:flutter_miniproject/api/fake_meal_api.dart';
 import 'package:flutter_miniproject/model/meal.dart';
-import 'package:flutter_miniproject/provider/blogs_api_provider.dart';
+import 'package:flutter_miniproject/provider/meal_api_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final blogProvider = ChangeNotifierProvider<BlogsNotifier>((ref) {
+final mealProvider = ChangeNotifierProvider<BlogsNotifier>((ref) {
   final initialdata = ref.watch(initialMealProvider).dummydata;
-  return BlogsNotifier(blog: initialdata);
+  return BlogsNotifier(meal: initialdata);
 });
 
 class BlogsNotifier extends ChangeNotifier {
-  final InitialDummyMeals blog;
+  final InitialDummyMeals meal;
 
   List<Meal> _mealList = [];
 
   BlogsNotifier({
-    required this.blog,
+    required this.meal,
   });
 
   List<Meal> get mealList => _mealList;
 
   Future<List<Meal>> getMeals() async {
-    final data = await blog.initializeListBlog();
+    final data = await meal.initializeListBlog();
 
     _mealList = data;
 
