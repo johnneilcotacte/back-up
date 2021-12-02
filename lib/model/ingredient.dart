@@ -1,9 +1,9 @@
-class Recipe {
+class Ingredient {
   String? _id;
   String? _name;
   bool? _isBought;
 
-  Recipe({
+  Ingredient({
     String? id,
     String? name,
     bool? isBought,
