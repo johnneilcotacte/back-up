@@ -20,7 +20,7 @@ class BlogsNotifier extends ChangeNotifier {
 
   List<Meal> get mealList => _mealList;
 
-  Future<List<Meal>> getBlogs() async {
+  Future<List<Meal>> getMeals() async {
     final data = await blog.initializeListBlog();
 
     _mealList = data;
@@ -28,23 +28,23 @@ class BlogsNotifier extends ChangeNotifier {
     return _mealList;
   }
 
-  Future<void> addBlog({required Meal newblog}) async {
-    _mealList = [..._mealList, newblog];
+  Future<void> addMeal({required Meal newmeal}) async {
+    _mealList = [..._mealList, newmeal];
 
     notifyListeners();
   }
 
-  Future<void> deleteBlog({required String id}) async {
+  Future<void> deleteMeal({required String id}) async {
     _mealList.removeWhere((everyblog) => everyblog.id == id);
 
     notifyListeners();
   }
 
-  Future<void> updateBlog({required Meal updatedBlog}) async {
+  Future<void> updateMeal({required Meal updatedMeal}) async {
 //https://stackoverflow.com/questions/56283870/how-to-update-a-single-item-in-flutter-list-as-a-best-way/60678253
 
     _mealList[_mealList.indexWhere(
-        (everyblog) => everyblog.id == updatedBlog.id)] = updatedBlog;
+        (everyblog) => everyblog.id == updatedMeal.id)] = updatedMeal;
 
     notifyListeners();
   }
