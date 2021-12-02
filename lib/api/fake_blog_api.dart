@@ -5,18 +5,15 @@ import 'package:flutter_miniproject/model/recipe.dart';
 
 class InitialDummyMeals {
   Future<List<Meal>> initializeListBlog() async {
-    Uint8List? _image0 =
-        (await rootBundle.load('assets/images/picture1_foodblog.jpg'))
-            .buffer
-            .asUint8List();
-    Uint8List? _image1 =
-        (await rootBundle.load('assets/images/picture2_foodblog.jpg'))
-            .buffer
-            .asUint8List();
-    Uint8List? _image2 =
-        (await rootBundle.load('assets/images/picture3_foodblog.jpg'))
-            .buffer
-            .asUint8List();
+    Uint8List? _image0 = (await rootBundle.load('assets/images/hotdog.png'))
+        .buffer
+        .asUint8List();
+    Uint8List? _image1 = (await rootBundle.load('assets/images/lechon.jpg'))
+        .buffer
+        .asUint8List();
+    Uint8List? _image2 = (await rootBundle.load('assets/images/paksiw.jpg'))
+        .buffer
+        .asUint8List();
 
     return [
       Meal(id: '1', name: 'hotdog', image: _image1, recipes: [
