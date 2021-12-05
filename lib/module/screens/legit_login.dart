@@ -57,13 +57,15 @@ class LoginPage extends HookWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Expanded(
-              child: Container(
-                child: Stack(
-                  alignment: AlignmentDirectional.center,
-                  clipBehavior: Clip.none,
-                  children: [
-                    AnimatedContainer(
+            Container(
+              height: 801,
+              child: Stack(
+                alignment: AlignmentDirectional.center,
+                clipBehavior: Clip.none,
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: AnimatedContainer(
                       duration: const Duration(milliseconds: 250),
                       //decoration: _backgroundasset[_background.value],
                       width: _width,
@@ -74,36 +76,36 @@ class LoginPage extends HookWidget {
                         // child: Image.asset(_backgroundasset[_background.value]),
                       ),
                     ),
-                    Positioned(
-                      top: 600.01,
-                      //top: 0,
-                      child: Container(
-                        height: 200,
-                        width: _width,
-                        color: Colors.transparent,
-                      ),
+                  ),
+                  Positioned(
+                    top: 600.01,
+                    //top: 0,
+                    child: Container(
+                      height: 200,
+                      width: _width,
+                      color: Colors.transparent,
                     ),
-                    Positioned(
-                      top: 300,
-                      //top: 0,
-                      child: Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            if (Responsive.isDesktop(context))
-                              Container(
-                                child: SubtitleCard(),
-                              ),
-                            SizedBox(
-                              width: 20,
+                  ),
+                  Positioned(
+                    top: 300,
+                    //top: 0,
+                    child: Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (Responsive.isDesktop(context))
+                            Container(
+                              child: SubtitleCard(),
                             ),
-                            LoginForm(),
-                          ],
-                        ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          LoginForm(),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             SizedBox(
@@ -230,53 +232,53 @@ class LoginForm extends HookWidget {
           SizedBox(
             height: 25,
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size.zero, // <-- Add this
-              padding: EdgeInsets.zero, // <-- and this
-            ),
-            onPressed: () {
-              print('ok');
-            },
-            child: Container(
-              color: Colors.purple,
-              width: double.infinity,
-              height: 36,
-              child: Center(
-                child: Text(
-                  'Log In',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-          ),
-          // Container(
-          //   decoration: BoxDecoration(
-          //     color: Colors.white,
-          //     borderRadius: BorderRadius.circular(30),
-          //     boxShadow: [
-          //       BoxShadow(
-          //         color: Colors.deepPurple.shade100,
-          //         spreadRadius: 10,
-          //         blurRadius: 20,
-          //       ),
-          //     ],
+          // ElevatedButton(
+          //   style: ElevatedButton.styleFrom(
+          //     minimumSize: Size.zero, // <-- Add this
+          //     padding: EdgeInsets.zero, // <-- and this
           //   ),
-          //   child: ElevatedButton(
-          //     child: Container(
-          //         width: double.infinity,
-          //         height: 50,
-          //         child: Center(child: Text("Sign In"))),
-          //     onPressed: () => print("it's pressed"),
-          //     style: ElevatedButton.styleFrom(
-          //       primary: Colors.deepPurple,
-          //       onPrimary: Colors.white,
-          //       shape: RoundedRectangleBorder(
-          //         borderRadius: BorderRadius.circular(15),
+          //   onPressed: () {
+          //     print('ok');
+          //   },
+          //   child: Container(
+          //     color: Colors.purple,
+          //     width: double.infinity,
+          //     height: 36,
+          //     child: Center(
+          //       child: Text(
+          //         'Log In',
+          //         style: TextStyle(color: Colors.white),
           //       ),
           //     ),
           //   ),
           // ),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(30),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.deepPurple.shade100,
+                  spreadRadius: 10,
+                  blurRadius: 20,
+                ),
+              ],
+            ),
+            child: ElevatedButton(
+              child: Container(
+                  width: double.infinity,
+                  height: 50,
+                  child: Center(child: Text("Sign In"))),
+              onPressed: () => print("it's pressed"),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.deepPurple,
+                onPrimary: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+            ),
+          ),
           Expanded(
             child: SizedBox(),
           ),
@@ -288,59 +290,217 @@ class LoginForm extends HookWidget {
               TextButton(
                   onPressed: () {
                     print('ok');
-                    // showDialog(
-                    //   context: context,
-                    //   builder: (BuildContext context) {
-                    //     return AlertDialog(
-                    //       content: Stack(
-                    //         //    overflow: Overflow.visible,
-                    //         children: <Widget>[
-                    //           Positioned(
-                    //             right: -40.0,
-                    //             top: -40.0,
-                    //             child: InkResponse(
-                    //               onTap: () {
-                    //                 Navigator.of(context).pop();
-                    //               },
-                    //               child: CircleAvatar(
-                    //                 child: Icon(Icons.close),
-                    //                 backgroundColor: Colors.red,
-                    //               ),
-                    //             ),
-                    //           ),
-                    //           Form(
-                    //             key: _formKey,
-                    //             child: Column(
-                    //               mainAxisSize: MainAxisSize.min,
-                    //               children: <Widget>[
-                    //                 Padding(
-                    //                   padding: EdgeInsets.all(8.0),
-                    //                   child: TextFormField(),
-                    //                 ),
-                    //                 Padding(
-                    //                   padding: EdgeInsets.all(8.0),
-                    //                   child: TextFormField(),
-                    //                 ),
-                    //                 Padding(
-                    //                   padding: const EdgeInsets.all(8.0),
-                    //                   child: ElevatedButton(
-                    //                     child: Text('Sign Up'),
-                    //                     onPressed: () {
-                    //                       if (_formKey.currentState!
-                    //                           .validate()) {
-                    //                         _formKey.currentState!.save();
-                    //                       }
-                    //                     },
-                    //                   ),
-                    //                 )
-                    //               ],
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     );
-                    //   },
-                    // );
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          contentPadding: EdgeInsets.zero,
+                          content: Stack(
+                            //  overflow: Overflow.visible,
+                            clipBehavior: Clip.none,
+                            children: <Widget>[
+                              Positioned(
+                                right: -40.0,
+                                top: -40.0,
+                                child: InkResponse(
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: CircleAvatar(
+                                    child: Icon(Icons.close),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                ),
+                              ),
+                              SignUpForm(),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(color: Colors.blue),
+                  ))
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class SignUpForm extends HookWidget {
+  SignUpForm({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // final _passwordVisible = useProvider(loginProvider);
+    final _formKey = GlobalKey<FormState>();
+    final _passwordVisible = useState(false);
+    return Container(
+      width: 350,
+      height: 500,
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 3), // changes position of shadow
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Text(
+            'Sign Up',
+            style: TextStyle(fontSize: 40),
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          TextField(
+            //controller: _passwordVisible.emailcontroller,
+            decoration: InputDecoration(
+              hintText: 'Name',
+              filled: true,
+              fillColor: Colors.blueGrey[50],
+              labelStyle: TextStyle(fontSize: 12),
+              contentPadding: EdgeInsets.only(left: 30),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blueGrey.shade100),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          TextField(
+            //controller: _passwordVisible.emailcontroller,
+            decoration: InputDecoration(
+              hintText: 'Email',
+              filled: true,
+              fillColor: Colors.blueGrey[50],
+              labelStyle: TextStyle(fontSize: 12),
+              contentPadding: EdgeInsets.only(left: 30),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blueGrey.shade100),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          TextField(
+            // controller: _passwordVisible.password,
+            obscureText: !_passwordVisible.value,
+            decoration: InputDecoration(
+              hintText: 'Password',
+              suffixIcon: IconButton(
+                icon: Icon(
+                  (!_passwordVisible.value)
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility,
+                ),
+                onPressed: () {
+                  _passwordVisible.value = !_passwordVisible.value;
+                },
+                // Icons.visibility_outlined,
+                color: (!_passwordVisible.value) ? Colors.grey : Colors.blue,
+              ),
+              filled: true,
+              fillColor: Colors.blueGrey[50],
+              labelStyle: TextStyle(fontSize: 12),
+              contentPadding: EdgeInsets.only(left: 30),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blueGrey.shade100),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          Row(
+            children: [],
+          ),
+          SizedBox(
+            height: 25,
+          ),
+          // ElevatedButton(
+          //   style: ElevatedButton.styleFrom(
+          //     minimumSize: Size.zero, // <-- Add this
+          //     padding: EdgeInsets.zero, // <-- and this
+          //   ),
+          //   onPressed: () {
+          //     print('ok');
+          //   },
+          //   child: Container(
+          //     color: Colors.purple,
+          //     width: double.infinity,
+          //     height: 36,
+          //     child: Center(
+          //       child: Text(
+          //         'Log In',
+          //         style: TextStyle(color: Colors.white),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(30),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.deepPurple.shade100,
+                  spreadRadius: 10,
+                  blurRadius: 20,
+                ),
+              ],
+            ),
+            child: ElevatedButton(
+              child: Container(
+                  width: double.infinity,
+                  height: 50,
+                  child: Center(child: Text("Create Account"))),
+              onPressed: () => Navigator.pop(context),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.deepPurple,
+                onPrimary: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: SizedBox(),
+          ),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('All Ready Have An Account?'),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
                   },
                   child: Text(
                     'Sign Up',
