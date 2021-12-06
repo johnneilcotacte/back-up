@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_miniproject/module/screens/homes_screen.dart';
 import 'package:flutter_miniproject/module/screens/authentication_screen.dart';
 import 'package:flutter_miniproject/module/screens/all_meals_screen.dart';
+import 'package:flutter_miniproject/module/screens/user_screen.dart';
 
 class RouteGenerator {
   static const String loginRoute = '/mealplanner';
   static const String homeRoute = '/mealplanner/home';
   static const String mealsRoute = '/mealplanner/meals';
+  static const String useraccountRoute = '/mealplanner/useraccount';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -25,7 +27,11 @@ class RouteGenerator {
           builder: (context) => _RouteHandler(routeWidget: AllMealsPage()),
           settings: settings,
         );
-
+      case useraccountRoute:
+        return MaterialPageRoute(
+          builder: (context) => _RouteHandler(routeWidget: UserPage()),
+          settings: settings,
+        );
       default:
         return _errorRoute();
     }

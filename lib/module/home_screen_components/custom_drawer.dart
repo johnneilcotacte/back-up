@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_miniproject/config/route.dart';
+import 'package:flutter_miniproject/model/screen_argument.dart';
+import 'package:flutter_miniproject/model/user.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -9,6 +11,13 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: palitan to ng totoong user data
+    var user = User(
+      id: '1',
+      firstName: 'John Neil',
+      lastName: 'Cotacte',
+      email: 'jncotacte@gmail.com',
+    );
     return Container(
       width: 150,
       color: Colors.grey.shade700,
@@ -61,7 +70,11 @@ class CustomDrawer extends StatelessWidget {
               child: Container(),
             ),
             _CustomTextButton(
-              func: () {},
+              func: () {
+                Navigator.pushNamed(
+                    context, '${RouteGenerator.useraccountRoute}',
+                    arguments: UserScreenArguments(user));
+              },
               icon: FontAwesomeIcons.userCircle,
               label: 'User Account',
             ),
