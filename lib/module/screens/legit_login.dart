@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_miniproject/logic/usercredential_checker.dart';
 import 'package:flutter_miniproject/provider/loginpage_provider.dart';
 import 'package:flutter_miniproject/responsive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -109,7 +111,8 @@ class LoginPage extends HookWidget {
               ),
             ),
             SizedBox(
-              height: 220,
+              //height: 220,
+              height: 20,
             ),
             if (!Responsive.isDesktop(context))
               Container(
@@ -289,7 +292,6 @@ class LoginForm extends HookWidget {
               Text('Not Registered Yet?'),
               TextButton(
                   onPressed: () {
-                    print('ok');
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -336,12 +338,54 @@ class SignUpForm extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final _passwordVisible = useProvider(loginProvider);
-    final _formKey = GlobalKey<FormState>();
     final _passwordVisible = useState(false);
+    final _username = useTextEditingController();
+    final _emailcontroller = useTextEditingController();
+    final _passwordcontroller = useTextEditingController();
+    final _emailvalidity = useState(true);
+    final _passwordvalidity = useState(true);
+
+    bool _checkEmail() {
+      bool emailValidity = RegExp(
+              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+          .hasMatch(_emailcontroller.text);
+
+      if (emailValidity) {
+        //  _emailvalidity.value = true;
+        return true;
+      }
+      return false;
+    }
+
+    bool _checkPassword() {
+      bool passwordStrength = RegExp(
+              r"^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){2,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$")
+          .hasMatch(_passwordcontroller.text);
+      if (passwordStrength) {
+        return true;
+      }
+      return false;
+    }
+
+    _checkCredentials() {
+      bool emailstatus = _checkEmail();
+      bool passwordstatus = _checkPassword();
+      if (emailstatus && passwordstatus) {
+        print('good to go');
+        Navigator.pop(context);
+      } else {
+        print(' not good to go');
+        if (!emailstatus) {
+          _emailvalidity.value = emailstatus;
+        } else {
+          _passwordvalidity.value = passwordstatus;
+        }
+      }
+    }
+
     return Container(
       width: 350,
-      height: 500,
+      height: (_emailvalidity.value && _passwordvalidity.value) ? 500 : 550,
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -365,7 +409,6 @@ class SignUpForm extends HookWidget {
             height: 40,
           ),
           TextField(
-            //controller: _passwordVisible.emailcontroller,
             decoration: InputDecoration(
               hintText: 'Name',
               filled: true,
@@ -385,7 +428,7 @@ class SignUpForm extends HookWidget {
             height: 20,
           ),
           TextField(
-            //controller: _passwordVisible.emailcontroller,
+            controller: _emailcontroller,
             decoration: InputDecoration(
               hintText: 'Email',
               filled: true,
@@ -393,7 +436,10 @@ class SignUpForm extends HookWidget {
               labelStyle: TextStyle(fontSize: 12),
               contentPadding: EdgeInsets.only(left: 30),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blueGrey.shade100),
+                borderSide: BorderSide(
+                    color: (_emailvalidity.value)
+                        ? Colors.blueGrey.shade100
+                        : Colors.red.shade200),
                 borderRadius: BorderRadius.circular(15),
               ),
               focusedBorder: OutlineInputBorder(
@@ -405,7 +451,7 @@ class SignUpForm extends HookWidget {
             height: 20,
           ),
           TextField(
-            // controller: _passwordVisible.password,
+            controller: _passwordcontroller,
             obscureText: !_passwordVisible.value,
             decoration: InputDecoration(
               hintText: 'Password',
@@ -426,7 +472,10 @@ class SignUpForm extends HookWidget {
               labelStyle: TextStyle(fontSize: 12),
               contentPadding: EdgeInsets.only(left: 30),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blueGrey.shade100),
+                borderSide: BorderSide(
+                    color: (_emailvalidity.value)
+                        ? Colors.blueGrey.shade100
+                        : Colors.red.shade200),
                 borderRadius: BorderRadius.circular(15),
               ),
               focusedBorder: OutlineInputBorder(
@@ -437,36 +486,55 @@ class SignUpForm extends HookWidget {
           SizedBox(
             height: 30,
           ),
-          Row(
-            children: [],
+          Expanded(
+            child: Column(
+              children: [
+                if (!_emailvalidity.value)
+                  Text(
+                    'Invalid Email',
+                    style: TextStyle(color: Colors.red, fontSize: 9),
+                  ),
+                if (!_passwordvalidity.value)
+                  FittedBox(
+                    child: Column(
+                      children: [
+                        Text(
+                          'Password must have atleast',
+                          style: TextStyle(color: Colors.red, fontSize: 9),
+                        ),
+                        Text(
+                          '* 8 characters length',
+                          style: TextStyle(color: Colors.red, fontSize: 9),
+                        ),
+                        Text(
+                          '* 2 letters in Upper Case',
+                          style: TextStyle(color: Colors.red, fontSize: 9),
+                        ),
+                        Text(
+                          '* 1 Special Character',
+                          style: TextStyle(color: Colors.red, fontSize: 9),
+                        ),
+                        Text(
+                          '* 2 numerals',
+                          style: TextStyle(color: Colors.red, fontSize: 9),
+                        ),
+                        Text(
+                          '* 3 letters in Lower Case',
+                          style: TextStyle(color: Colors.red, fontSize: 9),
+                        ),
+                      ],
+                    ),
+                  )
+              ],
+            ),
           ),
           SizedBox(
             height: 25,
           ),
-          // ElevatedButton(
-          //   style: ElevatedButton.styleFrom(
-          //     minimumSize: Size.zero, // <-- Add this
-          //     padding: EdgeInsets.zero, // <-- and this
-          //   ),
-          //   onPressed: () {
-          //     print('ok');
-          //   },
-          //   child: Container(
-          //     color: Colors.purple,
-          //     width: double.infinity,
-          //     height: 36,
-          //     child: Center(
-          //       child: Text(
-          //         'Log In',
-          //         style: TextStyle(color: Colors.white),
-          //       ),
-          //     ),
-          //   ),
-          // ),
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
                   color: Colors.deepPurple.shade100,
@@ -480,7 +548,7 @@ class SignUpForm extends HookWidget {
                   width: double.infinity,
                   height: 50,
                   child: Center(child: Text("Create Account"))),
-              onPressed: () => Navigator.pop(context),
+              onPressed: _checkCredentials,
               style: ElevatedButton.styleFrom(
                 primary: Colors.deepPurple,
                 onPrimary: Colors.white,
@@ -490,10 +558,9 @@ class SignUpForm extends HookWidget {
               ),
             ),
           ),
-          Expanded(
-            child: SizedBox(),
+          SizedBox(
+            height: 25,
           ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -517,19 +584,43 @@ class SignUpForm extends HookWidget {
 class SubtitleCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
+    Timer _everysecond;
+    List<String> _subtitleassets = [
+      'Ultimate Guide For Your Meal Everday.',
+      "Don't Know What To Cook? We Made It Easy For You!",
+      'No Worries! Enjoy Your Meal Everday.'
+    ];
+    final _textindex = useState(0);
+    useEffect(
+      () {
+        _everysecond = Timer.periodic(Duration(seconds: 7), (Timer t) {
+          if (_textindex.value == 2) {
+            _textindex.value = 0;
+          } else {
+            _textindex.value++;
+          }
+        });
+        return _everysecond.cancel;
+      },
+      [],
+    );
     return Container(
       width: (Responsive.isMobile(context)) ? 332 : 500,
       height: (Responsive.isDesktop(context)) ? 500 : null,
       color: Colors.transparent,
       child: Column(
         children: [
-          Text(
-            'Ultimate Guide For Your Meal Everday.',
+          AnimatedDefaultTextStyle(
+            child: Text(
+              //'Ultimate Guide For Your Meal Everday.',
+              _subtitleassets[_textindex.value],
+            ),
             style: TextStyle(
                 color: (Responsive.isDesktop(context))
                     ? Colors.white
                     : Colors.black,
                 fontSize: 30),
+            duration: Duration(seconds: 1),
           ),
           SizedBox(
             height: 20,
@@ -537,15 +628,24 @@ class SubtitleCard extends HookWidget {
           if (Responsive.isDesktop(context))
             Row(
               children: [
-                SubtitlePictureCard(),
+                SubtitlePictureCard(
+                  image: 'assets/images/STCARD1.jpg',
+                  title: 'Add you favorite meal.',
+                ),
                 SizedBox(
                   width: 4,
                 ),
-                SubtitlePictureCard(),
+                SubtitlePictureCard(
+                  image: 'assets/images/STCARD2.png',
+                  title: 'Randomize your food everday.',
+                ),
                 SizedBox(
                   width: 4,
                 ),
-                SubtitlePictureCard(),
+                SubtitlePictureCard(
+                  image: 'assets/images/STCARD3.jpg',
+                  title: 'Want to eat outside?',
+                ),
               ],
             ),
           if (Responsive.isDesktop(context))
@@ -555,15 +655,24 @@ class SubtitleCard extends HookWidget {
           if (Responsive.isDesktop(context))
             Row(
               children: [
-                SubtitlePictureCard(),
+                SubtitlePictureCard(
+                  image: 'assets/images/STCARD4.jpg',
+                  title: 'Check your calorie intake!',
+                ),
                 SizedBox(
                   width: 4,
                 ),
-                SubtitlePictureCard(),
+                SubtitlePictureCard(
+                  image: 'assets/images/STCARD5.jpg',
+                  title: 'A guide to your diet',
+                ),
                 SizedBox(
                   width: 4,
                 ),
-                SubtitlePictureCard(),
+                SubtitlePictureCard(
+                  image: 'assets/images/STCARD6.jpg',
+                  title: 'Remember all ingredients of your favorite food.',
+                ),
               ],
             ),
           if (!Responsive.isDesktop(context))
@@ -571,12 +680,30 @@ class SubtitleCard extends HookWidget {
               spacing: 4,
               runSpacing: 4,
               children: [
-                SubtitlePictureCard(),
-                SubtitlePictureCard(),
-                SubtitlePictureCard(),
-                SubtitlePictureCard(),
-                SubtitlePictureCard(),
-                SubtitlePictureCard(),
+                SubtitlePictureCard(
+                  image: 'assets/images/STCARD1.jpg',
+                  title: 'Add you favorite meal.',
+                ),
+                SubtitlePictureCard(
+                  image: 'assets/images/STCARD2.png',
+                  title: 'Randomize your food everday.',
+                ),
+                SubtitlePictureCard(
+                  image: 'assets/images/STCARD3.jpg',
+                  title: 'Want to eat outside?',
+                ),
+                SubtitlePictureCard(
+                  image: 'assets/images/STCARD4.jpg',
+                  title: 'Check your calorie intake!',
+                ),
+                SubtitlePictureCard(
+                  image: 'assets/images/STCARD5.jpg',
+                  title: 'A guide to your diet',
+                ),
+                SubtitlePictureCard(
+                  image: 'assets/images/STCARD6.jpg',
+                  title: 'Remember all ingredients of your favorite food.',
+                ),
               ],
             )
         ],
@@ -586,25 +713,39 @@ class SubtitleCard extends HookWidget {
 }
 
 class SubtitlePictureCard extends HookWidget {
-  SubtitlePictureCard({Key? key}) : super(key: key);
+  final String image;
+  final String title;
+  SubtitlePictureCard({Key? key, required this.image, required this.title})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 164,
+      height: 184,
       width: 164,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             height: 140,
-            color: Colors.red,
+            width: 164,
+            child: FittedBox(
+              child: Image.asset(image),
+              fit: BoxFit.fill,
+            ),
           ),
           Container(
-            height: 20,
-            color: Colors.blue,
+            padding: EdgeInsets.all(10),
+            height: 41,
+            width: 164,
+            color: Colors.white,
+            child: Text(
+              title,
+              style: TextStyle(fontSize: 10),
+            ),
           ),
           Container(
-            height: 4,
+            height: 3,
             color: Colors.cyan,
           ),
         ],
