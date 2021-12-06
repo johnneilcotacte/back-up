@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_miniproject/api/fake_meal_api.dart';
+import 'package:flutter_miniproject/api/auth.dart';
 import 'package:flutter_miniproject/model/meal.dart';
 import 'package:flutter_miniproject/provider/meal_api_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
