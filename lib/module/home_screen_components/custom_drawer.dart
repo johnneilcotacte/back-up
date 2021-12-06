@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_miniproject/config/route.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -45,9 +46,16 @@ class CustomDrawer extends StatelessWidget {
               label: 'Meal Planner',
             ),
             _CustomTextButton(
-              func: () {},
+              func: () {
+                Navigator.pushNamed(context, '${RouteGenerator.mealsRoute}');
+              },
               icon: FontAwesomeIcons.utensils,
-              label: 'Restaurant',
+              label: 'Meals',
+            ),
+            _CustomTextButton(
+              func: () {},
+              icon: FontAwesomeIcons.store,
+              label: 'Restaurants',
             ),
             Expanded(
               child: Container(),

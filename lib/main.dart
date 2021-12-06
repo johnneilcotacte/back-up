@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       // home: HomePage(),
       //home: LoginPage(),
       debugShowCheckedModeBanner: false,
-      initialRoute: RouteGenerator.loginRoute,
+      initialRoute: RouteGenerator.homeRoute,
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
