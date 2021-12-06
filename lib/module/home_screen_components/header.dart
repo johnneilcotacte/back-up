@@ -8,14 +8,6 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Flexible(
-      //wrap this with flexible if inside a column or row
-      /* child: FractionallySizedBox(
-        //para naay standard sizes parehas sa mediaquery * .4
-        widthFactor: 0.4,
-        child: Container(
-          color: Colors.red,
-        ),
-      ),*/
       flex: 3,
       fit: FlexFit.tight,
       child: Container(

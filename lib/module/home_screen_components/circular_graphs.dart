@@ -32,91 +32,57 @@ class StatsCircularGraph extends StatelessWidget {
             color: Colors.white),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           //https://help.syncfusion.com/flutter/circular-charts/chart-types/radial-bar-chart
-          Expanded(
-            child: SfCircularChart(
-              title: ChartTitle(
-                text: 'Cals',
-                alignment: ChartAlignment.center,
-                textStyle: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  fontSize: 14,
-                ),
-              ),
-              series: <CircularSeries>[
-                RadialBarSeries<Graph, String>(
-                  cornerStyle: CornerStyle.bothCurve,
-                  dataSource: _cal,
-                  xValueMapper: (Graph _cal, _) => _cal.name,
-                  yValueMapper: (Graph _cal, _) => _cal.data,
-                  maximumValue: 100,
-                  trackOpacity: .4,
-                  innerRadius: '70%',
-                  radius: '70%',
-                  pointColorMapper: (Graph _cals, _) => _cals.color,
-                  dataLabelSettings: DataLabelSettings(
-                      isVisible: true,
-                      labelPosition: ChartDataLabelPosition.outside),
-                )
-              ],
-            ),
+          _CircularGraph(
+            type: _cal,
+            text: 'Cals',
           ),
-          Expanded(
-            child: SfCircularChart(
-              title: ChartTitle(
-                text: 'Fats',
-                alignment: ChartAlignment.center,
-                textStyle: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  fontSize: 14,
-                ),
-              ),
-              series: <CircularSeries>[
-                RadialBarSeries<Graph, String>(
-                  cornerStyle: CornerStyle.bothCurve,
-                  dataSource: _fats,
-                  xValueMapper: (Graph _fats, _) => _fats.name,
-                  yValueMapper: (Graph _fats, _) => _fats.data,
-                  maximumValue: 100,
-                  trackOpacity: .4,
-                  innerRadius: '70%',
-                  radius: '70%',
-                  pointColorMapper: (Graph _fats, _) => _fats.color,
-                  dataLabelSettings: DataLabelSettings(
-                      isVisible: true,
-                      labelPosition: ChartDataLabelPosition.outside),
-                )
-              ],
-            ),
+          _CircularGraph(
+            type: _fats,
+            text: 'Fats',
           ),
-          Expanded(
-            child: SfCircularChart(
-              title: ChartTitle(
-                text: 'Carbs',
-                alignment: ChartAlignment.center,
-                textStyle: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  fontSize: 14,
-                ),
-              ),
-              series: <CircularSeries>[
-                RadialBarSeries<Graph, String>(
-                  trackOpacity: .4,
-                  innerRadius: '70%',
-                  radius: '70%',
-                  cornerStyle: CornerStyle.bothCurve,
-                  dataSource: _carbs,
-                  xValueMapper: (Graph _carbs, _) => _carbs.name,
-                  yValueMapper: (Graph _carbs, _) => _carbs.data,
-                  maximumValue: 100,
-                  pointColorMapper: (Graph _carbs, _) => _carbs.color,
-                  dataLabelSettings: DataLabelSettings(
-                      isVisible: true,
-                      labelPosition: ChartDataLabelPosition.outside),
-                )
-              ],
-            ),
+          _CircularGraph(
+            type: _carbs,
+            text: 'Carbs',
           ),
         ]),
+      ),
+    );
+  }
+}
+
+class _CircularGraph extends StatelessWidget {
+  _CircularGraph({Key? key, required this.type, required this.text})
+      : super(key: key);
+
+  final List<Graph> type;
+  final String text;
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: SfCircularChart(
+        title: ChartTitle(
+          text: text,
+          alignment: ChartAlignment.center,
+          textStyle: TextStyle(
+            fontStyle: FontStyle.italic,
+            fontSize: 14,
+          ),
+        ),
+        series: <CircularSeries>[
+          RadialBarSeries<Graph, String>(
+            cornerStyle: CornerStyle.bothCurve,
+            dataSource: type,
+            xValueMapper: (Graph type, _) => type.name,
+            yValueMapper: (Graph type, _) => type.data,
+            maximumValue: 100,
+            trackOpacity: .4,
+            innerRadius: '70%',
+            radius: '70%',
+            pointColorMapper: (Graph type, _) => type.color,
+            dataLabelSettings: DataLabelSettings(
+                isVisible: true, labelPosition: ChartDataLabelPosition.outside),
+          )
+        ],
       ),
     );
   }

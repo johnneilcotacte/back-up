@@ -39,69 +39,60 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              height: 56,
-              child: TextButton.icon(
-                  onPressed: () {},
-                  icon: FaIcon(
-                    FontAwesomeIcons.calendarWeek,
-                    color: Colors.black54,
-                    size: 14,
-                  ),
-                  label: Text(
-                    'Meal Planner',
-                    style: TextStyle(color: Colors.black),
-                  )),
+            _CustomTextButton(
+              func: () {},
+              icon: FontAwesomeIcons.calendarWeek,
+              label: 'Meal Planner',
             ),
-            Container(
-              height: 56,
-              child: TextButton.icon(
-                  onPressed: () {},
-                  icon: FaIcon(
-                    FontAwesomeIcons.utensils,
-                    color: Colors.black54,
-                    size: 14,
-                  ),
-                  label: Text(
-                    'Restaurant',
-                    style: TextStyle(color: Colors.black),
-                  )),
+            _CustomTextButton(
+              func: () {},
+              icon: FontAwesomeIcons.utensils,
+              label: 'Restaurant',
             ),
             Expanded(
               child: Container(),
             ),
-            Container(
-              height: 56,
-              child: TextButton.icon(
-                  onPressed: () {},
-                  icon: FaIcon(
-                    FontAwesomeIcons.userCircle,
-                    color: Colors.black54,
-                    size: 14,
-                  ),
-                  label: Text(
-                    'User Account',
-                    style: TextStyle(color: Colors.black),
-                  )),
+            _CustomTextButton(
+              func: () {},
+              icon: FontAwesomeIcons.userCircle,
+              label: 'User Account',
             ),
-            Container(
-              height: 56,
-              child: TextButton.icon(
-                  onPressed: () {},
-                  icon: FaIcon(
-                    FontAwesomeIcons.signOutAlt,
-                    color: Colors.black54,
-                    size: 14,
-                  ),
-                  label: Text(
-                    'Logout',
-                    style: TextStyle(color: Colors.black),
-                  )),
+            _CustomTextButton(
+              func: () {},
+              icon: FontAwesomeIcons.signOutAlt,
+              label: 'Logout',
             ),
           ],
         ),
         elevation: 0,
       ),
+    );
+  }
+}
+
+class _CustomTextButton extends StatelessWidget {
+  final Function() func;
+  final IconData icon;
+  final String label;
+  _CustomTextButton(
+      {Key? key, required this.func, required this.icon, required this.label})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 56,
+      child: TextButton.icon(
+          onPressed: func,
+          icon: FaIcon(
+            icon,
+            color: Colors.black54,
+            size: 14,
+          ),
+          label: Text(
+            label,
+            style: TextStyle(color: Colors.black),
+          )),
     );
   }
 }
