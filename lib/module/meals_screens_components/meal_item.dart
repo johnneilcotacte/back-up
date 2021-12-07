@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_miniproject/model/meal.dart';
+import 'package:flutter_miniproject/model/screen_argument.dart';
 import 'package:flutter_miniproject/module/screens/recipe_screen.dart';
+import 'package:flutter_miniproject/config/route.dart';
 
 class MealItem extends HookWidget {
   final Meal meal;
-  //final Uint8List? image,
+
   const MealItem({
     required this.meal,
-    //this.image,
     Key? key,
   }) : super(key: key);
 
@@ -17,8 +18,8 @@ class MealItem extends HookWidget {
     return GestureDetector(
       onTap: () {
         //TODO: Change this to pop with data for ChangeMealScreen, add ternary operator
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (ctx) => RecipeScreen()));
+        Navigator.pushNamed(context, '${RouteGenerator.recipepageRoute}',
+            arguments: ScreenArguments(meal));
       },
       child: GridTile(
         child: Image.memory(meal.image!, fit: BoxFit.cover),
