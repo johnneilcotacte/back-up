@@ -4,7 +4,6 @@ import 'package:flutter_miniproject/config/route.dart';
 
 import 'package:flutter_miniproject/module/screens/homes_screen.dart';
 import 'package:flutter_miniproject/module/screens/authentication_screen.dart';
-
 import 'package:flutter_miniproject/provider/const_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -22,8 +21,8 @@ class MyApp extends StatelessWidget {
       //home: LoginPage(),
       // home: AllMealsPage(),
       debugShowCheckedModeBanner: false,
-      // initialRoute: RouteGenerator.loginRoute,
-      // onGenerateRoute: RouteGenerator.generateRoute,
+      initialRoute: RouteGenerator.homeRoute,
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }
