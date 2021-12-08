@@ -22,7 +22,7 @@ class MealItem extends HookWidget {
             arguments: ScreenArguments(meal));
       },
       child: GridTile(
-        child: Image.memory(meal.image!, fit: BoxFit.cover),
+        child: Image.network(meal.image!, fit: BoxFit.cover),
         footer: GridTileBar(
           backgroundColor: Colors.black54,
           title: Text(

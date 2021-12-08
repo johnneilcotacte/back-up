@@ -19,7 +19,7 @@ class AllMealsPage extends HookWidget {
     final _isLoading = useState(false);
     final _mealProvider = useProvider(mealProvider);
     final _constants = useProvider(constantsProvider);
-    final _index = useState(0);
+    //final _index = useState(0);
 
     _loadMeals() async {
       _isLoading.value = true;
@@ -36,7 +36,7 @@ class AllMealsPage extends HookWidget {
       _loadMeals();
       return;
     }, []);
-    final listMeals = _mealProvider.mealList;
+    //listMeals = _mealProvider.mealList;
 
     //final args = ModalRoute.of(context)!.settings.arguments as List<Meal>;
     //List<Meal> listMeals = args;
@@ -101,8 +101,9 @@ class AllMealsPage extends HookWidget {
           Expanded(
             child: GridView.builder(
               padding: const EdgeInsets.all(10.0),
-              itemCount: listMeals.length,
-              itemBuilder: (ctx, i) => MealItem(meal: listMeals[i]),
+              itemCount: _mealProvider.mealList.length,
+              itemBuilder: (ctx, i) =>
+                  MealItem(meal: _mealProvider.mealList[i]),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
                 childAspectRatio: 3 / 2,

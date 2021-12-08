@@ -4,14 +4,14 @@ import 'package:flutter_miniproject/model/ingredient.dart';
 class Meal {
   String? _id;
   String? _name;
-  Uint8List? _image;
-  List<Ingredient>? _recipes = [];
+  String? _image;
+  List<String>? _recipes = [];
 
   Meal({
     String? id,
     String? name,
-    Uint8List? image,
-    List<Ingredient>? recipes,
+    String? image,
+    List<String>? recipes,
   }) {
     _id = id;
     _name = name;
@@ -20,6 +20,6 @@ class Meal {
   }
   String? get id => _id;
   String? get name => _name;
-  Uint8List? get image => _image;
-  List<Ingredient>? get recipes => _recipes;
+  String? get image => _image;
+  List<String>? get recipes => _recipes;
 }
