@@ -34,13 +34,13 @@ class Meal {
   String? _name;
   String? _image;
   List<String?>? _category;
-  List<String?>? _ingredients = [];
+  List<String?>? _ingredients;
 
   Meal({
     String? id,
     String? name,
     String? image,
-    List<String?>? category,
+    List<String?>? category ,
     List<String?>? ingredients,
   }) {
     _id = id;
@@ -60,6 +60,7 @@ class Meal {
   String? get id => _id;
   String? get name => _name;
   String? get image => _image;
+
   List<String?>? get category => _category;
   List<String?>? get ingredients => _ingredients;
 }

@@ -70,31 +70,39 @@ class AuthAPI {
   }
 }
 
-// class InitialDummyMeals {
-//   Future<List<Meal>> initializeListBlog() async {
-//     Uint8List? _image0 = (await rootBundle.load('assets/images/hotdog.png'))
-//         .buffer
-//         .asUint8List();
-//     Uint8List? _image1 = (await rootBundle.load('assets/images/lechon.jpg'))
-//         .buffer
-//         .asUint8List();
-//     Uint8List? _image2 = (await rootBundle.load('assets/images/paksiw.jpg'))
-//         .buffer
-//         .asUint8List();
+class InitialDummyMeals {
+  Future<List<Meal>> initializeListBlog() async {
+    Uint8List? _image0 = (await rootBundle.load('assets/images/hotdog.png'))
+        .buffer
+        .asUint8List();
+    Uint8List? _image1 = (await rootBundle.load('assets/images/lechon.jpg'))
+        .buffer
+        .asUint8List();
+    Uint8List? _image2 = (await rootBundle.load('assets/images/paksiw.jpg'))
+        .buffer
+        .asUint8List();
 
-//     return [
-//       Meal(id: '1', name: 'hotdog', image: _image1, recipes: [
-//         Ingredient(id: 'b1', name: 'hotdog', isBought: false),
-//       ]),
-//       Meal(id: '2', name: 'Lechon', image: _image0, recipes: [
-//         Ingredient(id: 'a1', name: 'pig', isBought: true),
-//         Ingredient(id: 'a2', name: 'bawang', isBought: true),
-//         Ingredient(id: 'a3', name: 'MSG', isBought: true),
-//       ]),
-//       Meal(id: '3', name: 'Lechon Paksiw', image: _image2, recipes: [
-//         Ingredient(id: 'c1', name: 'lechon', isBought: true),
-//         Ingredient(id: 'c2', name: 'tuyo', isBought: false),
-//       ]),
-//     ];
-//   }
-// }
+    return [
+      Meal(
+          id: '1',
+          name: 'hotdog',
+          image:
+              'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/files%2FFilipino%20Breakfast_%20Tuyo%2C%20Tocino%2C%20Salted%20Egg%2C%20and%20Tomato%20-%20The%20Peach%20Kitchen.jpg?alt=media&token=8cf86462-e44b-4558-a804-580c28eb78e3',
+          recipes: [
+            'hotdog',
+          ]),
+      Meal(
+          id: '2',
+          name: 'Lechon',
+          image:
+              'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/files%2FFilipino%20Breakfast_%20Tuyo%2C%20Tocino%2C%20Salted%20Egg%2C%20and%20Tomato%20-%20The%20Peach%20Kitchen.jpg?alt=media&token=8cf86462-e44b-4558-a804-580c28eb78e3',
+          recipes: ['pig', 'bawang', 'msg']),
+      Meal(
+          id: '3',
+          name: 'Lechon Paksiw',
+          image:
+              'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/files%2FFilipino%20Breakfast_%20Tuyo%2C%20Tocino%2C%20Salted%20Egg%2C%20and%20Tomato%20-%20The%20Peach%20Kitchen.jpg?alt=media&token=8cf86462-e44b-4558-a804-580c28eb78e3',
+          recipes: ['lechon', 'tuyo']),
+    ];
+  }
+}

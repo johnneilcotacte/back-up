@@ -8,8 +8,11 @@ import 'package:flutter_miniproject/module/home_screen_components/header.dart';
 import 'package:flutter_miniproject/module/home_screen_components/meals_per_day.dart';
 import 'package:flutter_miniproject/module/home_screen_components/weekly_calendar.dart';
 import 'package:flutter_miniproject/module/home_screen_components/weekly_stats.dart';
+import 'package:flutter_miniproject/provider/const_provider.dart';
+import 'package:flutter_miniproject/provider/meal_provider.dart';
 import 'package:flutter_miniproject/responsive.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hooks_riverpod/all.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomePage extends HookWidget {
@@ -48,6 +51,7 @@ class HomePage extends HookWidget {
     //   },
     //   [],
     // );
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       key: _scaffoldKey,
