@@ -7,16 +7,20 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      flex: 3,
-      fit: FlexFit.tight,
+    return Material(
       child: Container(
+        padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
-            border: Border(
-              right: BorderSide(width: 0.3),
-              top: BorderSide(width: 0.3),
-            ),
-            color: Colors.white),
+          borderRadius: BorderRadius.circular(10.0),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+                color: Colors.grey.withOpacity(0.3),
+                offset: Offset(-10.0, 10.0),
+                blurRadius: 20.0,
+                spreadRadius: 4.0),
+          ],
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -35,9 +39,11 @@ class Header extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            Text(
-              'November 29, 2021 - December 3, 2021',
-              style: TextStyle(color: Colors.black),
+            FittedBox(
+              child: Text(
+                'November 29, 2021 - December 3, 2021',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
           ],
         ),

@@ -1,28 +1,35 @@
-//import 'dart:typed_data';
-
 class User {
-  String? _id;
+  int _id;
+  String? _email;
   String? _firstName;
   String? _lastName;
-  String? _email;
-  //Uint8List? _image;
+  // String? _avatarURL;
 
   User({
-    String? id,
+    required int id,
+    String? email,
     String? firstName,
     String? lastName,
-    String? email,
-    //Uint8List? image,
-  }) {
-    _id = id;
-    _firstName = firstName;
-    _lastName = lastName;
-    //_image = image;
-    _email = email;
+    //  String? avatarURL,
+  })  : _id = id,
+        _email = email,
+        _firstName = firstName,
+        _lastName = lastName;
+  // _avatarURL = avatarURL;
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: int.parse((json['id'] ?? '0').toString()),
+      email: json['email'] as String? ?? '',
+      firstName: json['first_name'] as String? ?? '',
+      lastName: json['last_name'] as String? ?? '',
+      // avatarURL: json['avatar'] as String? ?? ''
+    );
   }
-  String? get id => _id;
+
+  int get id => _id;
+  String? get email => _email;
   String? get firstName => _firstName;
   String? get lastName => _lastName;
-  String? get email => _email;
-  //Uint8List? get image => _image;
+  // String? get avatarURL => _avatarURL;
 }

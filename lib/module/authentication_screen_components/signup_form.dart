@@ -7,9 +7,12 @@ class SignUpForm extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final _passwordVisible = useState(false);
-    final _username = useTextEditingController();
+    final _userfirstnamecontroller = useTextEditingController();
+    final _userlastnamecontroller = useTextEditingController();
     final _emailcontroller = useTextEditingController();
     final _passwordcontroller = useTextEditingController();
+    final _userfnvalidity = useState(true);
+    final _userlnvalidity = useState(true);
     final _emailvalidity = useState(true);
     final _passwordvalidity = useState(true);
 
@@ -53,7 +56,7 @@ class SignUpForm extends HookWidget {
 
     return Container(
       width: 350,
-      height: (_emailvalidity.value && _passwordvalidity.value) ? 500 : 550,
+      height: (_emailvalidity.value && _passwordvalidity.value) ? 600 : 650,
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -76,81 +79,138 @@ class SignUpForm extends HookWidget {
           SizedBox(
             height: 40,
           ),
-          TextField(
-            decoration: InputDecoration(
-              hintText: 'Name',
-              filled: true,
-              fillColor: Colors.blueGrey[50],
-              labelStyle: TextStyle(fontSize: 12),
-              contentPadding: EdgeInsets.only(left: 30),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blueGrey.shade100),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-            ),
+          _CustomTextField(
+            controller: _userfirstnamecontroller,
+            obscureText: false,
+            hintext: 'First Name',
+            validity: _userfnvalidity,
           ),
+          // TextField(
+          //   controller: _userfirstnamecontroller,
+          //   decoration: InputDecoration(
+          //     hintText: 'First Name',
+          //     filled: true,
+          //     fillColor: Colors.blueGrey[50],
+          //     labelStyle: TextStyle(fontSize: 12),
+          //     contentPadding: EdgeInsets.only(left: 30),
+          //     enabledBorder: OutlineInputBorder(
+          //       borderSide: BorderSide(color: Colors.blueGrey.shade100),
+          //       borderRadius: BorderRadius.circular(15),
+          //     ),
+          //     focusedBorder: OutlineInputBorder(
+          //       borderRadius: BorderRadius.circular(15),
+          //     ),
+          //   ),
+          // ),
           SizedBox(
             height: 20,
           ),
-          TextField(
+          _CustomTextField(
+              controller: _userlastnamecontroller,
+              obscureText: false,
+              hintext: 'Last Name',
+              validity: _userlnvalidity),
+          // TextField(
+          //   controller: _userlastnamecontroller,
+          //   decoration: InputDecoration(
+          //     hintText: 'Last Name',
+          //     filled: true,
+          //     fillColor: Colors.blueGrey[50],
+          //     labelStyle: TextStyle(fontSize: 12),
+          //     contentPadding: EdgeInsets.only(left: 30),
+          //     enabledBorder: OutlineInputBorder(
+          //       borderSide: BorderSide(color: Colors.blueGrey.shade100),
+          //       borderRadius: BorderRadius.circular(15),
+          //     ),
+          //     focusedBorder: OutlineInputBorder(
+          //       borderRadius: BorderRadius.circular(15),
+          //     ),
+          //   ),
+          // ),
+          SizedBox(
+            height: 20,
+          ),
+
+          // TextField(
+          //   controller: _emailcontroller,
+          //   decoration: InputDecoration(
+          //     hintText: 'Email',
+          //     filled: true,
+          //     fillColor: Colors.blueGrey[50],
+          //     labelStyle: TextStyle(fontSize: 12),
+          //     contentPadding: EdgeInsets.only(left: 30),
+          //     enabledBorder: OutlineInputBorder(
+          //       borderSide: BorderSide(
+          //           color: (_emailvalidity.value)
+          //               ? Colors.blueGrey.shade100
+          //               : Colors.red.shade200),
+          //       borderRadius: BorderRadius.circular(15),
+          //     ),
+          //     focusedBorder: OutlineInputBorder(
+          //       borderRadius: BorderRadius.circular(15),
+          //     ),
+          //   ),
+          // ),
+          _CustomTextField(
             controller: _emailcontroller,
-            decoration: InputDecoration(
-              hintText: 'Email',
-              filled: true,
-              fillColor: Colors.blueGrey[50],
-              labelStyle: TextStyle(fontSize: 12),
-              contentPadding: EdgeInsets.only(left: 30),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: (_emailvalidity.value)
-                        ? Colors.blueGrey.shade100
-                        : Colors.red.shade200),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-            ),
+            validity: _emailvalidity,
+            obscureText: false,
+            hintext: 'Email',
           ),
           SizedBox(
             height: 20,
           ),
-          TextField(
+          _CustomTextField(
             controller: _passwordcontroller,
-            obscureText: !_passwordVisible.value,
-            decoration: InputDecoration(
-              hintText: 'Password',
-              suffixIcon: IconButton(
-                icon: Icon(
-                  (!_passwordVisible.value)
-                      ? Icons.visibility_off_outlined
-                      : Icons.visibility,
-                ),
-                onPressed: () {
-                  _passwordVisible.value = !_passwordVisible.value;
-                },
-                // Icons.visibility_outlined,
-                color: (!_passwordVisible.value) ? Colors.grey : Colors.blue,
+            validity: _passwordvalidity,
+            obscureText: true,
+            hintext: 'Password',
+            iconbutton: IconButton(
+              icon: Icon(
+                (!_passwordVisible.value)
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility,
               ),
-              filled: true,
-              fillColor: Colors.blueGrey[50],
-              labelStyle: TextStyle(fontSize: 12),
-              contentPadding: EdgeInsets.only(left: 30),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: (_emailvalidity.value)
-                        ? Colors.blueGrey.shade100
-                        : Colors.red.shade200),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
+              onPressed: () {
+                _passwordVisible.value = !_passwordVisible.value;
+              },
+              // Icons.visibility_outlined,
+              color: (!_passwordVisible.value) ? Colors.grey : Colors.blue,
             ),
           ),
+          // TextField(
+          //   controller: _passwordcontroller,
+          //   obscureText: !_passwordVisible.value,
+          //   decoration: InputDecoration(
+          //     hintText: 'Password',
+          //     suffixIcon: IconButton(
+          //       icon: Icon(
+          //         (!_passwordVisible.value)
+          //             ? Icons.visibility_off_outlined
+          //             : Icons.visibility,
+          //       ),
+          //       onPressed: () {
+          //         _passwordVisible.value = !_passwordVisible.value;
+          //       },
+          //       // Icons.visibility_outlined,
+          //       color: (!_passwordVisible.value) ? Colors.grey : Colors.blue,
+          //     ),
+          //     filled: true,
+          //     fillColor: Colors.blueGrey[50],
+          //     labelStyle: TextStyle(fontSize: 12),
+          //     contentPadding: EdgeInsets.only(left: 30),
+          //     enabledBorder: OutlineInputBorder(
+          //       borderSide: BorderSide(
+          //           color: (_emailvalidity.value)
+          //               ? Colors.blueGrey.shade100
+          //               : Colors.red.shade200),
+          //       borderRadius: BorderRadius.circular(15),
+          //     ),
+          //     focusedBorder: OutlineInputBorder(
+          //       borderRadius: BorderRadius.circular(15),
+          //     ),
+          //   ),
+          // ),
           SizedBox(
             height: 30,
           ),
@@ -238,12 +298,53 @@ class SignUpForm extends HookWidget {
                     Navigator.pop(context);
                   },
                   child: Text(
-                    'Sign Up',
+                    'Log In',
                     style: TextStyle(color: Colors.blue),
                   ))
             ],
           )
         ],
+      ),
+    );
+  }
+}
+
+class _CustomTextField extends HookWidget {
+  final TextEditingController controller;
+  final ValueNotifier<bool>? validity;
+  final IconButton? iconbutton;
+  final bool obscureText;
+  final String hintext;
+  _CustomTextField({
+    required this.controller,
+    required this.validity,
+    this.iconbutton,
+    required this.obscureText,
+    required this.hintext,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      obscureText: obscureText,
+      controller: controller,
+      decoration: InputDecoration(
+        suffixIcon: iconbutton,
+        hintText: hintext,
+        filled: true,
+        fillColor: Colors.blueGrey[50],
+        labelStyle: TextStyle(fontSize: 12),
+        contentPadding: EdgeInsets.only(left: 30),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+              color: (validity!.value)
+                  ? Colors.blueGrey.shade100
+                  : Colors.red.shade200),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
       ),
     );
   }
