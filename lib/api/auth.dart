@@ -76,10 +76,10 @@ class InitialDummyMeals {
         .asUint8List();
 
     return [
-      Meal(id: '1', name: 'hotdog', image: _image1, recipes: [
+      Meal(id: '1', name: 'hotdog', image: _image0, recipes: [
         Ingredient(id: 'b1', name: 'hotdog', isBought: false),
       ]),
-      Meal(id: '2', name: 'Lechon', image: _image0, recipes: [
+      Meal(id: '2', name: 'Lechon', image: _image1, recipes: [
         Ingredient(id: 'a1', name: 'pig', isBought: true),
         Ingredient(id: 'a2', name: 'bawang', isBought: true),
         Ingredient(id: 'a3', name: 'MSG', isBought: true),

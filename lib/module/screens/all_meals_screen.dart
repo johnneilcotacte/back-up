@@ -7,6 +7,7 @@ import 'package:flutter_miniproject/provider/meal_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_miniproject/module/meals_screens_components/meal_item.dart';
 import 'package:flutter_miniproject/provider/const_provider.dart';
+import 'package:flutter_miniproject/model/meal.dart';
 
 class AllMealsPage extends HookWidget {
   const AllMealsPage({
@@ -18,6 +19,7 @@ class AllMealsPage extends HookWidget {
     final _isLoading = useState(false);
     final _mealProvider = useProvider(mealProvider);
     final _constants = useProvider(constantsProvider);
+    final _index = useState(0);
 
     _loadMeals() async {
       _isLoading.value = true;
@@ -35,6 +37,9 @@ class AllMealsPage extends HookWidget {
       return;
     }, []);
     final listMeals = _mealProvider.mealList;
+
+    //final args = ModalRoute.of(context)!.settings.arguments as List<Meal>;
+    //List<Meal> listMeals = args;
     return Scaffold(
       appBar: AppBar(),
       body: Column(
