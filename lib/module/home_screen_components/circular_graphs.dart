@@ -29,6 +29,7 @@ class StatsCircularGraph extends HookWidget {
     _checkCurrentCardIndex(int direction) {
       // 1 = left
       // 2 = right
+      print('clicked');
       if (direction == 1) {
         if (_choiceindex.value > 0) {
           _choiceindex.value--;
@@ -36,75 +37,70 @@ class StatsCircularGraph extends HookWidget {
       }
       if (direction == 2) {
         if (_choiceindex.value < 2) {
+          print(_choiceindex.value);
           _choiceindex.value++;
         }
       }
     }
 
-    return Flexible(
-      fit: FlexFit.tight,
-      flex: (_width > 800) ? 5 : 1,
-      //wrap this with flexible if inside a column or row
-      child: Container(
-        decoration: BoxDecoration(color: Colors.white),
-        child: (!Responsive.isMobile(context))
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  //https://help.syncfusion.com/flutter/circular-charts/chart-types/radial-bar-chart
-                  _CircularGraph(
-                    type: _cal,
-                    text: 'Cals',
-                  ),
-                  _CircularGraph(
-                    type: _fats,
-                    text: 'Fats',
-                  ),
-                  _CircularGraph(
-                    type: _carbs,
-                    text: 'Carbs',
-                  ),
-                ],
-              )
-            : Expanded(
-                child: Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          onPressed: _checkCurrentCardIndex(1),
-                          icon: FaIcon(
-                            FontAwesomeIcons.chevronLeft,
-                            size: 12,
-                            color: (_choiceindex.value == 0)
-                                ? Colors.grey
-                                : Colors.blue,
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: _checkCurrentCardIndex(2),
-                          icon: FaIcon(
-                            FontAwesomeIcons.chevronRight,
-                            size: 12,
-                            color: (_choiceindex.value == 2)
-                                ? Colors.grey
-                                : Colors.blue,
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    _CircularGraph(
-                      type: _choices[_choiceindex.value],
-                      text: _choiceslabel[_choiceindex.value],
-                    ),
-                  ],
+    if (!Responsive.isMobile(context)) {
+      return Container(
+          decoration: BoxDecoration(color: Colors.white),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              //https://help.syncfusion.com/flutter/circular-charts/chart-types/radial-bar-chart
+              _CircularGraph(
+                type: _cal,
+                text: 'Cals',
+              ),
+              _CircularGraph(
+                type: _fats,
+                text: 'Fats',
+              ),
+              _CircularGraph(
+                type: _carbs,
+                text: 'Carbs',
+              ),
+            ],
+          ));
+    }
+    return Container(
+      height: 300,
+      width: 250,
+      decoration: BoxDecoration(color: Colors.white),
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                onPressed: _checkCurrentCardIndex(1),
+                icon: FaIcon(
+                  FontAwesomeIcons.chevronLeft,
+                  size: 12,
+                  color: (_choiceindex.value == 0) ? Colors.grey : Colors.blue,
                 ),
               ),
+              IconButton(
+                onPressed: _checkCurrentCardIndex(2),
+                icon: FaIcon(
+                  FontAwesomeIcons.chevronRight,
+                  size: 12,
+                  color: (_choiceindex.value == 2) ? Colors.grey : Colors.blue,
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          _CircularGraph(
+            type: _choices[_choiceindex.value],
+            text: _choiceslabel[_choiceindex.value],
+          ),
+        ],
       ),
     );
   }

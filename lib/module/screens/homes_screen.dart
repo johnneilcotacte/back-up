@@ -112,8 +112,9 @@ class HomePage extends HookWidget {
                     padding: EdgeInsets.all(30),
                     children: [
                       ////////////////////////////////////////////////////////////////
-                      if (_width > 800)
+                      if (Responsive.isDesktop(context))
                         Container(
+                          width: _width,
                           height: 200,
                           child: Row(
                             children: [
@@ -121,24 +122,28 @@ class HomePage extends HookWidget {
                               SizedBox(
                                 width: 30,
                               ),
-                              StatsCircularGraph(
-                                  cal: _cal, fats: _fats, carbs: _carbs),
+                              Expanded(
+                                child: Center(
+                                  child: StatsCircularGraph(
+                                      cal: _cal, fats: _fats, carbs: _carbs),
+                                ),
+                              ),
                             ],
                           ),
                         ),
 
-                      if (_width <= 800) Header(),
-                      if (_width <= 800)
+                      if (!Responsive.isDesktop(context)) Header(),
+                      if (!Responsive.isDesktop(context))
                         SizedBox(
                           height: 30,
                         ),
-                      if (_width <= 800)
+                      if (!Responsive.isDesktop(context))
                         StatsCircularGraph(
                             cal: _cal, fats: _fats, carbs: _carbs),
-                      ////
-                      // SizedBox(
-                      //   height: 30,
-                      // ),
+                      //
+                      SizedBox(
+                        height: 30,
+                      ),
                       // ////////////////////////////////////////////////////////////////////////////
                       // Container(
                       //   height: 100,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_miniproject/config/route.dart';
+
 import 'package:flutter_miniproject/module/screens/homes_screen.dart';
 import 'package:flutter_miniproject/module/screens/authentication_screen.dart';
 
@@ -17,8 +18,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: HomePage(),
-      //home: LoginPage(),
+      // home: HomePage(),
+      home: LoginPage(),
+      // home: AllMealsPage(),
       debugShowCheckedModeBanner: false,
       // initialRoute: RouteGenerator.loginRoute,
       // onGenerateRoute: RouteGenerator.generateRoute,
