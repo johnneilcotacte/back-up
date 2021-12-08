@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_miniproject/config/route.dart';
 import 'package:flutter_miniproject/model/screen_argument.dart';
 import 'package:flutter_miniproject/model/user.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CustomDrawer extends HookWidget {
   const CustomDrawer({
@@ -36,7 +36,7 @@ class CustomDrawer extends HookWidget {
     final listMeals = _mealProvider.mealList;
     */
     var user = User(
-      id: '1',
+      id: 1,
       firstName: 'John Neil',
       lastName: 'Cotacte',
       email: 'jncotacte@gmail.com',

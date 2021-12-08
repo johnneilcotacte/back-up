@@ -1,9 +1,11 @@
 import 'dart:typed_data';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_miniproject/model/meal.dart';
 import 'package:flutter_miniproject/model/ingredient.dart';
 import 'package:http/http.dart' as http;
 
+//https://firebase.flutter.dev/docs/storage/usage/
 class AuthAPI {
   String _meal_uri = '';
 
@@ -82,23 +84,22 @@ class InitialDummyMeals {
       Meal(
           id: '1',
           name: 'hotdog',
-          image:
-              'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/files%2FFilipino%20Breakfast_%20Tuyo%2C%20Tocino%2C%20Salted%20Egg%2C%20and%20Tomato%20-%20The%20Peach%20Kitchen.jpg?alt=media&token=8cf86462-e44b-4558-a804-580c28eb78e3',
-          recipes: [
+          image: 'https://picsum.photos/250?image=9',
+          ingredients: [
             'hotdog',
           ]),
       Meal(
           id: '2',
           name: 'Lechon',
           image:
-              'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/files%2FFilipino%20Breakfast_%20Tuyo%2C%20Tocino%2C%20Salted%20Egg%2C%20and%20Tomato%20-%20The%20Peach%20Kitchen.jpg?alt=media&token=8cf86462-e44b-4558-a804-580c28eb78e3',
-          recipes: ['pig', 'bawang', 'msg']),
+              'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/files%2FCornSiLog%20(%20Corned%20Beef%2C%20Sinangag%2C%20Itlog)%20with%20Highlands%20Gold%20Corned%20Beef%20-%20The%20Peach%20Kitchen.png?alt=media&token=20db0da1-6851-49e0-b10c-61192a109f59',
+          ingredients: ['pig', 'bawang', 'msg']),
       Meal(
           id: '3',
           name: 'Lechon Paksiw',
           image:
-              'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/files%2FFilipino%20Breakfast_%20Tuyo%2C%20Tocino%2C%20Salted%20Egg%2C%20and%20Tomato%20-%20The%20Peach%20Kitchen.jpg?alt=media&token=8cf86462-e44b-4558-a804-580c28eb78e3',
-          recipes: ['lechon', 'tuyo']),
+              'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/files%2FCornSiLog%20(%20Corned%20Beef%2C%20Sinangag%2C%20Itlog)%20with%20Highlands%20Gold%20Corned%20Beef%20-%20The%20Peach%20Kitchen.png?alt=media&token=20db0da1-6851-49e0-b10c-61192a109f59',
+          ingredients: ['lechon', 'tuyo']),
     ];
   }
 }
