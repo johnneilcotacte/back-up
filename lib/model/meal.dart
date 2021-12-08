@@ -34,7 +34,7 @@ class Meal {
   String? _name;
   String? _image;
   List<String?>? _category;
-  List<String?>? _ingredients = [];
+  List<String?>? _ingredients;
 
   Meal({
     String? id,

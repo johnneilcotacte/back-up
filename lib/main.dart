@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      // home: HomePage(),
-      home: LoginPage(),
+      home: HomePage(),
+      //home: LoginPage(),
       // home: AllMealsPage(),
       debugShowCheckedModeBanner: false,
       // initialRoute: RouteGenerator.loginRoute,

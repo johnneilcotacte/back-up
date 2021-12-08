@@ -9,11 +9,7 @@ class AuthAPI {
 
   Future<bool> logInUser(
       {required String email, required String password}) async {
-    // Map<String, String> ingredient = []
-    //     "Pork":"1kg",
-    //     "Fish":"0.5kg"
-
-    // ];
+    //Map<String, String> ingredient = {'Pork1k', "Fish": "0.5kg"};
 
     try {
       var url = Uri.parse('https://reqres.in/api/login');
