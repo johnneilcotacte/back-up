@@ -23,6 +23,17 @@ class MealItem extends HookWidget {
       },
       child: GridTile(
         child: Image.network(meal.image!, fit: BoxFit.cover),
+        // child: FittedBox(
+        //   fit: BoxFit.fill,
+        //   child: Container(
+        //     width: 150,
+        //     height: 180,
+        //     decoration: BoxDecoration(
+        //       image: DecorationImage(image: NetworkImage(meal.image!)),
+        //       //color: Colors.grey.shade200,
+        //     ),
+        //   ),
+        // ),
         footer: GridTileBar(
           backgroundColor: Colors.black54,
           title: Text(

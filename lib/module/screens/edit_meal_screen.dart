@@ -48,7 +48,7 @@ class EditMealPage extends HookWidget {
           id: uuid.v1(),
           name: _namecontroller.text,
           image: _image.value,
-          recipes: [
+          ingredients: [
             _in1controller.text,
             _in2controller.text,
           ]);
@@ -72,7 +72,7 @@ class EditMealPage extends HookWidget {
           id: args.meal!.id,
           name: _namecontroller.text,
           image: _image.value,
-          recipes: [_in1controller.text, _in2controller.text]);
+          ingredients: [_in1controller.text, _in2controller.text]);
 
       bool status = MealPostChecker.isComplete(meal);
       if (status) {
@@ -81,7 +81,7 @@ class EditMealPage extends HookWidget {
                 id: args.meal!.id,
                 name: _namecontroller.text,
                 image: _image.value,
-                recipes: [
+                ingredients: [
               _in1controller.text,
               _in2controller.text,
             ]));
@@ -167,21 +167,23 @@ class EditMealPage extends HookWidget {
                     width: double.infinity,
                     //height: _height * .7,
                     decoration: BoxDecoration(
+                      image:
+                          DecorationImage(image: NetworkImage(_image.value!)),
                       color: Colors.grey.shade200,
                     ),
-                    child: (_image.value != null)
-                        ? FittedBox(
-                            fit: BoxFit.cover,
-                            child: Image.network(_image.value!),
-                          )
-                        : IconButton(
-                            onPressed: () {},
-                            icon: FaIcon(
-                              FontAwesomeIcons.image,
-                              size: _height * .08,
-                              color: Colors.red,
-                            ),
-                          ),
+                    // child: (_image.value != null)
+                    //     ? FittedBox(
+                    //         fit: BoxFit.cover,
+                    //         child: Image.network(_image.value!),
+                    //       )
+                    //     : IconButton(
+                    //         onPressed: () {},
+                    //         icon: FaIcon(
+                    //           FontAwesomeIcons.image,
+                    //           size: _height * .08,
+                    //           color: Colors.red,
+                    //         ),
+                    //       ),
                   ),
                 ),
               ),

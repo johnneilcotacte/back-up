@@ -4,7 +4,7 @@ class MealPostChecker {
   static bool isComplete(Meal meal) {
     if (meal.id != '' &&
         meal.name != '' &&
-        meal.recipes != [] &&
+        meal.ingredients != [] &&
         meal.image != null) {
       return true;
     }

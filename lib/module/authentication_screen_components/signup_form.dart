@@ -85,23 +85,6 @@ class SignUpForm extends HookWidget {
             hintext: 'First Name',
             validity: _userfnvalidity,
           ),
-          // TextField(
-          //   controller: _userfirstnamecontroller,
-          //   decoration: InputDecoration(
-          //     hintText: 'First Name',
-          //     filled: true,
-          //     fillColor: Colors.blueGrey[50],
-          //     labelStyle: TextStyle(fontSize: 12),
-          //     contentPadding: EdgeInsets.only(left: 30),
-          //     enabledBorder: OutlineInputBorder(
-          //       borderSide: BorderSide(color: Colors.blueGrey.shade100),
-          //       borderRadius: BorderRadius.circular(15),
-          //     ),
-          //     focusedBorder: OutlineInputBorder(
-          //       borderRadius: BorderRadius.circular(15),
-          //     ),
-          //   ),
-          // ),
           SizedBox(
             height: 20,
           ),
@@ -110,47 +93,9 @@ class SignUpForm extends HookWidget {
               obscureText: false,
               hintext: 'Last Name',
               validity: _userlnvalidity),
-          // TextField(
-          //   controller: _userlastnamecontroller,
-          //   decoration: InputDecoration(
-          //     hintText: 'Last Name',
-          //     filled: true,
-          //     fillColor: Colors.blueGrey[50],
-          //     labelStyle: TextStyle(fontSize: 12),
-          //     contentPadding: EdgeInsets.only(left: 30),
-          //     enabledBorder: OutlineInputBorder(
-          //       borderSide: BorderSide(color: Colors.blueGrey.shade100),
-          //       borderRadius: BorderRadius.circular(15),
-          //     ),
-          //     focusedBorder: OutlineInputBorder(
-          //       borderRadius: BorderRadius.circular(15),
-          //     ),
-          //   ),
-          // ),
           SizedBox(
             height: 20,
           ),
-
-          // TextField(
-          //   controller: _emailcontroller,
-          //   decoration: InputDecoration(
-          //     hintText: 'Email',
-          //     filled: true,
-          //     fillColor: Colors.blueGrey[50],
-          //     labelStyle: TextStyle(fontSize: 12),
-          //     contentPadding: EdgeInsets.only(left: 30),
-          //     enabledBorder: OutlineInputBorder(
-          //       borderSide: BorderSide(
-          //           color: (_emailvalidity.value)
-          //               ? Colors.blueGrey.shade100
-          //               : Colors.red.shade200),
-          //       borderRadius: BorderRadius.circular(15),
-          //     ),
-          //     focusedBorder: OutlineInputBorder(
-          //       borderRadius: BorderRadius.circular(15),
-          //     ),
-          //   ),
-          // ),
           _CustomTextField(
             controller: _emailcontroller,
             validity: _emailvalidity,
@@ -178,39 +123,6 @@ class SignUpForm extends HookWidget {
               color: (!_passwordVisible.value) ? Colors.grey : Colors.blue,
             ),
           ),
-          // TextField(
-          //   controller: _passwordcontroller,
-          //   obscureText: !_passwordVisible.value,
-          //   decoration: InputDecoration(
-          //     hintText: 'Password',
-          //     suffixIcon: IconButton(
-          //       icon: Icon(
-          //         (!_passwordVisible.value)
-          //             ? Icons.visibility_off_outlined
-          //             : Icons.visibility,
-          //       ),
-          //       onPressed: () {
-          //         _passwordVisible.value = !_passwordVisible.value;
-          //       },
-          //       // Icons.visibility_outlined,
-          //       color: (!_passwordVisible.value) ? Colors.grey : Colors.blue,
-          //     ),
-          //     filled: true,
-          //     fillColor: Colors.blueGrey[50],
-          //     labelStyle: TextStyle(fontSize: 12),
-          //     contentPadding: EdgeInsets.only(left: 30),
-          //     enabledBorder: OutlineInputBorder(
-          //       borderSide: BorderSide(
-          //           color: (_emailvalidity.value)
-          //               ? Colors.blueGrey.shade100
-          //               : Colors.red.shade200),
-          //       borderRadius: BorderRadius.circular(15),
-          //     ),
-          //     focusedBorder: OutlineInputBorder(
-          //       borderRadius: BorderRadius.circular(15),
-          //     ),
-          //   ),
-          // ),
           SizedBox(
             height: 30,
           ),
