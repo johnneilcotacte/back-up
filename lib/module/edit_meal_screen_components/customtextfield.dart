@@ -32,8 +32,13 @@ class CustomTextField extends HookWidget {
         fontWeight: fontweight,
       ),
       controller: controller,
-      decoration:
-          InputDecoration(border: OutlineInputBorder(), labelText: labelText),
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: labelText,
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: _constants.kDarkBlackColor, width: 1),
+        ),
+      ),
       keyboardType: TextInputType.multiline,
       maxLines: null,
       minLines: minlines,

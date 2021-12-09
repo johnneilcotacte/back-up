@@ -198,22 +198,24 @@ class EditMealPage extends HookWidget {
                 height: 1.3,
               ),
             ),
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  RecipeInput(
-                    textController: _recipeTextController,
-                  ),
-                  FloatingActionButton(
-                    onPressed: () {
-                      _recipeProvider.addRecipe(
-                          body: _recipeTextController.text);
-                      _recipeTextController.clear();
-                    },
-                    child: Icon(Icons.add),
-                  )
-                ],
+            Expanded(
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RecipeInput(
+                      textController: _recipeTextController,
+                    ),
+                    FloatingActionButton(
+                      onPressed: () {
+                        _recipeProvider.addRecipe(
+                            body: _recipeTextController.text);
+                        _recipeTextController.clear();
+                      },
+                      child: Icon(Icons.add),
+                    )
+                  ],
+                ),
               ),
             ),
             Expanded(
