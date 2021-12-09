@@ -13,6 +13,10 @@ class Gradientbutton extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final selectedDate = useProvider(weekdateProvider);
+    final dayofweek = DateFormat.E().format(selectedDate.date);
+    final dayofmonth = DateFormat.d().format(selectedDate.date);
+    final month = DateFormat.MMM().format(selectedDate.date);
     return Flexible(
       flex: 3,
       fit: FlexFit.tight,
@@ -42,7 +46,7 @@ class Gradientbutton extends HookWidget {
                       height: 20,
                     ),
                     Text(
-                      'Friday, Dec 3',
+                      '$dayofweek, $month $dayofmonth',
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ],
@@ -52,33 +56,18 @@ class Gradientbutton extends HookWidget {
               flex: 5,
               //wrap this with flexible if inside a column or row
               child: Align(
-                alignment: Alignment.center,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        print('pressed');
-                        showCalendarDialog(context);
-                      },
-                      icon: FaIcon(
-                        FontAwesomeIcons.chevronLeft,
-                        size: 18,
-                        color: Colors.white,
-                      ),
+                  alignment: Alignment.center,
+                  child: IconButton(
+                    onPressed: () {
+                      print('clicked');
+                      showCalendarDialog(context);
+                    },
+                    icon: FaIcon(
+                      FontAwesomeIcons.calendarWeek,
+                      size: 25,
+                      color: Colors.white,
                     ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: FaIcon(
-                        FontAwesomeIcons.chevronRight,
-                        size: 18,
-                        color: Colors.white,
-                      ),
-                    )
-                  ],
-                ),
-              ),
+                  )),
             ),
           ],
         ),
@@ -101,7 +90,8 @@ class _DatePicker extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final weekrange = useProvider(weekdateProvider).getCurrentWeekRange();
+    final calendar = useProvider(weekdateProvider);
+    final weekrange = calendar.getCurrentWeekRange();
     final datepickercontroller = DateRangePickerController();
     return Container(
       height: 300,
@@ -115,12 +105,10 @@ class _DatePicker extends HookWidget {
         maxDate: DateTime(
             weekrange[1].year, weekrange[1].month, weekrange[1].day, 0, 0, 0),
         showActionButtons: true,
+        controller: datepickercontroller,
         onSubmit: (Object datepicked) {
-          if (datepicked != null) {
-            Navigator.pop(context);
-          } else {
-            showInvalidDialog(context);
-          }
+          calendar.chooseDate(datepickercontroller.selectedDate!);
+          Navigator.pop(context);
         },
         onCancel: () {
           Navigator.pop(context);
