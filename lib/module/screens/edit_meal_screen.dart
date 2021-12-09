@@ -28,17 +28,12 @@ class EditMealPage extends HookWidget {
     String _initialname = '';
     String? _initialimage;
     Uuid uuid = Uuid();
-    String _initialIn1 = '';
-    String _initialIn2 = '';
     if (args.meal != null) {
       _initialname = args.meal!.name!;
       _initialimage = args.meal!.image;
     }
     final _image = useState<String?>(_initialimage);
     final _namecontroller = useTextEditingController(text: _initialname);
-
-    final _in1controller = useTextEditingController(text: _initialIn1);
-    final _in2controller = useTextEditingController(text: _initialIn2);
 
     final _recipeProvider = useProvider(recipeProvider);
     final _recipeTextController = useTextEditingController();
@@ -58,10 +53,11 @@ class EditMealPage extends HookWidget {
           ingredients: _recipeProvider.ingredients);
       bool status = MealPostChecker.isComplete(meal);
       if (status) {
+        _recipeProvider.deletePrevList();
         _mealProvider.addMeal(newmeal: meal);
         _namecontroller.clear();
         _image.value = null;
-        _recipeTextController.clear;
+        _recipeTextController.clear();
         showConfirmationDialog(context, 'Your meal is successfully uploaded.');
       } else {
         showInvalidDialog(context);
@@ -75,7 +71,7 @@ class EditMealPage extends HookWidget {
           id: args.meal!.id,
           name: _namecontroller.text,
           image: _image.value,
-          ingredients: [_in1controller.text, _in2controller.text]);
+          ingredients: _recipeProvider.ingredients);
 
       bool status = MealPostChecker.isComplete(meal);
       if (status) {
@@ -87,8 +83,7 @@ class EditMealPage extends HookWidget {
                 ingredients: _recipeProvider.ingredients));
         _namecontroller.clear();
         _image.value = null;
-        _in1controller.clear();
-        _in2controller.clear();
+        _recipeTextController.clear();
         showConfirmationDialog(context, 'Your meal is successfully updated.');
       } else {
         showInvalidDialog(context);
@@ -208,7 +203,7 @@ class EditMealPage extends HookWidget {
                     ),
                     FloatingActionButton(
                       onPressed: () {
-                        _recipeProvider.addRecipe(
+                        _recipeProvider.addIngredient(
                             body: _recipeTextController.text);
                         _recipeTextController.clear();
                       },

@@ -42,7 +42,7 @@ class RecipeListItem extends HookWidget {
               ),
               IconButton(
                 onPressed: () {
-                  _recipeProvider.deleteTodo(ingredient: ingredient!);
+                  _recipeProvider.deleteIngredient(ingredient: ingredient!);
                 },
                 icon: Icon(Icons.delete),
               )
