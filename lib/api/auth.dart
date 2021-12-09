@@ -36,16 +36,15 @@ class AuthAPI {
     }
   }
 
-  void createUser({
+  Future<bool> createUser({
     required String username,
     required String password,
     required String firstname,
     required String lastname,
     required String email,
-    required String age,
   }) async {
     try {
-      var url = Uri.parse('https://example.com/whatsit/create');
+      var url = Uri.parse('https://wca-meal-planner.herokuapp.com/users');
       var response = await http.post(
         url,
         body: {
@@ -54,15 +53,17 @@ class AuthAPI {
           "first_name": "$firstname",
           "last_name": "$lastname",
           "email": "$email",
-          "age": "$age"
         },
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         print(response.body);
+        return true;
       } else {
         print('invalid');
+        return false;
       }
     } catch (er) {
+      print(er);
       throw Exception(er);
     }
   }

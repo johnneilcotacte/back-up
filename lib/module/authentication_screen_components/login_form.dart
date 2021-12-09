@@ -176,26 +176,28 @@ class LoginForm extends HookWidget {
                       builder: (BuildContext context) {
                         return AlertDialog(
                           contentPadding: EdgeInsets.zero,
-                          content: Stack(
-                            //  overflow: Overflow.visible,
-                            clipBehavior: Clip.none,
-                            children: <Widget>[
-                              Positioned(
-                                right: -40.0,
-                                top: -40.0,
-                                child: InkResponse(
-                                  onTap: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: CircleAvatar(
-                                    child: Icon(Icons.close),
-                                    backgroundColor: Colors.red,
+                          content: Builder(builder: (context) {
+                            return Stack(
+                              //  overflow: Overflow.visible,
+                              clipBehavior: Clip.none,
+                              children: <Widget>[
+                                Positioned(
+                                  right: -40.0,
+                                  top: -40.0,
+                                  child: InkResponse(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: CircleAvatar(
+                                      child: Icon(Icons.close),
+                                      backgroundColor: Colors.red,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SignUpForm(),
-                            ],
-                          ),
+                                SignUpForm(),
+                              ],
+                            );
+                          }),
                         );
                       },
                     );

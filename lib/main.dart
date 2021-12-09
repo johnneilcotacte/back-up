@@ -48,7 +48,7 @@ class App extends StatelessWidget {
       //home: LoginPage(),
       // home: AllMealsPage(),
       debugShowCheckedModeBanner: false,
-      initialRoute: RouteGenerator.homeRoute,
+      initialRoute: RouteGenerator.loginRoute,
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_miniproject/provider/userauth_api_provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SignUpForm extends HookWidget {
   SignUpForm({Key? key}) : super(key: key);
@@ -9,13 +11,15 @@ class SignUpForm extends HookWidget {
     final _passwordVisible = useState(false);
     final _userfirstnamecontroller = useTextEditingController();
     final _userlastnamecontroller = useTextEditingController();
+    final _usernamecontroller = useTextEditingController();
     final _emailcontroller = useTextEditingController();
     final _passwordcontroller = useTextEditingController();
+    final _usernamevalidity = useState(true);
     final _userfnvalidity = useState(true);
     final _userlnvalidity = useState(true);
     final _emailvalidity = useState(true);
     final _passwordvalidity = useState(true);
-
+    final _auth = useProvider(authAPIProvider);
     bool _checkEmail() {
       bool emailValidity = RegExp(
               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -38,12 +42,23 @@ class SignUpForm extends HookWidget {
       return false;
     }
 
-    _checkCredentials() {
+    _checkCredentials() async {
       bool emailstatus = _checkEmail();
       bool passwordstatus = _checkPassword();
       if (emailstatus && passwordstatus) {
         print('good to go');
-        Navigator.pop(context);
+        bool status = await _auth.auth.createUser(
+            username: _usernamecontroller.text,
+            password: _passwordcontroller.text,
+            firstname: _userfirstnamecontroller.text,
+            lastname: _userlastnamecontroller.text,
+            email: _emailcontroller.text);
+        if (status) {
+          print('successful');
+          Navigator.pop(context);
+        } else {
+          print('failed, show message dialog');
+        }
       } else {
         print(' not good to go');
         if (!emailstatus) {
@@ -56,7 +71,7 @@ class SignUpForm extends HookWidget {
 
     return Container(
       width: 350,
-      height: (_emailvalidity.value && _passwordvalidity.value) ? 600 : 650,
+      height: (_emailvalidity.value && _passwordvalidity.value) ? 600 : 620,
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -70,11 +85,13 @@ class SignUpForm extends HookWidget {
           ),
         ],
       ),
-      child: Column(
+      child: ListView(
         children: [
-          Text(
-            'Sign Up',
-            style: TextStyle(fontSize: 40),
+          Center(
+            child: Text(
+              'Sign Up',
+              style: TextStyle(fontSize: 40),
+            ),
           ),
           SizedBox(
             height: 40,
@@ -97,6 +114,14 @@ class SignUpForm extends HookWidget {
             height: 20,
           ),
           _CustomTextField(
+              controller: _usernamecontroller,
+              obscureText: false,
+              hintext: 'UserName',
+              validity: _usernamevalidity),
+          SizedBox(
+            height: 20,
+          ),
+          _CustomTextField(
             controller: _emailcontroller,
             validity: _emailvalidity,
             obscureText: false,
@@ -108,7 +133,7 @@ class SignUpForm extends HookWidget {
           _CustomTextField(
             controller: _passwordcontroller,
             validity: _passwordvalidity,
-            obscureText: true,
+            obscureText: false,
             hintext: 'Password',
             iconbutton: IconButton(
               icon: Icon(
@@ -126,48 +151,48 @@ class SignUpForm extends HookWidget {
           SizedBox(
             height: 30,
           ),
-          Expanded(
-            child: Column(
-              children: [
-                if (!_emailvalidity.value)
-                  Text(
-                    'Invalid Email',
-                    style: TextStyle(color: Colors.red, fontSize: 9),
-                  ),
-                if (!_passwordvalidity.value)
-                  FittedBox(
-                    child: Column(
-                      children: [
-                        Text(
-                          'Password must have atleast',
-                          style: TextStyle(color: Colors.red, fontSize: 9),
-                        ),
-                        Text(
-                          '* 8 characters length',
-                          style: TextStyle(color: Colors.red, fontSize: 9),
-                        ),
-                        Text(
-                          '* 2 letters in Upper Case',
-                          style: TextStyle(color: Colors.red, fontSize: 9),
-                        ),
-                        Text(
-                          '* 1 Special Character',
-                          style: TextStyle(color: Colors.red, fontSize: 9),
-                        ),
-                        Text(
-                          '* 2 numerals',
-                          style: TextStyle(color: Colors.red, fontSize: 9),
-                        ),
-                        Text(
-                          '* 3 letters in Lower Case',
-                          style: TextStyle(color: Colors.red, fontSize: 9),
-                        ),
-                      ],
-                    ),
-                  )
-              ],
-            ),
-          ),
+          // Expanded(
+          //   child: Column(
+          //     children: [
+          //       if (!_emailvalidity.value)
+          //         Text(
+          //           'Invalid Email',
+          //           style: TextStyle(color: Colors.red, fontSize: 9),
+          //         ),
+          //       if (!_passwordvalidity.value)
+          //         FittedBox(
+          //           child: Column(
+          //             children: [
+          //               Text(
+          //                 'Password must have atleast',
+          //                 style: TextStyle(color: Colors.red, fontSize: 9),
+          //               ),
+          //               Text(
+          //                 '* 8 characters length',
+          //                 style: TextStyle(color: Colors.red, fontSize: 9),
+          //               ),
+          //               Text(
+          //                 '* 2 letters in Upper Case',
+          //                 style: TextStyle(color: Colors.red, fontSize: 9),
+          //               ),
+          //               Text(
+          //                 '* 1 Special Character',
+          //                 style: TextStyle(color: Colors.red, fontSize: 9),
+          //               ),
+          //               Text(
+          //                 '* 2 numerals',
+          //                 style: TextStyle(color: Colors.red, fontSize: 9),
+          //               ),
+          //               Text(
+          //                 '* 3 letters in Lower Case',
+          //                 style: TextStyle(color: Colors.red, fontSize: 9),
+          //               ),
+          //             ],
+          //           ),
+          //         )
+          //     ],
+          //   ),
+          // ),
           SizedBox(
             height: 25,
           ),
