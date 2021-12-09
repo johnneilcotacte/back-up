@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_miniproject/module/screens/create_meal_screen.dart';
 import 'package:flutter_miniproject/module/screens/edit_meal_screen.dart';
 import 'package:flutter_miniproject/module/screens/homes_screen.dart';
 import 'package:flutter_miniproject/module/screens/authentication_screen.dart';
@@ -10,7 +11,7 @@ class RouteGenerator {
   static const String loginRoute = '/mealplanner';
   static const String homeRoute = '/mealplanner/home';
   static const String mealsRoute = '/mealplanner/meals';
-  static const String addmealRoute = '/mealplanner/meals/addmeal';
+  static const String createmealRoute = '/mealplanner/meals/createmeal';
   static const String recipepageRoute = '/mealplanner/meals/recipepage';
   static const String useraccountRoute = '/mealplanner/useraccount';
 
@@ -31,9 +32,9 @@ class RouteGenerator {
           builder: (context) => _RouteHandler(routeWidget: AllMealsPage()),
           settings: settings,
         );
-      case addmealRoute:
+      case createmealRoute:
         return MaterialPageRoute(
-          builder: (context) => _RouteHandler(routeWidget: EditMealPage()),
+          builder: (context) => _RouteHandler(routeWidget: CreateMealPage()),
           settings: settings,
         );
       case recipepageRoute:
