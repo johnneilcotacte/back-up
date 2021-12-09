@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_miniproject/config/route.dart';
+import 'package:flutter_miniproject/model/sign_up.dart';
+import 'package:flutter_miniproject/module/notifications/custom_message_dialog.dart';
+import 'package:flutter_miniproject/provider/sign_in_provider.dart';
 import 'package:flutter_miniproject/provider/userauth_api_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart';
 
 class SignUpForm extends HookWidget {
   SignUpForm({Key? key}) : super(key: key);
@@ -20,6 +25,7 @@ class SignUpForm extends HookWidget {
     final _emailvalidity = useState(true);
     final _passwordvalidity = useState(true);
     final _auth = useProvider(authAPIProvider);
+    final _emaildisplay = useProvider(showEmailProvider);
     bool _checkEmail() {
       bool emailValidity = RegExp(
               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -47,25 +53,46 @@ class SignUpForm extends HookWidget {
       bool passwordstatus = _checkPassword();
       if (emailstatus && passwordstatus) {
         print('good to go');
-        bool status = await _auth.auth.createUser(
+        // bool status = await _auth.auth.createUser(
+        //     username: _usernamecontroller.text,
+        //     password: _passwordcontroller.text,
+        //     firstname: _userfirstnamecontroller.text,
+        //     lastname: _userlastnamecontroller.text,
+        //     email: _emailcontroller.text);
+
+        final signupdetails = SignUp(
             username: _usernamecontroller.text,
             password: _passwordcontroller.text,
-            firstname: _userfirstnamecontroller.text,
-            lastname: _userlastnamecontroller.text,
+            firstName: _userfirstnamecontroller.text,
+            lastName: _userlastnamecontroller.text,
             email: _emailcontroller.text);
-        if (status) {
-          print('successful');
-          Navigator.pop(context);
+        Response? response =
+            await _auth.auth.createUser(signup: signupdetails.signup());
+        if (response != null) {
+          // print('successful');
+          // Navigator.pop(context);
+          if (response.statusCode == 201) {
+            print(response.body);
+            showMessageDialog(
+                context, 'You Successfully Signed Up!', 'Sign Up', true);
+            _emaildisplay.initialEmailDisplay = response.body;
+            //Navigator.pop(context);
+          } else {
+            print('invalid');
+            showMessageDialog(context, response.body, 'Error', false);
+          }
         } else {
           print('failed, show message dialog');
+          showMessageDialog(context, 'Request Failed!', 'Error', false);
         }
       } else {
         print(' not good to go');
-        if (!emailstatus) {
-          _emailvalidity.value = emailstatus;
-        } else {
-          _passwordvalidity.value = passwordstatus;
-        }
+        // if (!emailstatus) {
+        //   _emailvalidity.value = emailstatus;
+        // } else {
+        //   _passwordvalidity.value = passwordstatus;
+        // }
+        showMessageDialog(context, 'Invalid Inputs', 'Error in Form', false);
       }
     }
 

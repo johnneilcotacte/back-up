@@ -4,10 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_miniproject/model/meal.dart';
 import 'package:flutter_miniproject/model/ingredient.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 //https://firebase.flutter.dev/docs/storage/usage/
 class AuthAPI {
-  String _meal_uri = '';
+  String _loginuri = 'https://wca-meal-planner.herokuapp.com/';
 
   Future<bool> logInUser(
       {required String email, required String password}) async {
@@ -36,35 +37,37 @@ class AuthAPI {
     }
   }
 
-  Future<bool> createUser({
-    required String username,
-    required String password,
-    required String firstname,
-    required String lastname,
-    required String email,
-  }) async {
+  Future<Response?> createUser(
+      {
+      // required String username,
+      // required String password,
+      // required String firstname,
+      // required String lastname,
+      // required String email,
+      required Map<String, dynamic> signup}) async {
     try {
-      var url = Uri.parse('https://wca-meal-planner.herokuapp.com/users');
-      var response = await http.post(
-        url,
-        body: {
-          "username": "$username",
-          "password": "$password",
-          "first_name": "$firstname",
-          "last_name": "$lastname",
-          "email": "$email",
-        },
-      );
-      if (response.statusCode == 201) {
-        print(response.body);
-        return true;
-      } else {
-        print('invalid');
-        return false;
-      }
+      var url = Uri.parse(_loginuri + 'users');
+      var response = await http.post(url,
+          // body: {
+          //   "username": "$username",
+          //   "password": "$password",
+          //   "first_name": "$firstname",
+          //   "last_name": "$lastname",
+          //   "email": "$email",
+          // },
+          body: signup);
+
+      // if (response.statusCode == 201) {
+      //   print(response.body);
+      //   return response.body;
+      // } else {
+      //   print('invalid');
+      //   return response.body;
+      // }
+      return response;
     } catch (er) {
-      print(er);
-      throw Exception(er);
+      //return er.toString();
+      return null;
     }
   }
 }

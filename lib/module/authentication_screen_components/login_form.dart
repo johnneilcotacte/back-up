@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_miniproject/config/route.dart';
 import 'package:flutter_miniproject/module/authentication_screen_components/signup_form.dart';
 import 'package:flutter_miniproject/module/screens/authentication_screen.dart';
+import 'package:flutter_miniproject/provider/sign_in_provider.dart';
 import 'package:flutter_miniproject/provider/userauth_api_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -15,7 +16,9 @@ class LoginForm extends HookWidget {
 
     final _passwordVisible = useState(false);
     final _login = useProvider(authAPIProvider);
-    final _emailcontroller = useTextEditingController();
+    final _initialemaildisplay = useProvider(showEmailProvider);
+    final _emailcontroller = useTextEditingController(
+        text: _initialemaildisplay.initialEmailDisplay);
     final _passwordcontroller = useTextEditingController();
     _checkCredentials() async {
       bool status = await _login.auth.logInUser(
