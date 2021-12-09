@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_miniproject/model/ingredient.dart';
+import 'package:flutter_miniproject/module/edit_meal_screen_components/recipe_input.dart';
+import 'package:flutter_miniproject/module/edit_meal_screen_components/recipe_item.dart';
+import 'package:flutter_miniproject/provider/recipe_provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -37,9 +40,13 @@ class EditMealPage extends HookWidget {
     final _in1controller = useTextEditingController(text: _initialIn1);
     final _in2controller = useTextEditingController(text: _initialIn2);
 
+    final _recipeProvider = useProvider(recipeProvider);
+    final _recipeTextController = useTextEditingController();
+
     final _mealProvider = useProvider(mealProvider);
     final constants = useProvider(constantsProvider);
     final double _height = MediaQuery.of(context).size.height;
+
     _createMealObject() {
       final now = new DateTime.now();
       String formatter = DateFormat.yMMMMd('en_US').format(now);
@@ -48,17 +55,13 @@ class EditMealPage extends HookWidget {
           id: uuid.v1(),
           name: _namecontroller.text,
           image: _image.value,
-          ingredients: [
-            _in1controller.text,
-            _in2controller.text,
-          ]);
+          ingredients: _recipeProvider.ingredients);
       bool status = MealPostChecker.isComplete(meal);
       if (status) {
         _mealProvider.addMeal(newmeal: meal);
         _namecontroller.clear();
         _image.value = null;
-        _in2controller.clear;
-        _in1controller.clear;
+        _recipeTextController.clear;
         showConfirmationDialog(context, 'Your meal is successfully uploaded.');
       } else {
         showInvalidDialog(context);
@@ -81,10 +84,7 @@ class EditMealPage extends HookWidget {
                 id: args.meal!.id,
                 name: _namecontroller.text,
                 image: _image.value,
-                ingredients: [
-              _in1controller.text,
-              _in2controller.text,
-            ]));
+                ingredients: _recipeProvider.ingredients));
         _namecontroller.clear();
         _image.value = null;
         _in1controller.clear();
@@ -107,6 +107,7 @@ class EditMealPage extends HookWidget {
       }
     }
 */
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -167,88 +168,91 @@ class EditMealPage extends HookWidget {
                     width: double.infinity,
                     //height: _height * .7,
                     decoration: BoxDecoration(
-                      image:
-                          DecorationImage(image: NetworkImage(_image.value!)),
                       color: Colors.grey.shade200,
                     ),
-                    // child: (_image.value != null)
-                    //     ? FittedBox(
-                    //         fit: BoxFit.cover,
-                    //         child: Image.network(_image.value!),
-                    //       )
-                    //     : IconButton(
-                    //         onPressed: () {},
-                    //         icon: FaIcon(
-                    //           FontAwesomeIcons.image,
-                    //           size: _height * .08,
-                    //           color: Colors.red,
-                    //         ),
-                    //       ),
+
+                    child: (_image.value != null)
+                        ? FittedBox(
+                            fit: BoxFit.cover,
+                            child: Image.network(_image.value!),
+                          )
+                        : IconButton(
+                            onPressed: () {},
+                            icon: FaIcon(
+                              FontAwesomeIcons.image,
+                              size: _height * .08,
+                              color: Colors.red,
+                            ),
+                          ),
                   ),
                 ),
               ),
             ),
             Padding(
               padding: EdgeInsets.all(constants.kDefaultPadding),
-              child: Column(children: [
-                CustomTextField(
-                  controller: _namecontroller,
-                  fontsize: Responsive.isDesktop(context) ? 32 : 24,
-                  labelText: 'Title',
-                  fontweight: FontWeight.w600,
-                  height: 1.3,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomTextField(
-                  controller: _in1controller,
-                  fontsize: Responsive.isDesktop(context) ? 32 : 24,
-                  labelText: 'Ingredient1',
-                  fontweight: FontWeight.w600,
-                  height: 1.3,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomTextField(
-                  controller: _in2controller,
-                  fontsize: Responsive.isDesktop(context) ? 32 : 24,
-                  labelText: 'Ingredient2',
-                  fontweight: FontWeight.w600,
-                  height: 1.3,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    width: (Responsive.isDesktop(context)) ? 150 : 70,
-                    height: (Responsive.isDesktop(context)) ? 50 : 40,
-                    child: ElevatedButton(
-                      onPressed: (args.meal != null)
-                          ? _updateMealObject
-                          : _createMealObject,
-                      child: (args.meal != null)
-                          ? Text(
-                              'Update',
-                              style: TextStyle(
-                                fontSize:
-                                    (Responsive.isDesktop(context)) ? 35 : 15,
-                              ),
-                            )
-                          : Text(
-                              'Add',
-                              style: TextStyle(
-                                fontSize:
-                                    (Responsive.isDesktop(context)) ? 35 : 15,
-                              ),
-                            ),
-                    ),
+              child: CustomTextField(
+                controller: _namecontroller,
+                fontsize: Responsive.isDesktop(context) ? 32 : 24,
+                labelText: 'Title',
+                fontweight: FontWeight.w600,
+                height: 1.3,
+              ),
+            ),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RecipeInput(
+                    textController: _recipeTextController,
                   ),
+                  FloatingActionButton(
+                    onPressed: () {
+                      _recipeProvider.addRecipe(
+                          body: _recipeTextController.text);
+                      _recipeTextController.clear();
+                    },
+                    child: Icon(Icons.add),
+                  )
+                ],
+              ),
+            ),
+            Expanded(
+              child: SizedBox(
+                height: 150,
+                child: ListView.builder(
+                  itemBuilder: (context, i) {
+                    final recipe = _recipeProvider.ingredients[i];
+                    return RecipeListItem(
+                      ingredient: recipe,
+                    );
+                  },
+                  itemCount: _recipeProvider.ingredients.length,
                 ),
-              ]),
+              ),
+            ),
+            Center(
+              child: Container(
+                width: (Responsive.isDesktop(context)) ? 150 : 70,
+                height: (Responsive.isDesktop(context)) ? 50 : 40,
+                child: ElevatedButton(
+                  onPressed: (args.meal != null)
+                      ? _updateMealObject
+                      : _createMealObject,
+                  child: (args.meal != null)
+                      ? Text(
+                          'Update',
+                          style: TextStyle(
+                            fontSize: (Responsive.isDesktop(context)) ? 35 : 15,
+                          ),
+                        )
+                      : Text(
+                          'Add',
+                          style: TextStyle(
+                            fontSize: (Responsive.isDesktop(context)) ? 35 : 15,
+                          ),
+                        ),
+                ),
+              ),
             ),
           ],
         ),

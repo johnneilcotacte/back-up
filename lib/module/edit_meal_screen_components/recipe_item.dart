@@ -6,7 +6,7 @@ import 'package:flutter_miniproject/model/ingredient.dart';
 import 'package:flutter_miniproject/provider/recipe_provider.dart';
 
 class RecipeListItem extends HookWidget {
-  final Ingredient ingredient;
+  final String? ingredient;
 
   const RecipeListItem({
     Key? key,
@@ -29,7 +29,7 @@ class RecipeListItem extends HookWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  ingredient.name!,
+                  ingredient!,
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
                 ),
                 //Text(ingredient.date),
@@ -37,7 +37,7 @@ class RecipeListItem extends HookWidget {
             ),
             IconButton(
               onPressed: () {
-                //_recipeProvider.deleteTodo(id: ingredient.id);
+                _recipeProvider.deleteTodo(ingredient: ingredient!);
               },
               icon: Icon(Icons.delete),
             )

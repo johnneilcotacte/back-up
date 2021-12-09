@@ -4,17 +4,17 @@ import 'package:flutter_miniproject/model/meal.dart';
 import 'package:flutter_miniproject/provider/meal_api_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final mealProvider = ChangeNotifierProvider<BlogsNotifier>((ref) {
+final mealProvider = ChangeNotifierProvider<MealsNotifier>((ref) {
   final initialdata = ref.watch(initialMealProvider).dummydata;
-  return BlogsNotifier(meal: initialdata);
+  return MealsNotifier(meal: initialdata);
 });
 
-class BlogsNotifier extends ChangeNotifier {
+class MealsNotifier extends ChangeNotifier {
   final InitialDummyMeals meal;
 
   List<Meal> _mealList = [];
 
-  BlogsNotifier({
+  MealsNotifier({
     required this.meal,
   });
 
