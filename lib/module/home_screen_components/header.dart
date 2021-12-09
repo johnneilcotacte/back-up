@@ -1,12 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:intl/intl.dart';
 
-class Header extends StatelessWidget {
+class Header extends HookWidget {
   const Header({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String firstdayofweek = '';
+    String lastdayofweek = '';
+    //https://stackoverflow.com/questions/58287278/how-to-get-start-of-or-end-of-week-in-dart/58287666
+    _getCurrentWeek() {
+      var d = DateTime.now();
+      var weekDay = d.weekday;
+      var firstDayOfWeek = d.subtract(Duration(days: weekDay - 1));
+      var lastDayOfWeek = d.add(Duration(days: DateTime.daysPerWeek - weekDay));
+      firstdayofweek = DateFormat.yMMMMd('en_US').format(firstDayOfWeek);
+      lastdayofweek = DateFormat.yMMMMd('en_US').format(lastDayOfWeek);
+    }
+
+    useEffect(
+      () {
+        _getCurrentWeek();
+      },
+      [],
+    );
     return Material(
       child: Container(
         padding: EdgeInsets.all(20),
@@ -41,7 +61,7 @@ class Header extends StatelessWidget {
             ),
             FittedBox(
               child: Text(
-                'November 29, 2021 - December 3, 2021',
+                '$firstdayofweek - $lastdayofweek',
                 style: TextStyle(color: Colors.black),
               ),
             ),

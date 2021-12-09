@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class StatsCircularGraph extends HookWidget {
-  const StatsCircularGraph({
+  StatsCircularGraph({
     Key? key,
     required List<Graph> cal,
     required List<Graph> fats,
@@ -43,66 +43,75 @@ class StatsCircularGraph extends HookWidget {
       }
     }
 
-    if (!Responsive.isMobile(context)) {
-      return Container(
-          decoration: BoxDecoration(color: Colors.white),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              //https://help.syncfusion.com/flutter/circular-charts/chart-types/radial-bar-chart
-              _CircularGraph(
-                type: _cal,
-                text: 'Cals',
-              ),
-              _CircularGraph(
-                type: _fats,
-                text: 'Fats',
-              ),
-              _CircularGraph(
-                type: _carbs,
-                text: 'Carbs',
-              ),
-            ],
-          ));
-    }
     return Container(
-      height: 300,
-      width: 250,
       decoration: BoxDecoration(color: Colors.white),
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                onPressed: _checkCurrentCardIndex(1),
-                icon: FaIcon(
-                  FontAwesomeIcons.chevronLeft,
-                  size: 12,
-                  color: (_choiceindex.value == 0) ? Colors.grey : Colors.blue,
+      height: (Responsive.isMobile(context)) ? 300 : null,
+      width: (Responsive.isMobile(context)) ? 250 : null,
+      child: (!Responsive.isMobile(context))
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                //https://help.syncfusion.com/flutter/circular-charts/chart-types/radial-bar-chart
+                _CircularGraph(
+                  type: _cal,
+                  text: 'Cals',
                 ),
+                _CircularGraph(
+                  type: _fats,
+                  text: 'Fats',
+                ),
+                _CircularGraph(
+                  type: _carbs,
+                  text: 'Carbs',
+                ),
+              ],
+            )
+          : Container(
+              // height: 300,
+              // width: 250,
+              // decoration: BoxDecoration(color: Colors.white),
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        enableFeedback: false,
+                        onPressed: _checkCurrentCardIndex(1),
+                        icon: FaIcon(
+                          FontAwesomeIcons.chevronLeft,
+                          size: 12,
+                          color: (_choiceindex.value == 0)
+                              ? Colors.grey
+                              : Colors.blue,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: _checkCurrentCardIndex(2),
+                        icon: FaIcon(
+                          FontAwesomeIcons.chevronRight,
+                          size: 12,
+                          color: (_choiceindex.value == 2)
+                              ? Colors.grey
+                              : Colors.blue,
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  _CircularGraph(
+                    type: _choices[_choiceindex.value],
+                    text: _choiceslabel[_choiceindex.value],
+                  ),
+                ],
               ),
-              IconButton(
-                onPressed: _checkCurrentCardIndex(2),
-                icon: FaIcon(
-                  FontAwesomeIcons.chevronRight,
-                  size: 12,
-                  color: (_choiceindex.value == 2) ? Colors.grey : Colors.blue,
-                ),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          _CircularGraph(
-            type: _choices[_choiceindex.value],
-            text: _choiceslabel[_choiceindex.value],
-          ),
-        ],
-      ),
+            ),
     );
+
+    // } else if (Responsive.isMobile(context))
   }
 }
 
