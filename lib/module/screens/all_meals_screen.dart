@@ -48,6 +48,7 @@ class AllMealsPage extends HookWidget {
 
     useEffect(() {
       _loadMeals();
+      page++;
       return;
     }, []);
     useEffect(() {
@@ -56,6 +57,7 @@ class AllMealsPage extends HookWidget {
             _scrollController.position.maxScrollExtent) {
           if (!_isAllLoaded()) {
             _loadMeals();
+            page++;
           }
         }
       });

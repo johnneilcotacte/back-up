@@ -16,7 +16,7 @@ class UploadToFirebase extends ChangeNotifier {
   String url =
       'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/files%2FCornSiLog%20(%20Corned%20Beef%2C%20Sinangag%2C%20Itlog)%20with%20Highlands%20Gold%20Corned%20Beef%20-%20The%20Peach%20Kitchen.png?alt=media&token=4859f424-9856-42ae-8268-6d363981551e';
 
-  Future<void> uploadFile(
+  Future<String?> uploadFile(
       {required FilePickerResult? file, required Uint8List? image}) async {
     UploadTask? task;
     if (file == null) {
@@ -33,8 +33,8 @@ class UploadToFirebase extends ChangeNotifier {
     }
     final urlDownload = await _downloadLink(task!.snapshot.ref, task);
     // print('Download-Link: $urlDownload');
-    url = urlDownload;
-    notifyListeners();
+    return urlDownload;
+    // notifyListeners();
   }
 
   Future<String> _downloadLink(Reference ref, UploadTask? task) async {
