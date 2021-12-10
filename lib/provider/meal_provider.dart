@@ -1,5 +1,7 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_miniproject/api/CUD_meal_api.dart';
+import 'package:flutter_miniproject/api/CRUD_meal_api.dart';
 import 'package:flutter_miniproject/api/auth.dart';
 import 'package:flutter_miniproject/model/meal.dart';
 import 'package:flutter_miniproject/provider/meal_api_provider.dart';
@@ -10,25 +12,29 @@ final mealProvider = ChangeNotifierProvider<MealsNotifier>((ref) {
 });
 
 class MealsNotifier extends ChangeNotifier {
-  final _crud = CUD();
+  final _crud = CRUD();
 
   List<Meal> _mealList = [];
 
   List<Meal> get mealList => _mealList;
 
-  // Future<List<Meal>> getMeals() async {
-  //   final data = await _crud.createMeal(newMeal: );
+  Future<List<Meal>> addMeals(
+      {required Map<String, dynamic> newMeal,
+      required String user_id,
+      required String access_token}) async {
+    final data = await _crud.createMeal(
+        newMeal: newMeal, user_id: user_id, access_token: access_token);
 
-  //   _mealList = data;
+    _mealList = data;
 
-  //   return _mealList;
-  // }
-
-  Future<void> addMeal({required Meal newmeal}) async {
-    _mealList = [..._mealList, newmeal];
-
-    notifyListeners();
+    return _mealList;
   }
+
+  // Future<void> addMeal({required Meal newmeal}) async {
+  //   _mealList = [..._mealList, newmeal];
+
+  //   notifyListeners();
+  // }
 
 //   Future<void> deleteMeal({required String id}) async {
 //     _mealList.removeWhere((everyblog) => everyblog.id == id);
