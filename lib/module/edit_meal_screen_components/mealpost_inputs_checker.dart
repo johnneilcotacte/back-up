@@ -1,11 +1,18 @@
+import 'dart:typed_data';
+
 import 'package:flutter_miniproject/model/meal.dart';
 
 class MealPostChecker {
-  static bool isComplete(Meal meal) {
-    if (meal.id != '' &&
-            meal.name != '' &&
-            meal.ingredients !=
-                [] //&&meal.image != null //TODO: uncomment this later
+  static bool isComplete({
+    required String id,
+    required String name,
+    required List<String?> ingredients,
+    required Uint8List? image,
+  }) {
+    if (id != '' &&
+            name != '' &&
+            ingredients != [] &&
+            image != null //TODO: uncomment this later
         ) {
       return true;
     }

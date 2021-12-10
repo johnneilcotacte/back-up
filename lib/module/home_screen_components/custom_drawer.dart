@@ -15,6 +15,7 @@ class CustomDrawer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final _mealProvider = useProvider(mealProvider);
+    final _user = useProvider(mealProvider);
     final _isLoading = useState(false);
     //TODO: palitan to ng totoong user data
     /*
@@ -36,7 +37,7 @@ class CustomDrawer extends HookWidget {
     final listMeals = _mealProvider.mealList;
     */
     var user = User(
-      id: 1,
+      id: '1',
       firstName: 'John Neil',
       lastName: 'Cotacte',
       email: 'jncotacte@gmail.com',

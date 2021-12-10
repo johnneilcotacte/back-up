@@ -25,7 +25,7 @@ class AllMealsPage extends HookWidget {
       _isLoading.value = true;
 
       try {
-        await _mealProvider.getMeals();
+        // await _mealProvider.getMeals();
       } on Exception catch (error) {
         print(error);
       }

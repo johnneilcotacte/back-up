@@ -5,7 +5,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_miniproject/model/ingredient.dart';
 import 'package:flutter_miniproject/module/edit_meal_screen_components/recipe_input.dart';
 import 'package:flutter_miniproject/module/edit_meal_screen_components/recipe_item.dart';
+import 'package:flutter_miniproject/provider/meal_api_provider.dart';
 import 'package:flutter_miniproject/provider/recipe_provider.dart';
+import 'package:flutter_miniproject/provider/upload_image_provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -29,37 +31,45 @@ class EditMealPage extends HookWidget {
     Uuid uuid = Uuid();
 
     String? _initialname = args.meal!.name!;
-    String? _initialimage = args.meal!.image;
 
-    final _image = useState<String?>(_initialimage);
     final _namecontroller = useTextEditingController(text: _initialname);
-
-    final _recipeProvider = useProvider(recipeProvider);
     final _recipeTextController = useTextEditingController();
-
+    final _networkimage = useState<String?>(args.meal!.image!);
+    final _byteimage = useState<Uint8List?>(null);
+    final _file = useState<FilePickerResult?>(null);
+    final _recipeProvider = useProvider(recipeProvider);
+    final _imageprovider = useProvider(uploadImageProvider);
     final _mealProvider = useProvider(mealProvider);
+
     final constants = useProvider(constantsProvider);
+
     final double _height = MediaQuery.of(context).size.height;
 
     _updateMealObject() {
-      final now = new DateTime.now();
-      String formatter = DateFormat.yMMMMd('en_US').format(now);
-      final meal = Meal(
-          id: args.meal!.id,
+      bool status = MealPostChecker.isComplete(
+          id: args.meal!.id!,
           name: _namecontroller.text,
-          image: _image.value,
-          ingredients: _recipeProvider.ingredients);
+          ingredients: _recipeProvider.ingredients,
+          image: _byteimage.value);
 
-      bool status = MealPostChecker.isComplete(meal);
       if (status) {
-        _mealProvider.updateMeal(
-            updatedMeal: Meal(
-                id: args.meal!.id,
-                name: _namecontroller.text,
-                image: _image.value,
-                ingredients: _recipeProvider.ingredients));
+        if (_networkimage.value == null && _byteimage.value != null) {
+          _imageprovider.uploadFile(file: _file.value, image: _byteimage.value);
+        }
+        final meal = Meal(
+            id: args.meal!.id,
+            name: _namecontroller.text,
+            image: _imageprovider.url,
+            ingredients: _recipeProvider.ingredients);
+
+        // _mealProvider.updateMeal(
+        //     updatedMeal: Meal(
+        //         id: args.meal!.id,
+        //         name: _namecontroller.text,
+        //         // image: _image.value,
+        //         ingredients: _recipeProvider.ingredients));
         _namecontroller.clear();
-        _image.value = null;
+        //_image.value = null;
         _recipeTextController.clear();
         showConfirmationDialog(context, 'Your meal is successfully updated.');
       } else {
@@ -68,18 +78,15 @@ class EditMealPage extends HookWidget {
       _recipeProvider.deletePrevList();
     }
 
-/*
-    //Sauce: https://github.com/miguelpruivo/flutter_file_picker/wiki/API#-getdirectorypath
     Future _pickImage() async {
-      //use filepicker rather than ImagePickerWeb. Lang kwenta yung ayaw magsupport ng sdk 2.12.0
       FilePickerResult? result = await FilePicker.platform.pickFiles(
           type: FileType.custom, allowedExtensions: ['png', 'jpeg', 'jpg']);
 
       if (result != null) {
-        _image.value = result.files.first.bytes;
+        _byteimage.value = result.files.first.bytes;
+        _file.value = result;
       }
     }
-*/
 
     useEffect(() {
       _recipeProvider.updateListIng(args.meal!.ingredients!);
@@ -105,7 +112,7 @@ class EditMealPage extends HookWidget {
         ),
         child: ListView(
           children: [
-            if (_image.value != null)
+            if (_byteimage.value != null || _networkimage.value != null)
               Container(
                 width: double.infinity,
                 child: Align(
@@ -117,7 +124,11 @@ class EditMealPage extends HookWidget {
                         color: Colors.black,
                       ),
                       onPressed: () {
-                        _image.value = null;
+                        if (_byteimage.value != null) {
+                          _byteimage.value = null;
+                        } else {
+                          _networkimage.value = null;
+                        }
                       }),
                 ),
               ),
@@ -134,14 +145,19 @@ class EditMealPage extends HookWidget {
                       color: Colors.grey.shade200,
                     ),
 
-                    child: (_image.value != null)
+                    child: (_byteimage.value != null ||
+                            _networkimage.value != null)
                         ? FittedBox(
                             fit: BoxFit.cover,
-                            child: Image.network(_image.value!),
+                            child: (_networkimage.value != null)
+                                ? Image.network(_networkimage.value!)
+                                : Image.memory(_byteimage.value!),
                           )
                         : IconButton(
                             //TODO: need parin to pag dinelete ni user yung image?
-                            onPressed: () {},
+                            onPressed: () {
+                              _pickImage();
+                            },
                             icon: FaIcon(
                               FontAwesomeIcons.image,
                               size: _height * .08,
