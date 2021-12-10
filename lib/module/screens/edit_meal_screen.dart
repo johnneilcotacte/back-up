@@ -1,4 +1,3 @@
-
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -69,34 +68,18 @@ class EditMealPage extends HookWidget {
       _recipeProvider.deletePrevList();
     }
 
-
-
-//       bool status = MealPostChecker.isComplete(meal);
-//       if (status) {
-//         _mealProvider.updateMeal(
-//             updatedMeal: Meal(
-//                 id: args.meal!.id,
-//                 name: _namecontroller.text,
-//                 image: _image.value,
-//                 ingredients: [
-//               _in1controller.text,
-//               _in2controller.text,
-//             ]));
-//         _namecontroller.clear();
-//         _image.value = null;
-//         _in1controller.clear();
-//         _in2controller.clear();
-//         showConfirmationDialog(context, 'Your meal is successfully updated.');
-//       } else {
-//         showInvalidDialog(context);
-//       }
-//     }
-
+/*
+    //Sauce: https://github.com/miguelpruivo/flutter_file_picker/wiki/API#-getdirectorypath
+    Future _pickImage() async {
+      //use filepicker rather than ImagePickerWeb. Lang kwenta yung ayaw magsupport ng sdk 2.12.0
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+          type: FileType.custom, allowedExtensions: ['png', 'jpeg', 'jpg']);
 
       if (result != null) {
         _image.value = result.files.first.bytes;
       }
     }
+*/
 
     useEffect(() {
       _recipeProvider.updateListIng(args.meal!.ingredients!);
