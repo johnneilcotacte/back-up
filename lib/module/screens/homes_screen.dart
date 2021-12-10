@@ -9,9 +9,11 @@ import 'package:flutter_miniproject/module/home_screen_components/meals_per_day.
 import 'package:flutter_miniproject/module/home_screen_components/weekly_calendar.dart';
 import 'package:flutter_miniproject/module/home_screen_components/weekly_stats.dart';
 import 'package:flutter_miniproject/provider/const_provider.dart';
+import 'package:flutter_miniproject/provider/current_user_provider.dart';
 import 'package:flutter_miniproject/provider/meal_provider.dart';
 import 'package:flutter_miniproject/responsive.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomePage extends HookWidget {
@@ -19,6 +21,7 @@ class HomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _user = useProvider(currentUserProvider);
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     double _width = MediaQuery.of(context).size.width;
     List<Graph> _cal = [
@@ -81,12 +84,13 @@ class HomePage extends HookWidget {
                 CircleAvatar(
                   backgroundColor: Colors.green,
                   backgroundImage: AssetImage('assets/images/paksiw.jpg'),
+                  //backgroundImage: NetworkImage(_user.user!.avatarURL!),
                 ),
                 SizedBox(
                   width: 20,
                 ),
                 Text(
-                  'Your Name',
+                  _user.user!.username!,
                   style: TextStyle(color: Colors.black),
                 ),
               ],

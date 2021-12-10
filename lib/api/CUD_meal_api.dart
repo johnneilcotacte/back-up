@@ -1,25 +1,22 @@
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 class CUD {
-  Future<bool> logInUser(
-      {required String email, required String password}) async {
+  String _url = 'https://wca-meal-planner.herokuapp.com/';
+  Future<Response?> createMeal({required Map<String, dynamic> newMeal}) async {
     try {
-      var url = Uri.parse('https://reqres.in/api/login');
+      var url = Uri.parse(_url + '');
       var response = await http.post(
         url,
-        body: {
-          "email": "$email",
-          "password": "$password",
-          // "ingredient": "$ingredient"
-        },
+        body: newMeal,
       );
 
       if (response.statusCode == 200) {
         // print(response.body);
-        return true;
+        return response;
       } else {
         // print('invalid');
-        return false;
+        return response;
       }
     } catch (er) {
       throw Exception(er);

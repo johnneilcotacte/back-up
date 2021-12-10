@@ -11,8 +11,6 @@ import 'package:flutter_miniproject/provider/meal_provider.dart';
 import 'package:flutter_miniproject/responsive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-
-
 class RecipePage extends HookWidget {
   const RecipePage({Key? key}) : super(key: key);
 
@@ -26,7 +24,7 @@ class RecipePage extends HookWidget {
       _isLoading.value = true;
 
       try {
-        await _mealProvider.getMeals();
+        // await _mealProvider.getMeals();
       } on Exception catch (error) {
         print(error);
       }
@@ -42,7 +40,6 @@ class RecipePage extends HookWidget {
 
     final _const = useProvider(constantsProvider);
     return Scaffold(
-
       appBar: AppBar(
         title: const Text('Recipe'),
         actions: <Widget>[
@@ -203,8 +200,7 @@ class RecipeListCard extends HookWidget {
             title: Text(args.meal!.ingredients![i]!),
           );
         },
-
-     
+      ),
     );
   }
 }
