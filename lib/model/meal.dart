@@ -33,20 +33,20 @@ class Meal {
   String? _id;
   String? _name;
   String? _image;
-  List<String?>? _category;
+  List<String?>? _mealType;
   List<String?>? _ingredients;
 
   Meal({
     String? id,
     String? name,
     String? image,
-    List<String?>? category ,
+    List<String?>? mealType,
     List<String?>? ingredients,
   }) {
     _id = id;
     _name = name;
     _image = image;
-    _category = category;
+    _mealType = mealType;
     _ingredients = ingredients;
   }
 
@@ -54,13 +54,12 @@ class Meal {
         id: json['userId'],
         name: json['mealName'] as String? ?? '',
         image: json['mealImage'] as String? ?? '',
-        category: json['mealType'] as List<String?>? ?? [],
+        mealType: json['mealType'] as List<String?>? ?? [],
         ingredients: json['ingredients'] as List<String?>? ?? [],
       );
   String? get id => _id;
   String? get name => _name;
   String? get image => _image;
-
-  List<String?>? get category => _category;
+  List<String?>? get mealType => _mealType;
   List<String?>? get ingredients => _ingredients;
 }
