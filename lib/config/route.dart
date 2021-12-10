@@ -13,6 +13,7 @@ class RouteGenerator {
   static const String mealsRoute = '/mealplanner/meals';
   static const String createmealRoute = '/mealplanner/meals/createmeal';
   static const String recipepageRoute = '/mealplanner/meals/recipepage';
+  static const String editmealRoute = '/mealplanner/meals/editmeal';
   static const String useraccountRoute = '/mealplanner/useraccount';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -40,6 +41,11 @@ class RouteGenerator {
       case recipepageRoute:
         return MaterialPageRoute(
           builder: (context) => _RouteHandler(routeWidget: RecipePage()),
+          settings: settings,
+        );
+      case editmealRoute:
+        return MaterialPageRoute(
+          builder: (context) => _RouteHandler(routeWidget: EditMealPage()),
           settings: settings,
         );
       case useraccountRoute:

@@ -25,13 +25,12 @@ class EditMealPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
-    String _initialname = '';
-    String? _initialimage;
+
     Uuid uuid = Uuid();
-    if (args.meal != null) {
-      _initialname = args.meal!.name!;
-      _initialimage = args.meal!.image;
-    }
+
+    String? _initialname = args.meal!.name!;
+    String? _initialimage = args.meal!.image;
+
     final _image = useState<String?>(_initialimage);
     final _namecontroller = useTextEditingController(text: _initialname);
 
@@ -41,28 +40,6 @@ class EditMealPage extends HookWidget {
     final _mealProvider = useProvider(mealProvider);
     final constants = useProvider(constantsProvider);
     final double _height = MediaQuery.of(context).size.height;
-
-    _createMealObject() {
-      final now = new DateTime.now();
-      String formatter = DateFormat.yMMMMd('en_US').format(now);
-
-      final meal = Meal(
-          id: uuid.v1(),
-          name: _namecontroller.text,
-          image: _image.value,
-          ingredients: _recipeProvider.ingredients);
-      bool status = MealPostChecker.isComplete(meal);
-      if (status) {
-        _recipeProvider.deletePrevList();
-        _mealProvider.addMeal(newmeal: meal);
-        _namecontroller.clear();
-        _image.value = null;
-        _recipeTextController.clear();
-        showConfirmationDialog(context, 'Your meal is successfully uploaded.');
-      } else {
-        showInvalidDialog(context);
-      }
-    }
 
     _updateMealObject() {
       final now = new DateTime.now();
@@ -88,6 +65,7 @@ class EditMealPage extends HookWidget {
       } else {
         showInvalidDialog(context);
       }
+      _recipeProvider.deletePrevList();
     }
 
 /*
@@ -102,6 +80,11 @@ class EditMealPage extends HookWidget {
       }
     }
 */
+
+    useEffect(() {
+      _recipeProvider.updateListIng(args.meal!.ingredients!);
+      print('this');
+    }, []);
 
     return Scaffold(
       appBar: AppBar(
@@ -122,21 +105,6 @@ class EditMealPage extends HookWidget {
         ),
         child: ListView(
           children: [
-            if (args.meal == null)
-              Container(
-                width: MediaQuery.of(context).size.width,
-                child: Text(
-                  'ADD A MEAL',
-                  style: GoogleFonts.dancingScript(
-                      color: Colors.black,
-                      fontSize: (Responsive.isDesktop(context))
-                          ? 48
-                          : (Responsive.isTablet(context))
-                              ? 38
-                              : 30),
-                  textAlign: TextAlign.center,
-                ),
-              ),
             if (_image.value != null)
               Container(
                 width: double.infinity,
@@ -172,6 +140,7 @@ class EditMealPage extends HookWidget {
                             child: Image.network(_image.value!),
                           )
                         : IconButton(
+                            //TODO: need parin to pag dinelete ni user yung image?
                             onPressed: () {},
                             icon: FaIcon(
                               FontAwesomeIcons.image,
@@ -232,22 +201,11 @@ class EditMealPage extends HookWidget {
                 width: (Responsive.isDesktop(context)) ? 150 : 70,
                 height: (Responsive.isDesktop(context)) ? 50 : 40,
                 child: ElevatedButton(
-                  onPressed: (args.meal != null)
-                      ? _updateMealObject
-                      : _createMealObject,
-                  child: (args.meal != null)
-                      ? Text(
-                          'Update',
-                          style: TextStyle(
-                            fontSize: (Responsive.isDesktop(context)) ? 35 : 15,
-                          ),
-                        )
-                      : Text(
-                          'Add',
-                          style: TextStyle(
-                            fontSize: (Responsive.isDesktop(context)) ? 35 : 15,
-                          ),
-                        ),
+                  onPressed: _updateMealObject,
+                  child: Text('Update',
+                      style: TextStyle(
+                        fontSize: (Responsive.isDesktop(context)) ? 35 : 15,
+                      )),
                 ),
               ),
             ),

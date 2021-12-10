@@ -7,8 +7,8 @@ final recipeProvider = ChangeNotifierProvider<RecipeNotifier>((ref) {
 });
 
 class RecipeNotifier extends ChangeNotifier {
-  List<String> _ingredients = [];
-  List<String> get ingredients => _ingredients;
+  List<String?> _ingredients = [];
+  List<String?> get ingredients => _ingredients;
 
   void addIngredient({required String body}) {
     final newRecipe = body;
@@ -23,5 +23,11 @@ class RecipeNotifier extends ChangeNotifier {
 
   void deletePrevList() {
     _ingredients = [];
+    notifyListeners();
+  }
+
+  void updateListIng(List<String?> listIng) {
+    _ingredients = listIng;
+    notifyListeners();
   }
 }
