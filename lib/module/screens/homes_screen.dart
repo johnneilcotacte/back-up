@@ -12,7 +12,6 @@ import 'package:flutter_miniproject/provider/const_provider.dart';
 import 'package:flutter_miniproject/provider/meal_provider.dart';
 import 'package:flutter_miniproject/responsive.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hooks_riverpod/all.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomePage extends HookWidget {
@@ -44,13 +43,12 @@ class HomePage extends HookWidget {
     //   ];
     // }
 
-    //  useEffect(
-    //   () {
-    //     _data = _getChartData();
-    //     return;
-    //   },
-    //   [],
-    // );
+    useEffect(
+      () {
+        print('homepage');
+      },
+      [],
+    );
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -111,63 +109,125 @@ class HomePage extends HookWidget {
                     height: 56,
                     color: Colors.white,
                   ),
-                  Expanded(
-                      child: ListView(
-                    padding: EdgeInsets.all(30),
-                    children: [
-                      ////////////////////////////////////////////////////////////////
-                      if (Responsive.isDesktop(context))
-                        Container(
-                          width: _width,
-                          height: 200,
-                          child: Row(
-                            children: [
-                              Header(),
-                              SizedBox(
-                                width: 30,
-                              ),
-                              Expanded(
-                                child: Center(
-                                  child: StatsCircularGraph(
-                                      cal: _cal, fats: _fats, carbs: _carbs),
+                  Flexible(
+                    child: ListView(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.all(30),
+                      children: [
+                        ////////////////////////////////////////////////////////////////
+                        if (Responsive.isDesktop(context))
+                          Container(
+                            width: _width,
+                            height: 200,
+                            child: Row(
+                              children: [
+                                Header(),
+                                SizedBox(
+                                  width: 30,
                                 ),
-                              ),
-                            ],
+                                Expanded(
+                                  child: Center(
+                                    child: StatsCircularGraph(
+                                        cal: _cal, fats: _fats, carbs: _carbs),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
+                        // if(Responsive.is)
+                        //                             Column(
+                        //                                   children: [
+                        //                                     Header(),
+                        //                                     SizedBox(
+                        //                                       height: 20,
+                        //                                     ),
+                        //                                     Expanded(
+                        //                                       child: Center(
+                        //                                         child: StatsCircularGraph(
+                        //                                             cal: _cal,
+                        //                                             fats: _fats,
+                        //                                             carbs: _carbs),
+                        //                                       ),
+                        //                                     ),
+                        //                                   ],
+                        //                                 ),
 
-                      if (!Responsive.isDesktop(context)) Header(),
-                      if (!Responsive.isDesktop(context))
+                        if (!Responsive.isDesktop(context))
+                          Container(
+                              width: _width, height: 200, child: Header()),
+                        if (!Responsive.isDesktop(context))
+                          SizedBox(
+                            height: 30,
+                          ),
+                        if (Responsive.isTablet(context))
+                          Container(
+                            width: _width,
+                            height: 170,
+                            child: StatsCircularGraph(
+                                cal: _cal, fats: _fats, carbs: _carbs),
+                          ),
+
+                        if (Responsive.isMobile(context))
+                          Container(
+                            height: 170,
+                            width: 150,
+                            child: CircularGraph(
+                              type: _cal,
+                              text: 'Cals',
+                            ),
+                          ),
+                        if (Responsive.isMobile(context))
+                          SizedBox(
+                            height: 20,
+                          ),
+                        if (Responsive.isMobile(context))
+                          Container(
+                            height: 170,
+                            width: 150,
+                            child: CircularGraph(
+                              type: _fats,
+                              text: 'Fats',
+                            ),
+                          ),
+                        if (Responsive.isMobile(context))
+                          SizedBox(
+                            height: 20,
+                          ),
+                        if (Responsive.isMobile(context))
+                          Container(
+                            height: 170,
+                            width: 150,
+                            child: CircularGraph(
+                              type: _carbs,
+                              text: 'Carbs',
+                            ),
+                          ),
                         SizedBox(
                           height: 30,
                         ),
-                      if (!Responsive.isDesktop(context))
-                        StatsCircularGraph(
-                            cal: _cal, fats: _fats, carbs: _carbs),
-                      //
-                      SizedBox(
-                        height: 30,
-                      ),
-                      ////////////////////////////////////////////////////////////////////////////
-                      Container(
-                        height: 100,
-                        child: Row(
-                          children: [
-                            Gradientbutton(),
-                            WeeklyStats(),
-                          ],
+
+                        Container(
+                          width: double.infinity,
+                          height: 100,
+                          child: Row(
+                            children: [
+                              Gradientbutton(),
+                              if (!Responsive.isMobile(context))
+                                Expanded(child: WeeklyStats())
+                            ],
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      ////
-                      /////////////////////////////////////////////////////////////////////////////////////////////
-                      WeeklyCalendar(),
-                      //////////////////////////////////////////////////////////////////////////
-                      MealsPerDay(),
-                    ],
-                  )),
+                        // if (Responsive.isMobile(context)) WeeklyStats(),
+                        // SizedBox(
+                        //   height: 30,
+                        // ),
+
+                        // WeeklyCalendar(),
+
+                        // MealsPerDay(),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

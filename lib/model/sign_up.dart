@@ -46,7 +46,7 @@ class SignUp {
       "last_name": "$lastName",
       "email": "$email",
       "avatar_url":
-          "https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/avatar%2FBoy%20free%20vector%20icons%20designed%20by%20Freepik.png?alt=media&token=87a0d143-9077-435d-bfbd-c644aa5464c8",
+          "https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/avatar%2FCrear%20mi%20Avatar.png?alt=media&token=ffa93094-24b0-4c5b-861d-c5800b789b82",
     };
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_miniproject/provider/gradientbutton_date_provider.dart';
+import 'package:flutter_miniproject/responsive.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -10,67 +11,66 @@ class Gradientbutton extends HookWidget {
   Gradientbutton({
     Key? key,
   }) : super(key: key);
-
+  // flex: 3,
+  // fit: FlexFit.tight,
   @override
   Widget build(BuildContext context) {
     final selectedDate = useProvider(weekdateProvider);
     final dayofweek = DateFormat.E().format(selectedDate.date);
     final dayofmonth = DateFormat.d().format(selectedDate.date);
     final month = DateFormat.MMM().format(selectedDate.date);
-    return Flexible(
-      flex: 3,
-      fit: FlexFit.tight,
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.lightBlue.shade800, Colors.lightBlue.shade300],
-          ),
+    return Container(
+      width: (Responsive.isMobile(context)) ? double.infinity : 250,
+      height: 100,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.lightBlue.shade800, Colors.lightBlue.shade300],
         ),
-        padding: EdgeInsets.only(left: 10, right: 10),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Flexible(
-                fit: FlexFit.tight,
-                flex: 5,
-                //wrap this with flexible if inside a column or row
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Current Week',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      '$dayofweek, $month $dayofmonth',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                  ],
-                )),
-            Flexible(
+      ),
+      padding: EdgeInsets.only(left: 10, right: 10),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Flexible(
               fit: FlexFit.tight,
               flex: 5,
               //wrap this with flexible if inside a column or row
-              child: Align(
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {
-                      print('clicked');
-                      showCalendarDialog(context);
-                    },
-                    icon: FaIcon(
-                      FontAwesomeIcons.calendarWeek,
-                      size: 25,
-                      color: Colors.white,
-                    ),
-                  )),
-            ),
-          ],
-        ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Current Week',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    '$dayofweek, $month $dayofmonth',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                ],
+              )),
+          Flexible(
+            fit: FlexFit.tight,
+            flex: 5,
+            //wrap this with flexible if inside a column or row
+            child: Align(
+                alignment: Alignment.center,
+                child: IconButton(
+                  onPressed: () {
+                    print('clickedcALENDAR');
+                    showCalendarDialog(context);
+                  },
+                  icon: FaIcon(
+                    FontAwesomeIcons.calendarWeek,
+                    size: 25,
+                    color: Colors.white,
+                  ),
+                )),
+          ),
+        ],
       ),
     );
   }

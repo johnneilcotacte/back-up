@@ -10,30 +10,30 @@ import 'package:http/http.dart';
 class AuthAPI {
   String _loginuri = 'https://wca-meal-planner.herokuapp.com/';
 
-  Future<bool> logInUser(
+  Future<Response?> logInUser(
       {required String email, required String password}) async {
-    //Map<String, String> ingredient = {'Pork1k', "Fish": "0.5kg"};
-
+    print(password);
     try {
-      var url = Uri.parse('https://reqres.in/api/login');
+      var url = Uri.parse(_loginuri + 'auth');
       var response = await http.post(
         url,
         body: {
-          "email": "$email",
-          "password": "$password",
-          // "ingredient": "$ingredient"
+          "identifier": email,
+          "password": password,
         },
       );
 
-      if (response.statusCode == 200) {
-        // print(response.body);
-        return true;
-      } else {
-        // print('invalid');
-        return false;
-      }
+      // if (response.statusCode == 200) {
+      //   // print(response.body);
+      //   return true;
+      // } else {
+      //   // print('invalid');
+      //   return false;
+      // }
+      return response;
     } catch (er) {
-      throw Exception(er);
+      return null;
+      //throw Exception(er);
     }
   }
 

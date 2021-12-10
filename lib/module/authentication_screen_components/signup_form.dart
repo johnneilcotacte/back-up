@@ -24,6 +24,7 @@ class SignUpForm extends HookWidget {
     final _userlnvalidity = useState(true);
     final _emailvalidity = useState(true);
     final _passwordvalidity = useState(true);
+    final _defaulticon = useState(1);
     final _auth = useProvider(authAPIProvider);
     final _emaildisplay = useProvider(showEmailProvider);
     bool _checkEmail() {
@@ -71,6 +72,7 @@ class SignUpForm extends HookWidget {
         if (response != null) {
           // print('successful');
           // Navigator.pop(context);
+
           if (response.statusCode == 201) {
             print(response.body);
             showMessageDialog(
@@ -223,17 +225,57 @@ class SignUpForm extends HookWidget {
           SizedBox(
             height: 25,
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Material(
+                color: Colors.red,
+                child: InkWell(
+                  onTap: () {
+                    _defaulticon.value = 1;
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: Image.network(
+                        'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/avatar%2FBoy%20free%20vector%20icons%20designed%20by%20Freepik.png?alt=media&token=87a0d143-9077-435d-bfbd-c644aa5464c8',
+                        width: 50.0,
+                        height: 50.0),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Material(
+                child: InkWell(
+                  onTap: () {
+                    _defaulticon.value = 2;
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: Image.network(
+                        'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/avatar%2FCrear%20mi%20Avatar.png?alt=media&token=ffa93094-24b0-4c5b-861d-c5800b789b82',
+                        width: 50.0,
+                        height: 50.0),
+                  ),
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+            height: 25,
+          ),
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.deepPurple.shade100,
-                  spreadRadius: 10,
-                  blurRadius: 20,
-                ),
-              ],
+              // boxShadow: [
+              //   BoxShadow(
+              //     color: Colors.deepPurple.shade100,
+              //     spreadRadius: 10,
+              //     blurRadius: 20,
+              //   ),
+              // ],
             ),
             child: ElevatedButton(
               child: Container(
@@ -313,3 +355,8 @@ class _CustomTextField extends HookWidget {
     );
   }
 }
+
+
+// enum Avatar{
+
+// }
