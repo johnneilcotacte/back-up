@@ -1,29 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+
 import 'package:flutter_miniproject/model/meal.dart';
+
+import 'package:flutter_miniproject/config/route.dart';
+
 import 'package:flutter_miniproject/model/screen_argument.dart';
 import 'package:flutter_miniproject/provider/const_provider.dart';
 import 'package:flutter_miniproject/provider/meal_provider.dart';
 import 'package:flutter_miniproject/responsive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-// class RecipePage extends HookWidget {
-//   const RecipePage({
-//     Key? key,
-//   }) : super(key: key);
 
-//   @override
-//   Widget build(BuildContext context) {
-//     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
-//     return Scaffold(
-//       appBar: AppBar(),
-//       body: RecipePage(),
-//       // Container(
-//       //   child: Text(args.meal!.name!),
-//       // ),
-//     );
-//   }
-// }
 
 class RecipePage extends HookWidget {
   const RecipePage({Key? key}) : super(key: key);
@@ -54,6 +42,7 @@ class RecipePage extends HookWidget {
 
     final _const = useProvider(constantsProvider);
     return Scaffold(
+
       appBar: AppBar(
         title: const Text('Recipe'),
         actions: <Widget>[
@@ -214,7 +203,8 @@ class RecipeListCard extends HookWidget {
             title: Text(args.meal!.ingredients![i]!),
           );
         },
-      ),
+
+     
     );
   }
 }

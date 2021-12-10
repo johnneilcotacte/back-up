@@ -10,7 +10,7 @@ class User {
     String? email,
     String? firstName,
     String? lastName,
-    //  String? avatarURL,
+    String? avatarURL,
   })  : _id = id,
         _email = email,
         _firstName = firstName,

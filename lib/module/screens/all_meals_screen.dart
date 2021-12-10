@@ -64,15 +64,9 @@ class AllMealsPage extends HookWidget {
               IconButton(
                 icon: Icon(Icons.add),
                 onPressed: () {
-                  Navigator.pushNamed(context, '${RouteGenerator.addmealRoute}',
+                  Navigator.pushNamed(
+                      context, '${RouteGenerator.createmealRoute}',
                       arguments: ScreenArguments(null));
-
-                  /*
-                  showDialog(
-                    context: context,
-                    builder: (context) => const AddMealWidget(),
-                  );
-                  */
                 },
                 //color: Colors.blue
               ),

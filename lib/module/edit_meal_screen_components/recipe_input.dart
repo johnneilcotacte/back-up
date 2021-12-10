@@ -12,7 +12,7 @@ class RecipeInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        width: 500,
+        width: 300,
         child: TextFormField(
           controller: textController,
           decoration: InputDecoration(hintText: 'Add an ingredient'),

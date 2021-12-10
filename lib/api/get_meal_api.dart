@@ -39,7 +39,7 @@ class AllMealsAPI {
         url,
       );
       Map<String, dynamic> dataResponse = jsonDecode(response.body);
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         final meals = dataResponse['data']
             .map<Meal>((data) => Meal.fromJson(data as Map<String, dynamic>))
             .toList() as List<Meal>;
