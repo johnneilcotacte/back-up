@@ -33,11 +33,13 @@ class RouteGenerator {
           builder: (context) => _RouteHandler(routeWidget: AllMealsPage()),
           settings: settings,
         );
+
       case createmealRoute:
         return MaterialPageRoute(
           builder: (context) => _RouteHandler(routeWidget: CreateMealPage()),
           settings: settings,
         );
+
       case recipepageRoute:
         return MaterialPageRoute(
           builder: (context) => _RouteHandler(routeWidget: RecipePage()),
