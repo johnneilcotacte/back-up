@@ -70,56 +70,79 @@ class RecipePage extends HookWidget {
       body: Container(
         padding: EdgeInsets.all(50.0),
         child: Responsive.isDesktop(context)
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(15, 0.0, 7.5, 0.0),
-                      height: 500.0,
-                      decoration: new BoxDecoration(
-                        borderRadius: new BorderRadius.circular(20.0),
-                      ),
-                      child: RecipeItemCard(args),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(7.5, 0.0, 15.0, 0.0),
-                      height: 500.0,
-                      decoration: new BoxDecoration(
-                        border: Border.all(
-                            width: 3.0, color: _const.kBodyTextColor),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: RecipeListCard(args),
+            ? CustomScrollView(
+                slivers: [
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(15, 0.0, 7.5, 0.0),
+                            height: 500.0,
+                            decoration: new BoxDecoration(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
+                            child: RecipeItemCard(args),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(7.5, 0.0, 15.0, 0.0),
+                            height: 500.0,
+                            decoration: new BoxDecoration(
+                              border: Border.all(
+                                  width: 3.0, color: _const.kBodyTextColor),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: RecipeListCard(args),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 7.5),
-                      width: 500.0,
-                      decoration: new BoxDecoration(
-                        borderRadius: new BorderRadius.circular(20.0),
-                      ),
-                      child: RecipeItemCard(args),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(0.0, 7.5, 0.0, 15.0),
-                      width: 500.0,
-                      decoration: new BoxDecoration(
-                        border: Border.all(
-                            width: 3.0, color: _const.kBodyTextColor),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: RecipeListCard(args),
+            : CustomScrollView(
+                slivers: [
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 7.5),
+                            width: 500.0,
+                            decoration: new BoxDecoration(
+                              borderRadius: new BorderRadius.circular(20.0),
+                            ),
+                            child: RecipeItemCard(args),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(0.0, 7.5, 0.0, 15.0),
+                            width: 500.0,
+                            decoration: new BoxDecoration(
+                              border: Border.all(
+                                  width: 3.0, color: _const.kBodyTextColor),
+                              borderRadius: BorderRadius.circular(20),
+                              // boxShadow: [
+                              //   BoxShadow(
+                              //       color: Colors.grey.withOpacity(0.3),
+                              //       offset: Offset(-10.0, 10.0),
+                              //       blurRadius: 100.0,
+                              //       spreadRadius: 4.0),
+                              // ],
+                            ),
+                            child: RecipeListCard(args),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -139,9 +162,17 @@ class RecipeItemCard extends HookWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Image.network(args.meal!.image!),
+        Container(
+          child: Container(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.network(
+                args.meal!.image!,
+                height: 500,
+                fit: BoxFit.fitHeight,
+              ),
+            ),
+          ),
         ),
         Text(args.meal!.name!,
             style: TextStyle(
