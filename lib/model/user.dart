@@ -32,7 +32,7 @@ class User {
         firstName: json['first_name'] as String? ?? '',
         lastName: json['last_name'] as String? ?? '',
         username: json['username'] as String? ?? '',
-        avatarURL: json['avatar_url'] as String? ?? '',
+        // avatarURL: json['avatar_url'] as String? ?? '',
         access_token: json['access_token'] as String? ?? '');
   }
 

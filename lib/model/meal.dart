@@ -33,6 +33,7 @@ class Meal {
   String? _id;
   String? _name;
   String? _image;
+  String? _recipe = "take one and fry";
   List<String?>? _mealType;
   List<String?>? _ingredients;
 
@@ -64,6 +65,7 @@ class Meal {
       "mealImage": image,
       "mealType": mealType,
       "ingredients": ingredients,
+      "recipe": _recipe,
     };
   }
 

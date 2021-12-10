@@ -17,7 +17,7 @@ class CRUD {
       required String user_id,
       required String access_token}) async {
     try {
-      var url = Uri.parse(_url + '');
+      var url = Uri.parse(_url + 'meals/add');
       var response = await http.post(url,
           body: newMeal,
           headers: {'user_id': user_id, 'access_token': access_token});
@@ -29,7 +29,8 @@ class CRUD {
         return null;
       }
     } catch (er) {
-      throw Exception(er);
+      print(er);
+      //throw Exception(er);
     }
   }
 

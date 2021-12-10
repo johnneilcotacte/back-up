@@ -72,38 +72,38 @@ class AuthAPI {
   }
 }
 
-class InitialDummyMeals {
-  Future<List<Meal>> initializeListBlog() async {
-    Uint8List? _image0 = (await rootBundle.load('assets/images/hotdog.png'))
-        .buffer
-        .asUint8List();
-    Uint8List? _image1 = (await rootBundle.load('assets/images/lechon.jpg'))
-        .buffer
-        .asUint8List();
-    Uint8List? _image2 = (await rootBundle.load('assets/images/paksiw.jpg'))
-        .buffer
-        .asUint8List();
+// class InitialDummyMeals {
+//   Future<List<Meal>> initializeListBlog() async {
+//     Uint8List? _image0 = (await rootBundle.load('assets/images/hotdog.png'))
+//         .buffer
+//         .asUint8List();
+//     Uint8List? _image1 = (await rootBundle.load('assets/images/lechon.jpg'))
+//         .buffer
+//         .asUint8List();
+//     Uint8List? _image2 = (await rootBundle.load('assets/images/paksiw.jpg'))
+//         .buffer
+//         .asUint8List();
 
-    return [
-      Meal(
-          id: '1',
-          name: 'hotdog',
-          image: 'https://picsum.photos/250?image=9',
-          ingredients: [
-            'hotdog',
-          ]),
-      Meal(
-          id: '2',
-          name: 'Lechon',
-          image:
-              'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/files%2FCornSiLog%20(%20Corned%20Beef%2C%20Sinangag%2C%20Itlog)%20with%20Highlands%20Gold%20Corned%20Beef%20-%20The%20Peach%20Kitchen.png?alt=media&token=20db0da1-6851-49e0-b10c-61192a109f59',
-          ingredients: ['pig', 'bawang', 'msg']),
-      Meal(
-          id: '3',
-          name: 'Lechon Paksiw',
-          image:
-              'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/files%2FCornSiLog%20(%20Corned%20Beef%2C%20Sinangag%2C%20Itlog)%20with%20Highlands%20Gold%20Corned%20Beef%20-%20The%20Peach%20Kitchen.png?alt=media&token=20db0da1-6851-49e0-b10c-61192a109f59',
-          ingredients: ['lechon', 'tuyo']),
-    ];
-  }
-}
+//     return [
+//       Meal(
+//           id: '1',
+//           name: 'hotdog',
+//           image: 'https://picsum.photos/250?image=9',
+//           ingredients: [
+//             'hotdog',
+//           ]),
+//       Meal(
+//           id: '2',
+//           name: 'Lechon',
+//           image:
+//               'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/files%2FCornSiLog%20(%20Corned%20Beef%2C%20Sinangag%2C%20Itlog)%20with%20Highlands%20Gold%20Corned%20Beef%20-%20The%20Peach%20Kitchen.png?alt=media&token=20db0da1-6851-49e0-b10c-61192a109f59',
+//           ingredients: ['pig', 'bawang', 'msg']),
+//       Meal(
+//           id: '3',
+//           name: 'Lechon Paksiw',
+//           image:
+//               'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/files%2FCornSiLog%20(%20Corned%20Beef%2C%20Sinangag%2C%20Itlog)%20with%20Highlands%20Gold%20Corned%20Beef%20-%20The%20Peach%20Kitchen.png?alt=media&token=20db0da1-6851-49e0-b10c-61192a109f59',
+//           ingredients: ['lechon', 'tuyo']),
+//     ];
+//   }
+// }
