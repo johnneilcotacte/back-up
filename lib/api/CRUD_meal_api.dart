@@ -8,7 +8,9 @@ import 'package:http/http.dart';
 //https://www.youtube.com/watch?v=KcRtURq-Ww8&t=820s
 class CRUD {
   String _url = 'https://wca-meal-planner.herokuapp.com/';
-  Future<List<Meal>> createMeal(
+  int _page = 0;
+  int get page => _page;
+  Future<Response?> createMeal(
       {required Map<String, dynamic> newMeal,
       required String user_id,
       required String access_token}) async {
@@ -19,12 +21,10 @@ class CRUD {
           headers: {'user_id': user_id, 'access_token': access_token});
 
       if (response.statusCode == 200) {
-        final result = mealsDataFromJson(response.body);
-
-        return result.data;
+        return response;
       } else {
         // print('invalid');
-        return [];
+        return response;
       }
     } catch (er) {
       throw Exception(er);
@@ -75,8 +75,8 @@ class CRUD {
     }
   }
 
-  Future<Response?> getMeals(
-      {required Map<String, dynamic> newMeal,
+  Future<List<Meal>> getMeals(
+      {required int page,
       required String user_id,
       required String access_token}) async {
     try {
@@ -85,14 +85,18 @@ class CRUD {
           headers: {'user_id': user_id, 'access_token': access_token});
 
       if (response.statusCode == 200) {
+        final result = mealsDataFromJson(response.body);
+        _page = result.totalPages;
+        return result.data;
         // print(response.body);
-        return response;
+
       } else {
         // print('invalid');
-        return response;
+        return [];
       }
     } catch (er) {
-      throw Exception(er);
+      return [];
+      //throw Exception(er);
     }
   }
 }

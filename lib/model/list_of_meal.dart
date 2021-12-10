@@ -9,17 +9,17 @@ MealsData mealsDataFromJson(String str) => MealsData.fromJson(json.decode(str));
 
 class MealsData {
   MealsData({
-    required this.totalPassengers,
+    required this.totalMeals,
     required this.totalPages,
     required this.data,
   });
 
-  int totalPassengers;
+  int totalMeals;
   int totalPages;
   List<Meal> data;
 
   factory MealsData.fromJson(Map<String, dynamic> json) => MealsData(
-        totalPassengers: json["totalMeals"], //change this
+        totalMeals: json["totalMeals"], //change this
         totalPages: json["totalPages"],
         data: List<Meal>.from(json["data"].map((x) => Meal.fromJson(x))),
       );

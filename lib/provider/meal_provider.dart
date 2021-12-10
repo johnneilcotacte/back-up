@@ -15,26 +15,40 @@ class MealsNotifier extends ChangeNotifier {
   final _crud = CRUD();
 
   List<Meal> _mealList = [];
-
   List<Meal> get mealList => _mealList;
 
-  Future<List<Meal>> addMeals(
+  int getTotalMeals() {
+    return _crud.page;
+  }
+
+  Future<List<Meal>> getMeals(
+      {required int page,
+      required String user_id,
+      required String access_token}) async {
+    final data = await _crud.getMeals(
+        user_id: user_id, access_token: access_token, page: page);
+    if (_mealList.isNotEmpty && data.isNotEmpty) {
+      _mealList = [
+        ..._mealList,
+        ...data,
+      ];
+    } else if (_mealList.isEmpty && data.isNotEmpty) {
+      _mealList = data;
+    }
+    return _mealList;
+  }
+
+  Future<void> addMeals(
       {required Map<String, dynamic> newMeal,
       required String user_id,
       required String access_token}) async {
     final data = await _crud.createMeal(
         newMeal: newMeal, user_id: user_id, access_token: access_token);
 
-    _mealList = data;
+    // _mealList = data;
 
-    return _mealList;
+    notifyListeners();
   }
-
-  // Future<void> addMeal({required Meal newmeal}) async {
-  //   _mealList = [..._mealList, newmeal];
-
-  //   notifyListeners();
-  // }
 
 //   Future<void> deleteMeal({required String id}) async {
 //     _mealList.removeWhere((everyblog) => everyblog.id == id);
