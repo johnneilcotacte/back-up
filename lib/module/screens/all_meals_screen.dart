@@ -46,22 +46,22 @@ class AllMealsPage extends HookWidget {
       return false;
     }
 
-    useEffect(() {
-      //  _loadMeals();
-      page++;
-      return;
-    }, []);
-    useEffect(() {
-      _scrollController.addListener(() {
-        if (_scrollController.position.pixels >=
-            _scrollController.position.maxScrollExtent) {
-          if (!_isAllLoaded()) {
-            _loadMeals();
-            page++;
-          }
-        }
-      });
-    }, [_scrollController]);
+    // useEffect(() {
+    //   //  _loadMeals();
+    //   page++;
+    //   return;
+    // }, []);
+    // useEffect(() {
+    //   _scrollController.addListener(() {
+    //     if (_scrollController.position.pixels >=
+    //         _scrollController.position.maxScrollExtent) {
+    //       if (!_isAllLoaded()) {
+    //         _loadMeals();
+    //         page++;
+    //       }
+    //     }
+    //   });
+    // }, [_scrollController]);
 //////////////////////////////////////////////
     return Scaffold(
       appBar: AppBar(),
@@ -115,20 +115,20 @@ class AllMealsPage extends HookWidget {
               ),
             ],
           ),
-          Expanded(
-            child: GridView.builder(
-              padding: const EdgeInsets.all(10.0),
-              itemCount: _mealProvider.mealList.length,
-              itemBuilder: (ctx, i) =>
-                  MealItem(meal: _mealProvider.mealList[i]),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                childAspectRatio: 3 / 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-              ),
-            ),
-          ),
+          // Expanded(
+          //   child: GridView.builder(
+          //     padding: const EdgeInsets.all(10.0),
+          //     itemCount: _mealProvider.mealList.length,
+          //     itemBuilder: (ctx, i) =>
+          //         MealItem(meal: _mealProvider.mealList[i]),
+          //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          //       crossAxisCount: 4,
+          //       childAspectRatio: 3 / 2,
+          //       crossAxisSpacing: 10,
+          //       mainAxisSpacing: 10,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
