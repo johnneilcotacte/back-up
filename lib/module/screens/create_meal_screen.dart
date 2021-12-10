@@ -1,9 +1,7 @@
-
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter_miniproject/model/ingredient.dart';
 import 'package:flutter_miniproject/module/edit_meal_screen_components/recipe_input.dart';
 import 'package:flutter_miniproject/module/edit_meal_screen_components/recipe_item.dart';
 import 'package:flutter_miniproject/provider/recipe_provider.dart';
@@ -22,15 +20,13 @@ import 'package:flutter_miniproject/provider/const_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 
-class EditMealPage extends HookWidget {
+class CreateMealPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
-
+    String _initialname = '';
+    String? _initialimage;
     Uuid uuid = Uuid();
-
-    String? _initialname = args.meal!.name!;
-    String? _initialimage = args.meal!.image;
 
     final _image = useState<String?>(_initialimage);
     final _namecontroller = useTextEditingController(text: _initialname);
@@ -39,69 +35,44 @@ class EditMealPage extends HookWidget {
     final _recipeTextController = useTextEditingController();
 
     final _mealProvider = useProvider(mealProvider);
+
     final constants = useProvider(constantsProvider);
     final double _height = MediaQuery.of(context).size.height;
 
-    _updateMealObject() {
+    _createMealObject() {
       final now = new DateTime.now();
       String formatter = DateFormat.yMMMMd('en_US').format(now);
+
       final meal = Meal(
-          id: args.meal!.id,
+          id: uuid.v1(),
           name: _namecontroller.text,
           image: _image.value,
           ingredients: _recipeProvider.ingredients);
-
       bool status = MealPostChecker.isComplete(meal);
       if (status) {
-        _mealProvider.updateMeal(
-            updatedMeal: Meal(
-                id: args.meal!.id,
-                name: _namecontroller.text,
-                image: _image.value,
-                ingredients: _recipeProvider.ingredients));
+        _recipeProvider.deletePrevList();
+        _mealProvider.addMeal(newmeal: meal);
         _namecontroller.clear();
         _image.value = null;
         _recipeTextController.clear();
-        showConfirmationDialog(context, 'Your meal is successfully updated.');
+        showConfirmationDialog(context, 'Your meal is successfully uploaded.');
       } else {
         showInvalidDialog(context);
       }
-      _recipeProvider.deletePrevList();
     }
 
-
-
-//       bool status = MealPostChecker.isComplete(meal);
-//       if (status) {
-//         _mealProvider.updateMeal(
-//             updatedMeal: Meal(
-//                 id: args.meal!.id,
-//                 name: _namecontroller.text,
-//                 image: _image.value,
-//                 ingredients: [
-//               _in1controller.text,
-//               _in2controller.text,
-//             ]));
-//         _namecontroller.clear();
-//         _image.value = null;
-//         _in1controller.clear();
-//         _in2controller.clear();
-//         showConfirmationDialog(context, 'Your meal is successfully updated.');
-//       } else {
-//         showInvalidDialog(context);
-//       }
-//     }
-
+/*
+    //Sauce: https://github.com/miguelpruivo/flutter_file_picker/wiki/API#-getdirectorypath
+    Future _pickImage() async {
+      //use filepicker rather than ImagePickerWeb. Lang kwenta yung ayaw magsupport ng sdk 2.12.0
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+          type: FileType.custom, allowedExtensions: ['png', 'jpeg', 'jpg']);
 
       if (result != null) {
         _image.value = result.files.first.bytes;
       }
     }
-
-    useEffect(() {
-      _recipeProvider.updateListIng(args.meal!.ingredients!);
-      print('this');
-    }, []);
+*/
 
     return Scaffold(
       appBar: AppBar(
@@ -122,6 +93,22 @@ class EditMealPage extends HookWidget {
         ),
         child: ListView(
           children: [
+            if (args.meal == null)
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Text(
+                  'ADD A MEAL',
+                  style: GoogleFonts.dancingScript(
+                      color: Colors.black,
+                      fontSize: (Responsive.isDesktop(context))
+                          ? 48
+                          : (Responsive.isTablet(context))
+                              ? 38
+                              : 30),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            //TODO: should i remove this box, or need ba to pag naupload na yung pic kasi di na null?
             if (_image.value != null)
               Container(
                 width: double.infinity,
@@ -150,14 +137,13 @@ class EditMealPage extends HookWidget {
                     decoration: BoxDecoration(
                       color: Colors.grey.shade200,
                     ),
-
+                    //TODO: should i remove this box, or need ba to pag naupload na yung pic kasi di na null?
                     child: (_image.value != null)
                         ? FittedBox(
                             fit: BoxFit.cover,
                             child: Image.network(_image.value!),
                           )
                         : IconButton(
-                            //TODO: need parin to pag dinelete ni user yung image?
                             onPressed: () {},
                             icon: FaIcon(
                               FontAwesomeIcons.image,
@@ -174,7 +160,7 @@ class EditMealPage extends HookWidget {
               child: CustomTextField(
                 controller: _namecontroller,
                 fontsize: Responsive.isDesktop(context) ? 32 : 24,
-                labelText: 'Title',
+                labelText: 'Meal Title',
                 fontweight: FontWeight.w600,
                 height: 1.3,
               ),
@@ -218,8 +204,8 @@ class EditMealPage extends HookWidget {
                 width: (Responsive.isDesktop(context)) ? 150 : 70,
                 height: (Responsive.isDesktop(context)) ? 50 : 40,
                 child: ElevatedButton(
-                  onPressed: _updateMealObject,
-                  child: Text('Update',
+                  onPressed: _createMealObject,
+                  child: Text('Add',
                       style: TextStyle(
                         fontSize: (Responsive.isDesktop(context)) ? 35 : 15,
                       )),
