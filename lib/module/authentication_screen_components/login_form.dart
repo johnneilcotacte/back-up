@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_miniproject/config/route.dart';
 import 'package:flutter_miniproject/module/authentication_screen_components/signup_form.dart';
+import 'package:flutter_miniproject/module/notifications/custom_message_dialog.dart';
 import 'package:flutter_miniproject/module/screens/authentication_screen.dart';
+import 'package:flutter_miniproject/provider/sign_in_provider.dart';
 import 'package:flutter_miniproject/provider/userauth_api_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart';
 
 class LoginForm extends HookWidget {
   LoginForm({Key? key}) : super(key: key);
@@ -14,18 +17,22 @@ class LoginForm extends HookWidget {
     // final _passwordVisible = useProvider(loginProvider);
 
     final _passwordVisible = useState(false);
-    final _login = useProvider(authAPIProvider);
-    final _emailcontroller = useTextEditingController();
+    final _initialemaildisplay = useProvider(showEmailProvider);
+    final _auth = useProvider(authAPIProvider);
+    final _emailcontroller = useTextEditingController(
+        text: _initialemaildisplay.initialEmailDisplay);
     final _passwordcontroller = useTextEditingController();
+
     _checkCredentials() async {
-      bool status = await _login.auth.logInUser(
+      print(_emailcontroller.text);
+      Response? response = await _auth.auth.logInUser(
           email: _emailcontroller.text, password: _passwordcontroller.text);
-      if (status) {
+      if (response!.statusCode == 201) {
         //https://stackoverflow.com/questions/65683630/how-to-get-back-to-app-home-page-after-successful-login-in-flutter
         Navigator.pushNamedAndRemoveUntil(
             context, RouteGenerator.homeRoute, (Route<dynamic> route) => false);
       } else {
-        print('Account not found!');
+        print(response.body);
       }
     }
 
@@ -57,7 +64,7 @@ class LoginForm extends HookWidget {
           TextField(
             controller: _emailcontroller,
             decoration: InputDecoration(
-              hintText: 'Enter email',
+              hintText: 'Email or Username',
               filled: true,
               fillColor: Colors.blueGrey[50],
               labelStyle: TextStyle(fontSize: 12),
@@ -114,26 +121,6 @@ class LoginForm extends HookWidget {
           SizedBox(
             height: 25,
           ),
-          // ElevatedButton(
-          //   style: ElevatedButton.styleFrom(
-          //     minimumSize: Size.zero, // <-- Add this
-          //     padding: EdgeInsets.zero, // <-- and this
-          //   ),
-          //   onPressed: () {
-          //     print('ok');
-          //   },
-          //   child: Container(
-          //     color: Colors.purple,
-          //     width: double.infinity,
-          //     height: 36,
-          //     child: Center(
-          //       child: Text(
-          //         'Log In',
-          //         style: TextStyle(color: Colors.white),
-          //       ),
-          //     ),
-          //   ),
-          // ),
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -164,7 +151,6 @@ class LoginForm extends HookWidget {
           Expanded(
             child: SizedBox(),
           ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -176,26 +162,28 @@ class LoginForm extends HookWidget {
                       builder: (BuildContext context) {
                         return AlertDialog(
                           contentPadding: EdgeInsets.zero,
-                          content: Stack(
-                            //  overflow: Overflow.visible,
-                            clipBehavior: Clip.none,
-                            children: <Widget>[
-                              Positioned(
-                                right: -40.0,
-                                top: -40.0,
-                                child: InkResponse(
-                                  onTap: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: CircleAvatar(
-                                    child: Icon(Icons.close),
-                                    backgroundColor: Colors.red,
+                          content: Builder(builder: (context) {
+                            return Stack(
+                              //  overflow: Overflow.visible,
+                              clipBehavior: Clip.none,
+                              children: <Widget>[
+                                Positioned(
+                                  right: -40.0,
+                                  top: -40.0,
+                                  child: InkResponse(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: CircleAvatar(
+                                      child: Icon(Icons.close),
+                                      backgroundColor: Colors.red,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SignUpForm(),
-                            ],
-                          ),
+                                SignUpForm(),
+                              ],
+                            );
+                          }),
                         );
                       },
                     );
