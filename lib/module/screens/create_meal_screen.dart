@@ -53,6 +53,7 @@ class CreateMealPage extends HookWidget {
         _image =
             await _uploadimage.uploadFile(file: file, image: _byteimage.value);
         final meal = Meal(
+            id: _user.user!.id!,
             name: _namecontroller.text,
             image: _image,
             mealType: ['breakfast'],

@@ -37,7 +37,7 @@ class LoginForm extends HookWidget {
         // body.
         print(user.username);
         print(user.id);
-        print(user.avatarURL);
+        print(user.firstName);
         _user.createInstance(user);
         Navigator.pushNamedAndRemoveUntil(
             context, RouteGenerator.homeRoute, (Route<dynamic> route) => false);

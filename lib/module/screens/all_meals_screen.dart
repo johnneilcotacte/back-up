@@ -47,7 +47,7 @@ class AllMealsPage extends HookWidget {
     }
 
     useEffect(() {
-      _loadMeals();
+      //  _loadMeals();
       page++;
       return;
     }, []);
