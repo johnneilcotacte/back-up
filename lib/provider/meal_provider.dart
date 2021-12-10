@@ -44,8 +44,7 @@ class MealsNotifier extends ChangeNotifier {
       required String access_token}) async {
     final data = await _crud.createMeal(
         newMeal: newMeal, user_id: user_id, access_token: access_token);
-
-    // _mealList = data;
+    _mealList = [..._mealList, data!];
 
     notifyListeners();
   }

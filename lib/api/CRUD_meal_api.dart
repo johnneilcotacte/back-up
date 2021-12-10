@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'dart:convert';
+
 import 'package:flutter_miniproject/model/list_of_meal.dart';
 import 'package:flutter_miniproject/model/meal.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +12,7 @@ class CRUD {
   String _url = 'https://wca-meal-planner.herokuapp.com/';
   int _page = 0;
   int get page => _page;
-  Future<Response?> createMeal(
+  Future<Meal?> createMeal(
       {required Map<String, dynamic> newMeal,
       required String user_id,
       required String access_token}) async {
@@ -21,10 +23,10 @@ class CRUD {
           headers: {'user_id': user_id, 'access_token': access_token});
 
       if (response.statusCode == 200) {
-        return response;
+        return Meal.fromJson(jsonDecode(response.body));
       } else {
         // print('invalid');
-        return response;
+        return null;
       }
     } catch (er) {
       throw Exception(er);
