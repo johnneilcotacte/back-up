@@ -57,6 +57,16 @@ class Meal {
         mealType: json['mealType'] as List<String?>? ?? [],
         ingredients: json['ingredients'] as List<String?>? ?? [],
       );
+
+  Map<String, dynamic> toJson() {
+    return {
+      "mealName": name,
+      "mealImage": image,
+      "mealType": mealType,
+      "ingredients": ingredients,
+    };
+  }
+
   String? get id => _id;
   String? get name => _name;
   String? get image => _image;
