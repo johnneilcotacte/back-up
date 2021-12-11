@@ -19,8 +19,9 @@ class Gradientbutton extends HookWidget {
     final dayofweek = DateFormat.E().format(selectedDate.date);
     final dayofmonth = DateFormat.d().format(selectedDate.date);
     final month = DateFormat.MMM().format(selectedDate.date);
+    double width = MediaQuery.of(context).size.width;
     return Container(
-      width: (Responsive.isMobile(context)) ? double.infinity : 250,
+      width: (Responsive.isMobile(context)) ? width : 250,
       height: 100,
       decoration: BoxDecoration(
         gradient: LinearGradient(

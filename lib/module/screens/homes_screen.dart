@@ -101,9 +101,14 @@ class HomePage extends HookWidget {
       drawer: (!Responsive.isDesktop(context)) ? CustomDrawer() : null,
       body: Row(
         children: [
-          if (Responsive.isDesktop(context)) CustomDrawer(),
+          (Responsive.isDesktop(context))
+              ? CustomDrawer()
+              : Container(
+                  width: 1,
+                ),
           Expanded(
             child: Container(
+              width: (Responsive.isMobile(context)) ? _width : null,
               padding: EdgeInsets.only(left: 30, right: 30),
               color: Colors.white,
               child: Column(
@@ -113,7 +118,7 @@ class HomePage extends HookWidget {
                     height: 56,
                     color: Colors.white,
                   ),
-                  Flexible(
+                  Expanded(
                     child: ListView(
                       shrinkWrap: true,
                       padding: EdgeInsets.all(30),
@@ -210,25 +215,27 @@ class HomePage extends HookWidget {
                           height: 30,
                         ),
 
-                        Container(
-                          width: double.infinity,
-                          height: 100,
-                          child: Row(
-                            children: [
-                              Gradientbutton(),
-                              if (!Responsive.isMobile(context))
-                                Expanded(child: WeeklyStats())
-                            ],
+                        if (!Responsive.isMobile(context))
+                          Container(
+                            width: _width,
+                            height: 100,
+                            child: Row(
+                              children: [
+                                Gradientbutton(),
+                                if (!Responsive.isMobile(context))
+                                  Expanded(child: WeeklyStats())
+                              ],
+                            ),
                           ),
+                        if (Responsive.isMobile(context)) Gradientbutton(),
+                        if (Responsive.isMobile(context)) WeeklyStats(),
+                        SizedBox(
+                          height: 30,
                         ),
-                        // if (Responsive.isMobile(context)) WeeklyStats(),
-                        // SizedBox(
-                        //   height: 30,
-                        // ),
 
-                        // WeeklyCalendar(),
+                        WeeklyCalendar(),
 
-                        // MealsPerDay(),
+                        MealsPerDay(),
                       ],
                     ),
                   ),
