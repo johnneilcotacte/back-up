@@ -45,8 +45,7 @@ class SignUp {
       "first_name": "$firstName",
       "last_name": "$lastName",
       "email": "$email",
-      "avatar_url":
-          "https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/avatar%2FCrear%20mi%20Avatar.png?alt=media&token=ffa93094-24b0-4c5b-861d-c5800b789b82",
+      "avatar_url": "$avatarurl"
     };
   }
 }

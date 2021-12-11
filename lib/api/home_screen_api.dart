@@ -2,14 +2,16 @@
 
 import 'dart:convert';
 
+import 'package:flutter_miniproject/model/list_of_meal.dart';
 import 'package:flutter_miniproject/model/macronutrient.dart';
+import 'package:flutter_miniproject/model/meal.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
 class HomeScreenAPI {
   String _url = 'https://wca-meal-planner.herokuapp.com/';
 
-  Future<MacroNutrient?> createMeal(
+  Future<MacroNutrient?> getNutrients(
       {required String date,
       required String user_id,
       required String access_token}) async {
@@ -30,26 +32,23 @@ class HomeScreenAPI {
     }
   }
 
-  // Future<Response?> updateMeal(
-  //     {required Map<String, dynamic> newMeal,
-  //     required String user_id,
-  //     required String access_token}) async {
-  //   try {
-  //     var url = Uri.parse(_url + '');
-  //     var response = await http.patch(url,
-  //         body: newMeal,
-  //         headers: {'user_id': user_id, 'access_token': access_token});
+  Future<List<Meal?>> getEverydayMeal(
+      {required String date,
+      required String user_id,
+      required String access_token}) async {
+    try {
+      var url = Uri.parse(_url + '');
+      var response = await http.get(url,
+          headers: {'user_id': user_id, 'access_token': access_token});
 
-  //     if (response.statusCode == 200) {
-  //       // print(response.body);
-  //       return response;
-  //     } else {
-  //       // print('invalid');
-  //       return response;
-  //     }
-  //   } catch (er) {
-  //     throw Exception(er);
-  //   }
-  // }
-
+      if (response.statusCode == 201) {
+        final result = mealsDataFromJson(response.body);
+        return result.data;
+      } else {
+        return [];
+      }
+    } catch (er) {
+      return [];
+    }
+  }
 }

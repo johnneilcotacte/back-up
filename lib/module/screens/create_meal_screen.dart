@@ -25,7 +25,6 @@ import 'package:intl/intl.dart';
 class CreateMealPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
     String _initialname = '';
     String? _initialimage;
     Uuid uuid = Uuid();
@@ -35,55 +34,55 @@ class CreateMealPage extends HookWidget {
     final _byteimage = useState<Uint8List?>(null);
     final constants = useProvider(constantsProvider);
     final _mealProvider = useProvider(mealProvider);
-    final _recipeProvider = useProvider(recipeProvider);
+    //final _recipeProvider = useProvider(recipeProvider);
     final _user = useProvider(currentUserProvider);
     final _uploadimage = useProvider(uploadImageProvider);
     final double _height = MediaQuery.of(context).size.height;
-    late FilePickerResult? file;
-    late String? _image;
-    _createMealObject() async {
-      bool status = MealPostChecker.isComplete(
-          id: '1',
-          name: _namecontroller.text,
-          ingredients: _recipeProvider.ingredients,
-          image: _byteimage.value);
+    FilePickerResult? file;
+    String? _image;
+    // _createMealObject() async {
+    //   bool status = MealPostChecker.isComplete(
+    //       id: '1',
+    //       name: _namecontroller.text,
+    //       ingredients: _recipeProvider.ingredients,
+    //       image: _byteimage.value);
 
-      // bool status = MealPostChecker.isComplete(meal);
-      if (status) {
-        _image =
-            await _uploadimage.uploadFile(file: file, image: _byteimage.value);
-        final meal = Meal(
-            id: _user.user!.id!,
-            name: _namecontroller.text,
-            image: _image,
-            mealType: ['breakfast'],
-            ingredients: _recipeProvider.ingredients);
+    //   // bool status = MealPostChecker.isComplete(meal);
+    //   if (status) {
+    //     _image =
+    //         await _uploadimage.uploadFile(file: file, image: _byteimage.value);
+    //     final meal = Meal(
+    //         id: _user.user!.id!,
+    //         name: _namecontroller.text,
+    //         image: _image,
+    //         mealType: ['breakfast'],
+    //         ingredients: _recipeProvider.ingredients);
 
-        // _recipeProvider.deletePrevList();
-        _mealProvider.addMeals(
-            newMeal: meal.toJson(),
-            user_id: _user.user!.id!,
-            access_token: _user.user!.access_token!);
-        _namecontroller.clear();
-        _image = null;
-        _recipeTextController.clear();
-        showConfirmationDialog(context, 'Your meal is successfully uploaded.');
-      } else {
-        showInvalidDialog(context);
-      }
-    }
+    //     // // _recipeProvider.deletePrevList();
+    //     // _mealProvider.addMeals(
+    //     //     newMeal: meal.toJson(),
+    //     //     user_id: _user.user!.id!,
+    //     //     access_token: _user.user!.access_token!);
+    //     _namecontroller.clear();
+    //     _image = null;
+    //     _recipeTextController.clear();
+    //     showConfirmationDialog(context, 'Your meal is successfully uploaded.');
+    //   } else {
+    //     showInvalidDialog(context);
+    //   }
+    // }
 
-    //Sauce: https://github.com/miguelpruivo/flutter_file_picker/wiki/API#-getdirectorypath
-    Future _pickImage() async {
-      //use filepicker rather than ImagePickerWeb. Lang kwenta yung ayaw magsupport ng sdk 2.12.0
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-          type: FileType.custom, allowedExtensions: ['png', 'jpeg', 'jpg']);
+    // //Sauce: https://github.com/miguelpruivo/flutter_file_picker/wiki/API#-getdirectorypath
+    // Future _pickImage() async {
+    //   //use filepicker rather than ImagePickerWeb. Lang kwenta yung ayaw magsupport ng sdk 2.12.0
+    //   FilePickerResult? result = await FilePicker.platform.pickFiles(
+    //       type: FileType.custom, allowedExtensions: ['png', 'jpeg', 'jpg']);
 
-      if (result != null) {
-        file = result;
-        _byteimage.value = result.files.first.bytes;
-      }
-    }
+    //   if (result != null) {
+    //     file = result;
+    //     _byteimage.value = result.files.first.bytes;
+    //   }
+    // }
 
     return Scaffold(
       appBar: AppBar(
@@ -104,38 +103,21 @@ class CreateMealPage extends HookWidget {
         ),
         child: ListView(
           children: [
-            if (args.meal == null)
-              Container(
-                width: MediaQuery.of(context).size.width,
-                child: Text(
-                  'ADD A MEAL',
-                  style: GoogleFonts.dancingScript(
-                      color: Colors.black,
-                      fontSize: (Responsive.isDesktop(context))
-                          ? 48
-                          : (Responsive.isTablet(context))
-                              ? 38
-                              : 30),
-                  textAlign: TextAlign.center,
-                ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Text(
+                'ADD A MEAL',
+                style: GoogleFonts.dancingScript(
+                    color: Colors.black,
+                    fontSize: (Responsive.isDesktop(context))
+                        ? 48
+                        : (Responsive.isTablet(context))
+                            ? 38
+                            : 30),
+                textAlign: TextAlign.center,
               ),
+            ),
             //TODO: should i remove this box, or need ba to pag naupload na yung pic kasi di na null?
-            if (_byteimage.value != null)
-              Container(
-                width: double.infinity,
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: IconButton(
-                      icon: FaIcon(
-                        FontAwesomeIcons.windowClose,
-                        size: _height * .03,
-                        color: Colors.black,
-                      ),
-                      onPressed: () {
-                        _byteimage.value = null;
-                      }),
-                ),
-              ),
             Padding(
               padding: EdgeInsets.all(constants.kDefaultPadding - 10),
               child: ClipRRect(
@@ -155,7 +137,8 @@ class CreateMealPage extends HookWidget {
                             child: Image.memory(_byteimage.value!),
                           )
                         : IconButton(
-                            onPressed: _pickImage,
+                            // onPressed: _pickImage,
+                            onPressed: () {},
                             icon: FaIcon(
                               FontAwesomeIcons.image,
                               size: _height * .08,
@@ -176,46 +159,47 @@ class CreateMealPage extends HookWidget {
                 height: 1.3,
               ),
             ),
-            Expanded(
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    RecipeInput(
-                      textController: _recipeTextController,
-                    ),
-                    FloatingActionButton(
-                      onPressed: () {
-                        _recipeProvider.addIngredient(
-                            body: _recipeTextController.text);
-                        _recipeTextController.clear();
-                      },
-                      child: Icon(Icons.add),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: SizedBox(
-                height: 150,
-                child: ListView.builder(
-                  itemBuilder: (context, i) {
-                    final recipe = _recipeProvider.ingredients[i];
-                    return RecipeListItem(
-                      ingredient: recipe,
-                    );
-                  },
-                  itemCount: _recipeProvider.ingredients.length,
-                ),
-              ),
-            ),
+            // Expanded(
+            //   child: Center(
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: [
+            //         RecipeInput(
+            //           textController: _recipeTextController,
+            //         ),
+            //         FloatingActionButton(
+            //           onPressed: () {
+            //             _recipeProvider.addIngredient(
+            //                 body: _recipeTextController.text);
+            //             _recipeTextController.clear();
+            //           },
+            //           child: Icon(Icons.add),
+            //         )
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            // Expanded(
+            //   child: SizedBox(
+            //     height: 150,
+            //     child: ListView.builder(
+            //       itemBuilder: (context, i) {
+            //         final recipe = _recipeProvider.ingredients[i];
+            //         return RecipeListItem(
+            //           ingredient: recipe,
+            //         );
+            //       },
+            //       itemCount: _recipeProvider.ingredients.length,
+            //     ),
+            //   ),
+            // ),
             Center(
               child: Container(
                 width: (Responsive.isDesktop(context)) ? 150 : 70,
                 height: (Responsive.isDesktop(context)) ? 50 : 40,
                 child: ElevatedButton(
-                  onPressed: _createMealObject,
+                  // onPressed: _createMealObject,
+                  onPressed: () {},
                   child: Text('Add',
                       style: TextStyle(
                         fontSize: (Responsive.isDesktop(context)) ? 35 : 15,

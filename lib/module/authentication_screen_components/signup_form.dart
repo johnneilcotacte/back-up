@@ -13,12 +13,12 @@ class SignUpForm extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _passwordVisible = useState(false);
     final _userfirstnamecontroller = useTextEditingController();
     final _userlastnamecontroller = useTextEditingController();
     final _usernamecontroller = useTextEditingController();
     final _emailcontroller = useTextEditingController();
     final _passwordcontroller = useTextEditingController();
+    final _passwordVisible = useState(false);
     final _usernamevalidity = useState(true);
     final _userfnvalidity = useState(true);
     final _userlnvalidity = useState(true);
@@ -27,6 +27,10 @@ class SignUpForm extends HookWidget {
     final _defaulticon = useState(1);
     final _auth = useProvider(authAPIProvider);
     final _emaildisplay = useProvider(showEmailProvider);
+    String _maleAvatar =
+        'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/avatar%2FBoy%20free%20vector%20icons%20designed%20by%20Freepik.png?alt=media&token=87a0d143-9077-435d-bfbd-c644aa5464c8';
+    String _femaleAvatar =
+        'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/avatar%2FCrear%20mi%20Avatar.png?alt=media&token=ffa93094-24b0-4c5b-861d-c5800b789b82';
     bool _checkEmail() {
       bool emailValidity = RegExp(
               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -66,6 +70,7 @@ class SignUpForm extends HookWidget {
             password: _passwordcontroller.text,
             firstName: _userfirstnamecontroller.text,
             lastName: _userlastnamecontroller.text,
+            avatarurl: (_defaulticon.value == 1) ? _maleAvatar : _femaleAvatar,
             email: _emailcontroller.text);
         Response? response =
             await _auth.auth.createUser(signup: signupdetails.signup());
@@ -162,7 +167,7 @@ class SignUpForm extends HookWidget {
           _CustomTextField(
             controller: _passwordcontroller,
             validity: _passwordvalidity,
-            obscureText: false,
+            obscureText: !_passwordVisible.value,
             hintext: 'Password',
             iconbutton: IconButton(
               icon: Icon(
@@ -229,17 +234,15 @@ class SignUpForm extends HookWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Material(
-                color: Colors.red,
+                color: (_defaulticon.value == 1) ? Colors.red : null,
                 child: InkWell(
                   onTap: () {
                     _defaulticon.value = 1;
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
-                    child: Image.network(
-                        'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/avatar%2FBoy%20free%20vector%20icons%20designed%20by%20Freepik.png?alt=media&token=87a0d143-9077-435d-bfbd-c644aa5464c8',
-                        width: 50.0,
-                        height: 50.0),
+                    child:
+                        Image.network(_maleAvatar, width: 50.0, height: 50.0),
                   ),
                 ),
               ),
@@ -247,16 +250,15 @@ class SignUpForm extends HookWidget {
                 width: 10,
               ),
               Material(
+                color: (_defaulticon.value == 2) ? Colors.red : null,
                 child: InkWell(
                   onTap: () {
                     _defaulticon.value = 2;
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
-                    child: Image.network(
-                        'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/avatar%2FCrear%20mi%20Avatar.png?alt=media&token=ffa93094-24b0-4c5b-861d-c5800b789b82',
-                        width: 50.0,
-                        height: 50.0),
+                    child:
+                        Image.network(_femaleAvatar, width: 50.0, height: 50.0),
                   ),
                 ),
               )

@@ -8,24 +8,25 @@ import 'package:flutter_miniproject/provider/meal_api_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final mealProvider = ChangeNotifierProvider<MealsNotifier>((ref) {
-  return MealsNotifier();
+  final meal = ref.watch(initialmealProvider).meal;
+  return MealsNotifier(crud: meal);
 });
 
 class MealsNotifier extends ChangeNotifier {
-  final _crud = CRUD();
-
+  CRUD crud;
+  MealsNotifier({required this.crud});
   List<Meal> _mealList = [];
   List<Meal> get mealList => _mealList;
 
   int getTotalMeals() {
-    return _crud.page;
+    return crud.page;
   }
 
   Future<List<Meal>> getMeals(
       {required int page,
       required String user_id,
       required String access_token}) async {
-    final data = await _crud.getMeals(
+    final data = await crud.getMeals(
         user_id: user_id, access_token: access_token, page: page);
     if (_mealList.isNotEmpty && data.isNotEmpty) {
       _mealList = [
@@ -42,7 +43,7 @@ class MealsNotifier extends ChangeNotifier {
       {required Map<String, dynamic> newMeal,
       required String user_id,
       required String access_token}) async {
-    final data = await _crud.createMeal(
+    final data = await crud.createMeal(
         newMeal: newMeal, user_id: user_id, access_token: access_token);
     _mealList = [..._mealList, data!];
 

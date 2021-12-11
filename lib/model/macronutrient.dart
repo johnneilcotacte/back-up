@@ -14,7 +14,7 @@ class MacroNutrient {
   factory MacroNutrient.fromJson(Map<String, dynamic> json) {
     return MacroNutrient(
       carbs: json['carbs'] as String? ?? '',
-      protein: json['protien'] as String? ?? '',
+      protein: json['protein'] as String? ?? '',
       cals: json['cals'] as String? ?? '',
     );
   }

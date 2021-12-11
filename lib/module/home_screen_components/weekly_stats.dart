@@ -9,9 +9,10 @@ class WeeklyStats extends StatelessWidget {
   //     flex: 5,
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Container(
       height: 100,
-      width: (Responsive.isMobile(context)) ? double.infinity : null,
+      width: (Responsive.isMobile(context)) ? width : null,
       padding: EdgeInsets.only(left: 20, right: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
