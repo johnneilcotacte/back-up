@@ -26,63 +26,63 @@ class CreateMealPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     String _initialname = '';
-    String? _initialimage;
+    Uint8List? _initialimage;
     Uuid uuid = Uuid();
 
     final _namecontroller = useTextEditingController(text: _initialname);
     final _recipeTextController = useTextEditingController();
-    final _byteimage = useState<Uint8List?>(null);
+    final _byteimage = useState<Uint8List?>(_initialimage);
     final constants = useProvider(constantsProvider);
     final _mealProvider = useProvider(mealProvider);
-    //final _recipeProvider = useProvider(recipeProvider);
+    final _recipeProvider = useProvider(recipeProvider);
     final _user = useProvider(currentUserProvider);
     final _uploadimage = useProvider(uploadImageProvider);
     final double _height = MediaQuery.of(context).size.height;
-    FilePickerResult? file;
+    // FilePickerResult? file;
     String? _image;
-    // _createMealObject() async {
-    //   bool status = MealPostChecker.isComplete(
-    //       id: '1',
-    //       name: _namecontroller.text,
-    //       ingredients: _recipeProvider.ingredients,
-    //       image: _byteimage.value);
+    Future<void> _createMealObject() async {
+      bool status = MealPostChecker.isComplete(
+          id: '1',
+          name: _namecontroller.text,
+          ingredients: _recipeProvider.ingredients,
+          image: _byteimage.value);
 
-    //   // bool status = MealPostChecker.isComplete(meal);
-    //   if (status) {
-    //     _image =
-    //         await _uploadimage.uploadFile(file: file, image: _byteimage.value);
-    //     final meal = Meal(
-    //         id: _user.user!.id!,
-    //         name: _namecontroller.text,
-    //         image: _image,
-    //         mealType: ['breakfast'],
-    //         ingredients: _recipeProvider.ingredients);
+      // bool status = MealPostChecker.isComplete(meal);
+      if (status) {
+        // _image =
+        //     await _uploadimage.uploadFile(file: file, image: _byteimage.value);
+        final meal = Meal(
+            id: _user.user!.id!,
+            name: _namecontroller.text,
+            image: _image,
+            mealType: ['breakfast'],
+            ingredients: _recipeProvider.ingredients);
 
-    //     // // _recipeProvider.deletePrevList();
-    //     // _mealProvider.addMeals(
-    //     //     newMeal: meal.toJson(),
-    //     //     user_id: _user.user!.id!,
-    //     //     access_token: _user.user!.access_token!);
-    //     _namecontroller.clear();
-    //     _image = null;
-    //     _recipeTextController.clear();
-    //     showConfirmationDialog(context, 'Your meal is successfully uploaded.');
-    //   } else {
-    //     showInvalidDialog(context);
-    //   }
-    // }
+        // // _recipeProvider.deletePrevList();
+        // _mealProvider.addMeals(
+        //     newMeal: meal.toJson(),
+        //     user_id: _user.user!.id!,
+        //     access_token: _user.user!.access_token!);
+        _namecontroller.clear();
+        _image = null;
+        _recipeTextController.clear();
+        showConfirmationDialog(context, 'Your meal is successfully uploaded.');
+      } else {
+        showInvalidDialog(context);
+      }
+    }
 
-    // //Sauce: https://github.com/miguelpruivo/flutter_file_picker/wiki/API#-getdirectorypath
-    // Future _pickImage() async {
-    //   //use filepicker rather than ImagePickerWeb. Lang kwenta yung ayaw magsupport ng sdk 2.12.0
-    //   FilePickerResult? result = await FilePicker.platform.pickFiles(
-    //       type: FileType.custom, allowedExtensions: ['png', 'jpeg', 'jpg']);
+    //Sauce: https://github.com/miguelpruivo/flutter_file_picker/wiki/API#-getdirectorypath
+    Future<void> _pickImage() async {
+      //use filepicker rather than ImagePickerWeb. Lang kwenta yung ayaw magsupport ng sdk 2.12.0
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+          type: FileType.custom, allowedExtensions: ['png', 'jpeg', 'jpg']);
 
-    //   if (result != null) {
-    //     file = result;
-    //     _byteimage.value = result.files.first.bytes;
-    //   }
-    // }
+      if (result != null) {
+        //  file = result;
+        _byteimage.value = result.files.first.bytes;
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -117,7 +117,7 @@ class CreateMealPage extends HookWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            //TODO: should i remove this box, or need ba to pag naupload na yung pic kasi di na null?
+
             Padding(
               padding: EdgeInsets.all(constants.kDefaultPadding - 10),
               child: ClipRRect(
@@ -131,20 +131,20 @@ class CreateMealPage extends HookWidget {
                       color: Colors.grey.shade200,
                     ),
                     //TODO: should i remove this box, or need ba to pag naupload na yung pic kasi di na null?
-                    child: (_byteimage.value != null)
-                        ? FittedBox(
-                            fit: BoxFit.cover,
-                            child: Image.memory(_byteimage.value!),
-                          )
-                        : IconButton(
-                            // onPressed: _pickImage,
-                            onPressed: () {},
-                            icon: FaIcon(
-                              FontAwesomeIcons.image,
-                              size: _height * .08,
-                              color: Colors.red,
-                            ),
-                          ),
+                    // child: (_byteimage.value != null)
+                    //     ? FittedBox(
+                    //         fit: BoxFit.cover,
+                    //         child: Image.memory(_byteimage.value!),
+                    //       )
+                    //     : IconButton(
+                    //         // onPressed: _pickImage,
+                    //         onPressed: () {},
+                    //         icon: FaIcon(
+                    //           FontAwesomeIcons.image,
+                    //           size: _height * .08,
+                    //           color: Colors.red,
+                    //         ),
+                    //       ),
                   ),
                 ),
               ),

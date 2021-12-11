@@ -78,8 +78,35 @@ class CRUD {
     }
   }
 
-  Future<List<Meal>> getMeals(
-      {required int page,
+  Future<List<Meal>> getMeals({
+    required int page,
+    required String user_id,
+    required String access_token,
+    required String mealType,
+  }) async {
+    try {
+      var url = Uri.parse(_url + '');
+      var response = await http.get(url,
+          headers: {'user_id': user_id, 'access_token': access_token});
+
+      if (response.statusCode == 200) {
+        final result = mealsDataFromJson(response.body);
+        _page = result.totalPages;
+        return result.data;
+        // print(response.body);
+
+      } else {
+        // print('invalid');
+        return [];
+      }
+    } catch (er) {
+      return [];
+      //throw Exception(er);
+    }
+  }
+
+  Future<List<Meal>> searchMeal(
+      {required String query,
       required String user_id,
       required String access_token}) async {
     try {
@@ -89,7 +116,7 @@ class CRUD {
 
       if (response.statusCode == 200) {
         final result = mealsDataFromJson(response.body);
-        _page = result.totalPages;
+
         return result.data;
         // print(response.body);
 
