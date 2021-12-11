@@ -3,16 +3,20 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_miniproject/firebase/firebase_upload_image.dart';
+import 'package:flutter_miniproject/model/user.dart';
 import 'package:flutter_miniproject/provider/current_user_provider.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final uploadImageProvider = ChangeNotifierProvider<UploadToFirebase>((ref) {
-  return UploadToFirebase();
+  final user = ref.watch(currentUserProvider).user;
+  return UploadToFirebase(user: user);
 });
 
 class UploadToFirebase extends ChangeNotifier {
-  final _userprovider = useProvider(currentUserProvider);
+  User? user;
+  UploadToFirebase({required this.user});
+
   String url =
       'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/files%2FCornSiLog%20(%20Corned%20Beef%2C%20Sinangag%2C%20Itlog)%20with%20Highlands%20Gold%20Corned%20Beef%20-%20The%20Peach%20Kitchen.png?alt=media&token=4859f424-9856-42ae-8268-6d363981551e';
 
@@ -24,7 +28,7 @@ class UploadToFirebase extends ChangeNotifier {
     }
 
     final fileName = file!.names.first.toString();
-    final destination = '${_userprovider.user!.id!}/$fileName';
+    final destination = '${user!.id!}/$fileName';
 
     task = await UploadFireBaseStorage.uploadBytes(destination, image!);
 

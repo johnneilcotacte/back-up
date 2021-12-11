@@ -80,7 +80,8 @@ class CustomDrawer extends HookWidget {
             ),
             _CustomTextButton(
               func: () {
-                Navigator.pushNamed(context, '${RouteGenerator.mealsRoute}',
+                Navigator.pushNamed(
+                    context, '${RouteGenerator.createmealRoute}',
                     arguments: ScreenArguments(null));
               },
               icon: FontAwesomeIcons.utensils,

@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_miniproject/config/route.dart';
+import 'package:flutter_miniproject/model/error.dart';
 import 'package:flutter_miniproject/model/user.dart';
 import 'package:flutter_miniproject/module/authentication_screen_components/signup_form.dart';
 import 'package:flutter_miniproject/module/notifications/custom_message_dialog.dart';
+import 'package:flutter_miniproject/module/notifications/snackbar.dart';
 import 'package:flutter_miniproject/module/screens/authentication_screen.dart';
 import 'package:flutter_miniproject/provider/current_user_provider.dart';
 import 'package:flutter_miniproject/provider/sign_in_provider.dart';
@@ -35,14 +37,25 @@ class LoginForm extends HookWidget {
       if (response!.statusCode == 201) {
         final user = User.fromJson(jsonDecode(response.body));
         // body.
-        print(user.username);
-        print(user.id);
-        print(user.firstName);
+        // print(user.username);
+        // print(user.id);
+        // print(user.firstName);
         _user.createInstance(user);
         Navigator.pushNamedAndRemoveUntil(
             context, RouteGenerator.homeRoute, (Route<dynamic> route) => false);
       } else {
-        print(response.body);
+        // print(response.body);
+        // https://www.youtube.com/watch?v=Q_YO_Y5u2Pg
+        final snackbar = SnackBar(
+          content: Text(
+              ErrorMessage.fromJson(jsonDecode(response.body)).errormessage),
+          duration: Duration(days: 300),
+          action: SnackBarAction(
+            label: 'Dismiss',
+            onPressed: () {},
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
       }
     }
 
