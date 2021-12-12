@@ -9,33 +9,36 @@ import 'package:flutter_miniproject/provider/current_user_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final uploadImageProvider = ChangeNotifierProvider<UploadToFirebase>((ref) {
-  final user = ref.watch(currentUserProvider).user;
-  return UploadToFirebase(user: user);
+  // final user = ref.watch(currentUserProvider).user;
+  return UploadToFirebase();
 });
 
 class UploadToFirebase extends ChangeNotifier {
-  User? user;
-  UploadToFirebase({required this.user});
+  //User? user;
+  //UploadToFirebase({required this.user});
 
   String url =
       'https://firebasestorage.googleapis.com/v0/b/flutter-additionals.appspot.com/o/files%2FCornSiLog%20(%20Corned%20Beef%2C%20Sinangag%2C%20Itlog)%20with%20Highlands%20Gold%20Corned%20Beef%20-%20The%20Peach%20Kitchen.png?alt=media&token=4859f424-9856-42ae-8268-6d363981551e';
 
   Future<String?> uploadFile(
-      {required FilePickerResult? file, required Uint8List? image}) async {
+      {required FilePickerResult? file,
+      required Uint8List? image,
+      required String user_id}) async {
     UploadTask? task;
     if (file == null) {
-      url = '';
+      return url = '';
     }
 
-    final fileName = file!.names.first.toString();
-    final destination = '${user!.id!}/$fileName';
+    final fileName = file.names.first.toString();
+    final destination = 'files/' + fileName;
 
-    task = await UploadFireBaseStorage.uploadBytes(destination, image!);
+    task = await UploadFireBaseStorage.uploadBytes(
+        destination, image!, user_id, fileName);
 
     if (task == null) {
-      url = '';
+      return url = '';
     }
-    final urlDownload = await _downloadLink(task!.snapshot.ref, task);
+    final urlDownload = await _downloadLink(task.snapshot.ref, task);
     // print('Download-Link: $urlDownload');
     return urlDownload;
     // notifyListeners();

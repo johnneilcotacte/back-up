@@ -108,16 +108,18 @@ class MealsNotifier extends ChangeNotifier {
     }
   }
 
-  // Future<void> addMeals(
-  //     {required Map<String, dynamic> newMeal,
-  //     required String user_id,
-  //     required String access_token}) async {
-  //   final data = await crud.createMeal(
-  //       newMeal: newMeal, user_id: user_id, access_token: access_token);
-  //   mealList = [...mealList, data!];
+  Future<void> addMeals(
+      {required Map<String, dynamic> newMeal,
+      required String user_id,
+      required String access_token}) async {
+    // final data = await crud.createMeal(
+    //     newMeal: newMeal, user_id: user_id, access_token: access_token);
 
-  //   notifyListeners();
-  // }
+    final data = 55555555;
+    mealList = [...mealList, data];
+
+    notifyListeners();
+  }
 
 //   Future<void> deleteMeal({required String id}) async {
 //     mealList.removeWhere((everyblog) => everyblog.id == id);

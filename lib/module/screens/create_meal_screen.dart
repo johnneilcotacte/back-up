@@ -38,19 +38,21 @@ class CreateMealPage extends HookWidget {
     final _user = useProvider(currentUserProvider);
     final _uploadimage = useProvider(uploadImageProvider);
     final double _height = MediaQuery.of(context).size.height;
-    FilePickerResult? file;
+    final file = useState<FilePickerResult?>(null);
     String? _image;
     Future<void> _createMealObject() async {
       bool status = MealPostChecker.isComplete(
-          id: '1',
+          //  id: '1',
           name: _namecontroller.text,
           ingredients: _recipeProvider.ingredients,
           image: _byteimage.value);
 
       // bool status = MealPostChecker.isComplete(meal);
       if (status) {
-        _image =
-            await _uploadimage.uploadFile(file: file, image: _byteimage.value);
+        _image = await _uploadimage.uploadFile(
+            file: file.value,
+            image: _byteimage.value,
+            user_id: _user.user!.id!);
         final meal = Meal(
             id: _user.user!.id!,
             name: _namecontroller.text,
@@ -58,11 +60,11 @@ class CreateMealPage extends HookWidget {
             mealType: ['breakfast'],
             ingredients: _recipeProvider.ingredients);
 
-        // // _recipeProvider.deletePrevList();
-        // _mealProvider.addMeals(
-        //     newMeal: meal.toJson(),
-        //     user_id: _user.user!.id!,
-        //     access_token: _user.user!.access_token!);
+        // _recipeProvider.deletePrevList();
+        _mealProvider.addMeals(
+            newMeal: meal.createtoJson(),
+            user_id: _user.user!.id!,
+            access_token: _user.user!.access_token!);
         _namecontroller.clear();
         _image = null;
         _recipeTextController.clear();
@@ -79,7 +81,7 @@ class CreateMealPage extends HookWidget {
           type: FileType.custom, allowedExtensions: ['png', 'jpeg', 'jpg']);
 
       if (result != null) {
-        //  file = result;
+        file.value = result;
         _byteimage.value = result.files.first.bytes;
       }
     }
@@ -103,74 +105,82 @@ class CreateMealPage extends HookWidget {
         ),
         child: CustomScrollView(
           slivers: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: Text(
-                'ADD A MEAL',
-                style: GoogleFonts.dancingScript(
-                    color: Colors.black,
-                    fontSize: (Responsive.isDesktop(context))
-                        ? 48
-                        : (Responsive.isTablet(context))
-                            ? 38
-                            : 30),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(constants.kDefaultPadding - 10),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(17.0),
-                child: Container(
-                  width: (!Responsive.isMobile(context)) ? 500 : width,
-                  height: (!Responsive.isMobile(context)) ? 500 : 300,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                  ),
-                  //TODO: should i remove this box, or need ba to pag naupload na yung pic kasi di na null?
-                  child: (_byteimage.value != null)
-                      ? FittedBox(
-                          fit: BoxFit.cover,
-                          child: Image.memory(_byteimage.value!),
-                        )
-                      : IconButton(
-                          // onPressed: _pickImage,
-                          onPressed: () {},
-                          icon: FaIcon(
-                            FontAwesomeIcons.image,
-                            size: _height * .08,
-                            color: Colors.red,
-                          ),
-                        ),
+            SliverToBoxAdapter(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Text(
+                  'ADD A MEAL',
+                  style: GoogleFonts.dancingScript(
+                      color: Colors.black,
+                      fontSize: (Responsive.isDesktop(context))
+                          ? 48
+                          : (Responsive.isTablet(context))
+                              ? 38
+                              : 30),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(constants.kDefaultPadding),
-              child: CustomTextField(
-                controller: _namecontroller,
-                fontsize: Responsive.isDesktop(context) ? 32 : 24,
-                labelText: 'Meal Title',
-                fontweight: FontWeight.w600,
-                height: 1.3,
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.all(constants.kDefaultPadding - 10),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(17.0),
+                  child: Container(
+                    width: (!Responsive.isMobile(context)) ? 500 : width,
+                    height: (!Responsive.isMobile(context)) ? 500 : 300,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                    ),
+                    //TODO: should i remove this box, or need ba to pag naupload na yung pic kasi di na null?
+                    child: (_byteimage.value != null)
+                        ? FittedBox(
+                            fit: BoxFit.cover,
+                            child: Image.memory(_byteimage.value!),
+                          )
+                        : IconButton(
+                            onPressed: _pickImage,
+                            // onPressed: () {},
+                            icon: FaIcon(
+                              FontAwesomeIcons.image,
+                              size: _height * .08,
+                              color: Colors.red,
+                            ),
+                          ),
+                  ),
+                ),
               ),
             ),
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  RecipeInput(
-                    textController: _recipeTextController,
-                  ),
-                  FloatingActionButton(
-                    onPressed: () {
-                      _recipeProvider.addIngredient(
-                          body: _recipeTextController.text);
-                      _recipeTextController.clear();
-                    },
-                    child: Icon(Icons.add),
-                  )
-                ],
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.all(constants.kDefaultPadding),
+                child: CustomTextField(
+                  controller: _namecontroller,
+                  fontsize: Responsive.isDesktop(context) ? 32 : 24,
+                  labelText: 'Meal Title',
+                  fontweight: FontWeight.w600,
+                  height: 1.3,
+                ),
+              ),
+            ),
+            SliverFillRemaining(
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RecipeInput(
+                      textController: _recipeTextController,
+                    ),
+                    FloatingActionButton(
+                      onPressed: () {
+                        _recipeProvider.addIngredient(
+                            body: _recipeTextController.text);
+                        _recipeTextController.clear();
+                      },
+                      child: Icon(Icons.add),
+                    )
+                  ],
+                ),
               ),
             ),
             // Expanded(
@@ -183,21 +193,34 @@ class CreateMealPage extends HookWidget {
             //           ingredient: recipe,
             //         );
             //       },
-            //       itemCount: _recipeProvider.ingredients.length,
+            //       itemCount:  _recipeProvider.ingredients.length,
             //     ),
             //   ),
             // ),
-            Center(
-              child: Container(
-                width: (Responsive.isDesktop(context)) ? 150 : 70,
-                height: (Responsive.isDesktop(context)) ? 50 : 40,
-                child: ElevatedButton(
-                  // onPressed: _createMealObject,
-                  onPressed: () {},
-                  child: Text('Add',
-                      style: TextStyle(
-                        fontSize: (Responsive.isDesktop(context)) ? 35 : 15,
-                      )),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int i) {
+                  final recipe = _recipeProvider.ingredients[i];
+                  return RecipeListItem(
+                    ingredient: recipe,
+                  );
+                },
+                childCount: _recipeProvider.ingredients.length,
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Center(
+                child: Container(
+                  width: (Responsive.isDesktop(context)) ? 150 : 70,
+                  height: (Responsive.isDesktop(context)) ? 50 : 40,
+                  child: ElevatedButton(
+                    onPressed: _createMealObject,
+                    //onPressed: () {},
+                    child: Text('Add',
+                        style: TextStyle(
+                          fontSize: (Responsive.isDesktop(context)) ? 35 : 15,
+                        )),
+                  ),
                 ),
               ),
             ),

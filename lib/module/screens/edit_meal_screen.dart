@@ -45,21 +45,23 @@ class EditMealPage extends HookWidget {
 
     final double _height = MediaQuery.of(context).size.height;
 
-    _updateMealObject() {
+    _updateMealObject() async {
       bool status = MealPostChecker.isComplete(
-          id: args.meal!.id!,
+          // id: args.meal!.id!,
           name: _namecontroller.text,
           ingredients: _recipeProvider.ingredients,
           image: _byteimage.value);
 
       if (status) {
         if (_networkimage.value == null && _byteimage.value != null) {
-          _imageprovider.uploadFile(file: _file.value, image: _byteimage.value);
+          await _imageprovider.uploadFile(
+              file: _file.value, image: _byteimage.value, user_id: '');
         }
         final meal = Meal(
             id: args.meal!.id,
             name: _namecontroller.text,
             image: _imageprovider.url,
+            mealType: args.meal!.mealType,
             ingredients: _recipeProvider.ingredients);
 
         // _mealProvider.updateMeal(
