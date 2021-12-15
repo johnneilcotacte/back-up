@@ -9,6 +9,7 @@ import 'package:flutter_miniproject/module/screens/authentication_screen.dart';
 import 'package:flutter_miniproject/provider/const_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
@@ -16,7 +17,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp(options: );
 
   @override
   Widget build(BuildContext context) {
